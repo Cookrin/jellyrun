@@ -8,6 +8,7 @@
 
 #include "cocosGUI.h"
 #include "Lobby.h"
+#include "SceneManager.h"
 
 using namespace cocos2d;
 
@@ -58,7 +59,14 @@ void Lobby::setupUI() {
 }
 
 void Lobby::singlePlayerPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType) {
+    if (eEventType == ui::Widget::TouchEventType::ENDED) {
+        CCLOG("Single Player Mode");
+        SceneManager::getInstance()->enterGameScene(false);
+    }
 }
 
 void Lobby::multiplayerPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType) {
+    if (eEventType == ui::Widget::TouchEventType::ENDED) {
+        CCLOG("Two Player Mode");
+    }
 }
