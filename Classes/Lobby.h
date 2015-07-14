@@ -20,9 +20,9 @@ public:
     CREATE_FUNC(Lobby);
     
 private:
-    // virtual bool init();
     bool init() override;
-    //void onEnter() override;
+    void onEnter() override;
+    void setupUI();
 };
 
 #endif /* defined(__jellyrun__Lobby__) */
