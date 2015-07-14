@@ -15,7 +15,7 @@
 using namespace cocos2d;
 
 #pragma mark -
-#pragma mark LifeCycle
+#pragma mark GameScene Lifecycle
 
 bool GameScene::init() {
     if (!Node::init()) {
@@ -41,6 +41,7 @@ void GameScene::onEnter()
     Sprite *jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.1f, 0.5f));
     jellyfish->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
+    jellyfish->setScale(0.3f);
     this->addChild(jellyfish);
     
     this->setupUI();
@@ -70,4 +71,11 @@ void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEvent
     }
 }
 
-// make the pauseButton disappear when the player touch the screen last for 3 seconds
+#pragma mark -
+#pragma mark GameScene Protected Methods
+
+void GameScene::setupTouchHanding()
+{
+}
+
+// make the pauseButton disappear when the player touch the screen

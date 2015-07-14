@@ -19,12 +19,15 @@ public:
     CREATE_FUNC(GameScene);
     
 private:
+    
+protected:
     bool init() override;
     void onEnter() override;
     
-protected:
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
+    
+    void setupTouchHanding();
 };
 
 #endif /* defined(__jellyrun__GameScene__) */
