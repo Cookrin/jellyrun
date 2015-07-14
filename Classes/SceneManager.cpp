@@ -8,6 +8,7 @@
 
 #include "SceneManager.h"
 #include "GameScene.h"
+#include "Lobby.h"
 
 using namespace cocos2d;
 
@@ -38,6 +39,15 @@ void SceneManager::enterGameScene(bool networked) {
     GameScene *gameScene = GameScene::create();
     
     scene->addChild(gameScene);
+    
+    Director::getInstance()->pushScene(scene);
+}
+
+void SceneManager::enterLobby() {
+    Scene *scene = Scene::create();
+    Lobby *lobby = Lobby::create();
+    
+    scene->addChild(lobby);
     
     Director::getInstance()->pushScene(scene);
 }

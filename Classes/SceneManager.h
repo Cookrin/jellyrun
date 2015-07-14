@@ -17,6 +17,8 @@ public:
     
     void enterGameScene(bool networked);
     
+    void enterLobby();
+    
 private:
     SceneManager();
     ~SceneManager();
