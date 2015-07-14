@@ -10,6 +10,7 @@
 #define __jellyrun__Lobby__
 
 #include "cocos2d.h"
+#include "cocosGUI.h"
 
 
 // create the class Lobby
@@ -23,6 +24,9 @@ private:
     bool init() override;
     void onEnter() override;
     void setupUI();
+
+    void singlePlayerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+    void multiplayerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 };
 
 #endif /* defined(__jellyrun__Lobby__) */

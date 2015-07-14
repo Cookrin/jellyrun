@@ -44,13 +44,21 @@ void Lobby::setupUI() {
     singlePlayerButton->setAnchorPoint(Vec2(0.15f, 0.5f));
     singlePlayerButton->setPosition(Vec2(visibleSize.width * 0.15f, visibleSize.height * 0.5f));
     singlePlayerButton->loadTextures("singlePlayerButton.png", "singlePlayerButtonPressed.png");
+    singlePlayerButton->addTouchEventListener(CC_CALLBACK_2(Lobby::singlePlayerPressed, this));
     this->addChild(singlePlayerButton);
     
-    ui::Button *multiPlayerButton = ui::Button::create();
-    multiPlayerButton->setAnchorPoint(Vec2(0.85f, 0.5f));
-    multiPlayerButton->setPosition(Vec2(visibleSize.width * 0.85f, visibleSize.height * 0.5f));
-    multiPlayerButton->loadTextures("multiplayerButton.png", "multiplayerButtonPressed.png");
-    this->addChild(multiPlayerButton);
+    ui::Button *multiplayerButton = ui::Button::create();
+    multiplayerButton->setAnchorPoint(Vec2(0.85f, 0.5f));
+    multiplayerButton->setPosition(Vec2(visibleSize.width * 0.85f, visibleSize.height * 0.5f));
+    multiplayerButton->loadTextures("multiplayerButton.png", "multiplayerButtonPressed.png");
+    multiplayerButton->addTouchEventListener(CC_CALLBACK_2(Lobby::multiplayerPressed, this));
+    this->addChild(multiplayerButton);
     
     return;
+}
+
+void Lobby::singlePlayerPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType) {
+}
+
+void Lobby::multiplayerPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType) {
 }
