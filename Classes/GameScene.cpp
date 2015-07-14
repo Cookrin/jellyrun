@@ -10,6 +10,7 @@
 #include "cocosGUI.h"
 #include "SceneManager.h"
 #include "Background.h"
+#include "Jellyfish.h"
 
 using namespace cocos2d;
 
@@ -28,7 +29,6 @@ void GameScene::onEnter()
 {
     Node::onEnter();
     
-    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     
     // setup background
@@ -37,7 +37,14 @@ void GameScene::onEnter()
     gameBackground->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
     this->addChild(gameBackground);
     
+    // setup jellyfish
+    Sprite *jellyfish = Jellyfish::create();
+    jellyfish->setAnchorPoint(Vec2(0.1f, 0.5f));
+    jellyfish->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
+    this->addChild(jellyfish);
+    
     this->setupUI();
+    
 }
 
 #pragma mark -
@@ -62,3 +69,5 @@ void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEvent
         SceneManager::getInstance()->enterLobby();
     }
 }
+
+// make the pauseButton disappear when the player touch the screen last for 3 seconds

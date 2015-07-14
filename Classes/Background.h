@@ -13,11 +13,12 @@
 
 using namespace cocos2d;
 
-class Background : public cocos2d::Sprite {
+class Background : public cocos2d::Sprite
+{
 public:
     CREATE_FUNC(Background);
     
-    bool init();
+    bool init() override;
 };
 
 #endif /* defined(__jellyrun__Background__) */

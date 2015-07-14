@@ -11,12 +11,13 @@
 
 #include "cocos2d.h"
 
-class Jellyfish : public cocos2d::Node
+class Jellyfish : public cocos2d::Sprite
 {
 public:
     CREATE_FUNC(Jellyfish);
     
 protected:
+    bool init() override;
     
 };
 

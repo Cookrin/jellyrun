@@ -7,3 +7,13 @@
 //
 
 #include "Jellyfish.h"
+#include "cocos2d.h"
+
+bool Jellyfish::init()
+{
+    if (! Sprite::initWithFile("jellyfish.png"))
+    {
+        return false;
+    }
+    return true;
+}
