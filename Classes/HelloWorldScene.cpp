@@ -1,4 +1,6 @@
 #include "HelloWorldScene.h"
+#include "Lobby.h"
+
 
 USING_NS_CC;
 
@@ -26,6 +28,8 @@ bool HelloWorld::init()
     {
         return false;
     }
+    
+    /*
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -71,6 +75,12 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+    
+    */
+    
+    Lobby* lobby = Lobby::create();
+    
+    this->addChild(lobby);
     
     return true;
 }
