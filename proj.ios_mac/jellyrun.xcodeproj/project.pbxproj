@@ -75,6 +75,8 @@
 		F83EC9291B54D26F00C4699D /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9261B54D26F00C4699D /* SceneManager.cpp */; };
 		F83EC92C1B54D9D300C4699D /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC92A1B54D9D300C4699D /* Background.cpp */; };
 		F83EC92D1B54D9D300C4699D /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC92A1B54D9D300C4699D /* Background.cpp */; };
+		F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */; };
+		F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +178,8 @@
 		F83EC92A1B54D9D300C4699D /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
 		F83EC92B1B54D9D300C4699D /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 		F8F253AE1B556F7C00D1B95F /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
+		F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Jellyfish.cpp; sourceTree = "<group>"; };
+		F8F253B01B55744C00D1B95F /* Jellyfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jellyfish.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,6 +379,8 @@
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
 				F83EC92A1B54D9D300C4699D /* Background.cpp */,
 				F83EC92B1B54D9D300C4699D /* Background.h */,
+				F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */,
+				F8F253B01B55744C00D1B95F /* Jellyfish.h */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				F83EC91F1B548C4000C4699D /* GameScene.cpp in Sources */,
 				F83EC92C1B54D9D300C4699D /* Background.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,6 +548,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */,
 				F83EC9201B548C4000C4699D /* GameScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				F83EC9291B54D26F00C4699D /* SceneManager.cpp in Sources */,
