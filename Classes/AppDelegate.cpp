@@ -50,6 +50,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
         //read a resource load the res folder
     FileUtils::getInstance()->addSearchPath("res");
     
+    FileUtils::getInstance()->addSearchPath("fonts");
+    
     std::vector<std::string> searchResolutionsOrder(1);
     
     if (targetSize.height < 481.0f)

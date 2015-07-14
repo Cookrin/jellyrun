@@ -27,6 +27,7 @@ private:
 
     void singlePlayerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void multiplayerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+    cocos2d::ui::Text* titleLabel;
 };
 
 #endif /* defined(__jellyrun__Lobby__) */

@@ -13,6 +13,9 @@
 
 using namespace cocos2d;
 
+#pragma mark -
+#pragma mark LifeCycle
+
 bool GameScene::init() {
     if (!Node::init()) {
         return false;
