@@ -9,6 +9,7 @@
 #include "GameScene.h"
 #include "cocosGUI.h"
 #include "SceneManager.h"
+#include "Background.h"
 
 using namespace cocos2d;
 
@@ -18,6 +19,22 @@ bool GameScene::init() {
     }
     
     return true;
+}
+
+void GameScene::onEnter()
+{
+    Node::onEnter();
+    
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    
+    // setup background
+    Sprite *gameBackground = Background::create();
+    gameBackground->setAnchorPoint(Vec2(0.5f, 0.5f));
+    gameBackground->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
+    this->addChild(gameBackground);
+    
+    this->setupUI();
 }
 
 #pragma mark -

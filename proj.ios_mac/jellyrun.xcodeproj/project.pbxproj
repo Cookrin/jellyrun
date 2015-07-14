@@ -73,6 +73,8 @@
 		F83EC9201B548C4000C4699D /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC91D1B548C4000C4699D /* GameScene.cpp */; };
 		F83EC9281B54D26F00C4699D /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9261B54D26F00C4699D /* SceneManager.cpp */; };
 		F83EC9291B54D26F00C4699D /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9261B54D26F00C4699D /* SceneManager.cpp */; };
+		F83EC92C1B54D9D300C4699D /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC92A1B54D9D300C4699D /* Background.cpp */; };
+		F83EC92D1B54D9D300C4699D /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC92A1B54D9D300C4699D /* Background.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +173,8 @@
 		F83EC91E1B548C4000C4699D /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		F83EC9261B54D26F00C4699D /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
 		F83EC9271B54D26F00C4699D /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
+		F83EC92A1B54D9D300C4699D /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
+		F83EC92B1B54D9D300C4699D /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +371,8 @@
 				F83EC91A1B548A6A00C4699D /* Lobby.h */,
 				F83EC91D1B548C4000C4699D /* GameScene.cpp */,
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
+				F83EC92A1B54D9D300C4699D /* Background.cpp */,
+				F83EC92B1B54D9D300C4699D /* Background.h */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -523,6 +529,7 @@
 				F83EC91B1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				F83EC91F1B548C4000C4699D /* GameScene.cpp in Sources */,
+				F83EC92C1B54D9D300C4699D /* Background.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
@@ -538,6 +545,7 @@
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				F83EC91C1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				F83EC92D1B54D9D300C4699D /* Background.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

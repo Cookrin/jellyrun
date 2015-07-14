@@ -12,8 +12,6 @@
 #include "cocos2d.h"
 #include "CocosGUI.h"
 
-#include "cocos2d.h"
-
 using namespace cocos2d;
 
 class GameScene : public cocos2d::Node {
@@ -22,6 +20,7 @@ public:
     
 private:
     bool init() override;
+    void onEnter() override;
     
 protected:
     void setupUI();
