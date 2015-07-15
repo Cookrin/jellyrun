@@ -17,11 +17,13 @@ using namespace cocos2d;
 class GameScene : public cocos2d::Node {
 public:
     CREATE_FUNC(GameScene);
-    
+
 private:
-    
+
 protected:
-    Vec2 jellyfishTargetPosition;
+    Vec2 initialTouchPos;
+    Vec2 currentTouchPos;
+    bool isTouchDown;
 
     bool init() override;
     void onEnter() override;

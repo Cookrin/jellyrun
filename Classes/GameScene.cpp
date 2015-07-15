@@ -21,8 +21,9 @@ bool GameScene::init() {
     if (!Node::init()) {
         return false;
     }
+    currentTouchPos = Vec2::ZERO;
     
-    jellyfishTargetPosition = Vec2::ZERO;
+    isTouchDown = false;
 
     return true;
 }
@@ -39,8 +40,6 @@ void GameScene::onEnter()
     gameBackground->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
     this->addChild(gameBackground);
 
-    this->setupUI();
-
     // setup jellyfish
     Sprite *jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -49,6 +48,8 @@ void GameScene::onEnter()
     jellyfish->setTag(30);
     this->addChild(jellyfish);
 
+    this->setupUI();
+    
     this->setupTouchHanding();
 
     this->scheduleUpdate();
@@ -57,19 +58,32 @@ void GameScene::onEnter()
 
 void GameScene::update(float dt)
 {
-    if (jellyfishTargetPosition != Vec2::ZERO) {
+    auto movingJellyfish = this->getChildByTag(30);
+    
 
-        auto movingJellyfish = this->getChildByTag(30);
+    if (currentTouchPos != Vec2::ZERO) {
+       
+        //tap
+        Vec2 targetDirection = currentTouchPos - movingJellyfish->getPosition();
 
-        Vec2 jellyfishDirection = jellyfishTargetPosition - movingJellyfish->getPosition();
-
-        if (jellyfishDirection.getLength() >= 5)
+        if (targetDirection.getLength() >= 5)
         {
-            jellyfishDirection =  jellyfishDirection.getNormalized();
-
-            jellyfishDirection *= 300 * dt;
-
-            movingJellyfish->setPosition(movingJellyfish->getPosition() + jellyfishDirection);
+            targetDirection =  targetDirection.getNormalized();
+            targetDirection *= 300 * dt;
+            movingJellyfish->setPosition(movingJellyfish->getPosition() + targetDirection);
+        }
+        
+        // swipe
+        if (true == isTouchDown)
+        {
+            Vec2 touchDirection = currentTouchPos - initialTouchPos;
+            
+            if (touchDirection.getLength() >= 5)
+            {
+                touchDirection = touchDirection.getNormalized();
+                touchDirection *= 300 * dt;
+                movingJellyfish->setPosition(movingJellyfish->getPosition() + touchDirection);
+            }
         }
     }
 }
@@ -109,7 +123,10 @@ void GameScene::setupTouchHanding()
     {
         touchPos = this->convertTouchToNodeSpace(touch);
 
-        jellyfishTargetPosition = touchPos;
+        initialTouchPos = touchPos;
+        currentTouchPos = touchPos;
+        
+        isTouchDown = true;
 
         return true;
     };
@@ -118,12 +135,12 @@ void GameScene::setupTouchHanding()
     {
         Vec2 touchPos = this->convertTouchToNodeSpace(touch);
 
-        jellyfishTargetPosition = touchPos;
-
+        currentTouchPos = touchPos;
     };
 
     touchListener->onTouchEnded = [&](Touch* touch, Event* event)
     {
+         isTouchDown = false;
     };
 
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
