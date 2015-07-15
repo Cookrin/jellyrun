@@ -22,6 +22,8 @@ bool GameScene::init() {
         return false;
     }
     
+    jellyfishTargetPosition = Vec2::ZERO;
+
     return true;
 }
 
@@ -36,16 +38,40 @@ void GameScene::onEnter()
     gameBackground->setAnchorPoint(Vec2(0.5f, 0.5f));
     gameBackground->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
     this->addChild(gameBackground);
-    
+
+    this->setupUI();
+
     // setup jellyfish
     Sprite *jellyfish = Jellyfish::create();
-    jellyfish->setAnchorPoint(Vec2(0.1f, 0.5f));
+    jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
     jellyfish->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
     jellyfish->setScale(0.3f);
+    jellyfish->setTag(30);
     this->addChild(jellyfish);
+
+    this->setupTouchHanding();
+
+    this->scheduleUpdate();
     
-    this->setupUI();
-    
+}
+
+void GameScene::update(float dt)
+{
+    if (jellyfishTargetPosition != Vec2::ZERO) {
+
+        auto movingJellyfish = this->getChildByTag(30);
+
+        Vec2 jellyfishDirection = jellyfishTargetPosition - movingJellyfish->getPosition();
+
+        if (jellyfishDirection.getLength() >= 5)
+        {
+            jellyfishDirection =  jellyfishDirection.getNormalized();
+
+            jellyfishDirection *= 300 * dt;
+
+            movingJellyfish->setPosition(movingJellyfish->getPosition() + jellyfishDirection);
+        }
+    }
 }
 
 #pragma mark -
@@ -66,7 +92,6 @@ void GameScene::setupUI()
 
 void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType) {
     if (eEventType == ui::Widget::TouchEventType::ENDED) {
-        CCLOG("Go to the Pause Mode");
         SceneManager::getInstance()->enterLobby();
     }
 }
@@ -76,6 +101,32 @@ void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEvent
 
 void GameScene::setupTouchHanding()
 {
+    auto touchListener = EventListenerTouchOneByOne::create();
+
+    static Vec2 touchPos;
+
+    touchListener->onTouchBegan = [&](Touch* touch, Event* event)
+    {
+        touchPos = this->convertTouchToNodeSpace(touch);
+
+        jellyfishTargetPosition = touchPos;
+
+        return true;
+    };
+
+    touchListener->onTouchMoved = [&](Touch* touch, Event* event)
+    {
+        Vec2 touchPos = this->convertTouchToNodeSpace(touch);
+
+        jellyfishTargetPosition = touchPos;
+
+    };
+
+    touchListener->onTouchEnded = [&](Touch* touch, Event* event)
+    {
+    };
+
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
 // make the pauseButton disappear when the player touch the screen

@@ -21,13 +21,17 @@ public:
 private:
     
 protected:
+    Vec2 jellyfishTargetPosition;
+
     bool init() override;
     void onEnter() override;
+    void update(float dt);
     
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
     
     void setupTouchHanding();
+
 };
 
 #endif /* defined(__jellyrun__GameScene__) */
