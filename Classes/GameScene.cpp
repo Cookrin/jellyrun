@@ -11,6 +11,7 @@
 #include "SceneManager.h"
 #include "Background.h"
 #include "Jellyfish.h"
+#include "Constants.h"
 
 using namespace cocos2d;
 
@@ -44,7 +45,7 @@ void GameScene::onEnter()
     Sprite *jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
     jellyfish->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
-    jellyfish->setScale(0.3f);
+    jellyfish->setScale(JELLY_SCALE);
     jellyfish->setTag(30);
     this->addChild(jellyfish);
 
@@ -58,32 +59,19 @@ void GameScene::onEnter()
 
 void GameScene::update(float dt)
 {
-    auto movingJellyfish = this->getChildByTag(30);
-    
+    auto movingJelly = this->getChildByTag(30);
+    Vec2 jellyPos = movingJelly->getPosition();
 
     if (currentTouchPos != Vec2::ZERO) {
-       
-        //tap
-        Vec2 targetDirection = currentTouchPos - movingJellyfish->getPosition();
+        //move jellyPos to currentTouchPos that you tap
+        Vec2 targetDirection = currentTouchPos - jellyPos;
+        setJellyIfCollides(currentTouchPos, targetDirection, dt);
 
-        if (targetDirection.getLength() >= 5)
-        {
-            targetDirection =  targetDirection.getNormalized();
-            targetDirection *= 300 * dt;
-            movingJellyfish->setPosition(movingJellyfish->getPosition() + targetDirection);
-        }
-        
-        // swipe
+        // move Jellyfish as you swiped
         if (true == isTouchDown)
         {
             Vec2 touchDirection = currentTouchPos - initialTouchPos;
-            
-            if (touchDirection.getLength() >= 5)
-            {
-                touchDirection = touchDirection.getNormalized();
-                touchDirection *= 300 * dt;
-                movingJellyfish->setPosition(movingJellyfish->getPosition() + touchDirection);
-            }
+            setJellyIfCollides(currentTouchPos, touchDirection, dt);
         }
     }
 }
@@ -122,9 +110,11 @@ void GameScene::setupTouchHanding()
     touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
         touchPos = this->convertTouchToNodeSpace(touch);
-
+        
         initialTouchPos = touchPos;
         currentTouchPos = touchPos;
+        
+        CCLOG("currentTouchPos=%f,%f", currentTouchPos.x, currentTouchPos.y);
         
         isTouchDown = true;
 
@@ -144,6 +134,37 @@ void GameScene::setupTouchHanding()
     };
 
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
+}
+
+void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt)
+{
+    auto movingJelly = this->getChildByTag(30);
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size jellySize = movingJelly->getContentSize();
+    float jellyW = jellySize.width * JELLY_SCALE;
+    float jellyH = jellySize.height * JELLY_SCALE;
+    Vec2 jellyPos = movingJelly->getPosition();
+
+    if (targetDirection.getLength() > 5.0f)
+    {
+        targetDirection =  targetDirection.getNormalized();
+        targetDirection *= 300 * dt;
+        Vec2 targetJellyfishPos = jellyPos + targetDirection;
+        
+        if (targetJellyfishPos.x < jellyW * 0.5f)
+        {targetJellyfishPos.x = jellyW * 0.5f;}
+        
+        else if (targetJellyfishPos.x > (visibleSize.width - jellyW * 0.5f))
+        {targetJellyfishPos.x = visibleSize.width - jellyW * 0.5f;}
+        
+        if (targetJellyfishPos.y < jellyH * 0.5f)
+        {targetJellyfishPos.y = jellyH * 0.5f;}
+        
+        else if (targetJellyfishPos.y > (visibleSize.height - jellyH * 0.5f))
+        {targetJellyfishPos.y = visibleSize.height - jellyH * 0.5f;}
+        
+        movingJelly->setPosition(targetJellyfishPos);
+    }
 }
 
 // make the pauseButton disappear when the player touch the screen

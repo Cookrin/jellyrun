@@ -31,9 +31,9 @@ protected:
     
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
-    
-    void setupTouchHanding();
 
+    void setupTouchHanding();
+    void setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt);
 };
 
 #endif /* defined(__jellyrun__GameScene__) */
