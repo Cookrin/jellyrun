@@ -15,10 +15,8 @@ class Jellyfish : public cocos2d::Sprite
 {
 public:
     CREATE_FUNC(Jellyfish);
-    
 protected:
     bool init() override;
-    
-};
 
+};
 #endif /* defined(__jellyrun__Jellyfish__) */

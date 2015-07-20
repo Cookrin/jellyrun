@@ -12,16 +12,22 @@
 #include "Background.h"
 #include "Jellyfish.h"
 #include "Constants.h"
+#include "Constants.h"
+#include "Fish.h"
+#include <time.h>
 
 using namespace cocos2d;
 
 #pragma mark -
 #pragma mark GameScene Lifecycle
 
-bool GameScene::init() {
-    if (!Node::init()) {
+bool GameScene::init()
+{
+    if (!Node::init())
+    {
         return false;
     }
+
     currentTouchPos = Vec2::ZERO;
     
     isTouchDown = false;
@@ -33,7 +39,7 @@ void GameScene::onEnter()
 {
     Node::onEnter();
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSize = Director::getInstance()->getVisibleSize();
     
     // setup background
     Sprite *gameBackground = Background::create();
@@ -42,25 +48,21 @@ void GameScene::onEnter()
     this->addChild(gameBackground);
 
     // setup jellyfish
-    Sprite *jellyfish = Jellyfish::create();
+    jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
     jellyfish->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
     jellyfish->setScale(JELLY_SCALE);
-    jellyfish->setTag(30);
     this->addChild(jellyfish);
 
     this->setupUI();
     
     this->setupTouchHanding();
-
-    this->scheduleUpdate();
-    
+    this->setGameActive(true);
 }
 
 void GameScene::update(float dt)
 {
-    auto movingJelly = this->getChildByTag(30);
-    Vec2 jellyPos = movingJelly->getPosition();
+    Vec2 jellyPos = jellyfish->getPosition();
 
     if (currentTouchPos != Vec2::ZERO) {
         //move jellyPos to currentTouchPos that you tap
@@ -68,7 +70,7 @@ void GameScene::update(float dt)
         setJellyIfCollides(currentTouchPos, targetDirection, dt);
 
         // move Jellyfish as you swiped
-        if (true == isTouchDown)
+        if (isTouchDown)
         {
             Vec2 touchDirection = currentTouchPos - initialTouchPos;
             setJellyIfCollides(currentTouchPos, touchDirection, dt);
@@ -92,8 +94,10 @@ void GameScene::setupUI()
     this->addChild(pauseButton);
 }
 
-void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType) {
-    if (eEventType == ui::Widget::TouchEventType::ENDED) {
+void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType)
+{
+    if (eEventType == ui::Widget::TouchEventType::ENDED)
+    {
         SceneManager::getInstance()->enterLobby();
     }
 }
@@ -138,12 +142,10 @@ void GameScene::setupTouchHanding()
 
 void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt)
 {
-    auto movingJelly = this->getChildByTag(30);
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Size jellySize = movingJelly->getContentSize();
+    Size jellySize = jellyfish->getContentSize();
     float jellyW = jellySize.width * JELLY_SCALE;
     float jellyH = jellySize.height * JELLY_SCALE;
-    Vec2 jellyPos = movingJelly->getPosition();
+    Vec2 jellyPos = jellyfish->getPosition();
 
     if (targetDirection.getLength() > 5.0f)
     {
@@ -152,19 +154,74 @@ void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, f
         Vec2 targetJellyfishPos = jellyPos + targetDirection;
         
         if (targetJellyfishPos.x < jellyW * 0.5f)
-        {targetJellyfishPos.x = jellyW * 0.5f;}
+        {
+            targetJellyfishPos.x = jellyW * 0.5f;
+        }
         
         else if (targetJellyfishPos.x > (visibleSize.width - jellyW * 0.5f))
-        {targetJellyfishPos.x = visibleSize.width - jellyW * 0.5f;}
+        {
+            targetJellyfishPos.x = visibleSize.width - jellyW * 0.5f;
+        }
         
         if (targetJellyfishPos.y < jellyH * 0.5f)
-        {targetJellyfishPos.y = jellyH * 0.5f;}
+        {
+            targetJellyfishPos.y = jellyH * 0.5f;
+        }
         
         else if (targetJellyfishPos.y > (visibleSize.height - jellyH * 0.5f))
-        {targetJellyfishPos.y = visibleSize.height - jellyH * 0.5f;}
+        {
+            targetJellyfishPos.y = visibleSize.height - jellyH * 0.5f;
+        }
         
-        movingJelly->setPosition(targetJellyfishPos);
+        jellyfish->setPosition(targetJellyfishPos);
     }
 }
 
 // make the pauseButton disappear when the player touch the screen
+
+// background move ahead
+
+void GameScene::setFishMove(float dt)
+{
+    //Case 1: fishes move Vertically
+    for (int index=0; index < 10; ++index)
+    {
+        // setup jellyfish
+        fish = Fish::create();
+        fish->setAnchorPoint(Vec2(0.0f, 0.0f));
+        fish->setScale(FISH_SCALE);
+
+        if (rand()%10>6)
+        {
+            fish->setPosition(Vec2(visibleSize.width *index / 10.0f, visibleSize.height * 1.0f));
+            this->addChild(fish);
+            auto moveFishAction = MoveTo::create(8.0f, Vec2(visibleSize.width * index / 10.0f, visibleSize.height * (-2.0f)));
+            this->fish->runAction(moveFishAction);
+        }
+        
+        else if (rand()%10<4)
+        {
+            fish->setPosition(Vec2(visibleSize.width *index / 10.0f, visibleSize.height * 0.0f));
+            this->addChild(fish);
+            auto moveFishAction = MoveTo::create(6.0f, Vec2(visibleSize.width * index / 10.0f, visibleSize.height * 1.2f));
+            this->fish->runAction(moveFishAction);
+        }
+        
+        else
+        {
+        }
+    }
+    
+    //Case 2: fish tracks Jellyfish
+}
+
+void GameScene::setGameActive(bool active) {
+    this->active = active;
+    if (active) {
+        this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setFishMove), 2.0f);
+        this->scheduleUpdate();
+    } else {
+        this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::setFishMove));
+        this->unscheduleUpdate();
+    }
+}

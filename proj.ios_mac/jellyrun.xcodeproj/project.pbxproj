@@ -67,6 +67,8 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		F80061121B59C39E00EE5B63 /* Fish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F80061101B59C39E00EE5B63 /* Fish.cpp */; };
+		F80061131B59C39E00EE5B63 /* Fish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F80061101B59C39E00EE5B63 /* Fish.cpp */; };
 		F83EC91B1B548A6A00C4699D /* Lobby.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9191B548A6A00C4699D /* Lobby.cpp */; };
 		F83EC91C1B548A6A00C4699D /* Lobby.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9191B548A6A00C4699D /* Lobby.cpp */; };
 		F83EC91F1B548C4000C4699D /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC91D1B548C4000C4699D /* GameScene.cpp */; };
@@ -169,6 +171,8 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		F80061101B59C39E00EE5B63 /* Fish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fish.cpp; sourceTree = "<group>"; };
+		F80061111B59C39E00EE5B63 /* Fish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fish.h; sourceTree = "<group>"; };
 		F83EC9191B548A6A00C4699D /* Lobby.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lobby.cpp; sourceTree = "<group>"; };
 		F83EC91A1B548A6A00C4699D /* Lobby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lobby.h; sourceTree = "<group>"; };
 		F83EC91D1B548C4000C4699D /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
@@ -318,6 +322,8 @@
 				F83EC9251B54D25100C4699D /* Scenes */,
 				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
 				F83EC9271B54D26F00C4699D /* SceneManager.h */,
+				F80061101B59C39E00EE5B63 /* Fish.cpp */,
+				F80061111B59C39E00EE5B63 /* Fish.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -539,6 +545,7 @@
 				F83EC91B1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				F83EC91F1B548C4000C4699D /* GameScene.cpp in Sources */,
+				F80061121B59C39E00EE5B63 /* Fish.cpp in Sources */,
 				F83EC92C1B54D9D300C4699D /* Background.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */,
@@ -550,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F80061131B59C39E00EE5B63 /* Fish.cpp in Sources */,
 				F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */,
 				F83EC9201B548C4000C4699D /* GameScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,

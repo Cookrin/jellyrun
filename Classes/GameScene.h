@@ -24,6 +24,11 @@ protected:
     Vec2 initialTouchPos;
     Vec2 currentTouchPos;
     bool isTouchDown;
+    bool active;
+    Size visibleSize;
+
+    cocos2d::Sprite* jellyfish;
+    cocos2d::Sprite* fish;
 
     bool init() override;
     void onEnter() override;
@@ -34,6 +39,9 @@ protected:
 
     void setupTouchHanding();
     void setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt);
+
+    void setFishMove(float dt);
+    void setGameActive(bool active);
 };
 
 #endif /* defined(__jellyrun__GameScene__) */
