@@ -55,6 +55,7 @@ protected:
     Vec2 getBlindFishStartPos(int blindFishRand, int index);
     Vec2 getBlindFishTargetPos(int blindFishRand, int index);
     void rotateJelly();
+    void blindFishRotation(Sprite* blindFish, int blindFishRand);
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

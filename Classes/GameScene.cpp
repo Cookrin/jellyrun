@@ -224,6 +224,7 @@ void GameScene::setBlindFishMove(float dt)
         blindFishStartPos = this->getBlindFishStartPos(blindFishRand, index);
         blindFishTargetPos = this->getBlindFishTargetPos(blindFishRand, index);
         blindFish->setPosition(blindFishStartPos);
+        this->blindFishRotation(blindFish, blindFishRand);
         blindFish->retain();
         blindFish->removeFromParent();
         this->addChild(blindFish);
@@ -323,6 +324,28 @@ Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
 
 void GameScene::rotateJelly()
 {
-auto rotateBy = RotateBy::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180/3.1415926+90);
+auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180/3.1415926+90);
 jellyfish->runAction(rotateBy);
+}
+
+void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
+{
+    if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
+    {
+        blindFish->runAction(RotateTo::create(0.05f, 180.0f));
+    }
+    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
+    {
+        auto leftFishAct1 = RotateTo::create(0.05f, 270.0f);
+        auto leftFishAct2 = FlipX::create(true);
+        auto leftFishSpawn = Spawn::create(
+                                            leftFishAct1,
+                                            leftFishAct2,
+                                            NULL);
+        blindFish->runAction(leftFishSpawn);
+    }
+    else if ( blindFishRand == 6 || blindFishRand == 7)//blindFishSide = "fromRight"
+    {
+        blindFish->runAction(RotateBy::create(0.05f, 90.0f));
+    }
 }
