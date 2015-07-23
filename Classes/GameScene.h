@@ -44,7 +44,6 @@ protected:
 
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
-    
 
     void setupTouchHanding();
     void setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt);
@@ -53,6 +52,7 @@ protected:
     cocos2d::Vector<Sprite*> getBlindFishGroup();
     Vec2 getBlindFishStartPos(int blindFishRand, int index);
     Vec2 getBlindFishTargetPos(int blindFishRand, int index);
+    void rotateJelly();
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

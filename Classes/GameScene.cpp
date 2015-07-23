@@ -134,6 +134,7 @@ void GameScene::setupTouchHanding()
         initialTouchPos = touchPos;
         currentTouchPos = touchPos;
         isTouchDown = true;
+        this->rotateJelly();
         return true;
     };
 
@@ -289,4 +290,10 @@ Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
         fishPos = Vec2(fishWidth * (-1.0f), visibleSize.height * (index - 1) / 4.0f );
     }
     return fishPos;
+}
+
+void GameScene::rotateJelly()
+{
+auto rotateBy = RotateBy::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180/3.1415926+90);
+jellyfish->runAction(rotateBy);
 }
