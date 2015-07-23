@@ -61,6 +61,7 @@ void GameScene::onEnter()
     Rect jellyRect = jellyfish->boundingBox();
     jellyWidth = jellyRect.size.width;
     jellyHeight = jellyRect.size.height;
+    //CCLOG("jelly width and Height=%f,%f",jellyWidth,jellyHeight);
     this->addChild(jellyfish);
 
     // setup fish
@@ -70,6 +71,7 @@ void GameScene::onEnter()
     Rect fishRect = fish->boundingBox();
     fishWidth = fishRect.size.width;
     fishHeight = fishRect.size.height;
+    //CCLOG("fish width and Height=%f,%f",fishWidth,fishHeight);
 
     this->setupUI();
     this->setupTouchHanding();
@@ -91,6 +93,23 @@ void GameScene::update(float dt)
         {
             Vec2 touchDirection = currentTouchPos - initialTouchPos;
             setJellyIfCollides(currentTouchPos, touchDirection, dt);
+        }
+    }
+
+    Vector<Sprite*> blindFishes = this->getBlindFishGroup();
+    int i = 0;
+    for (auto blindFish:blindFishes)
+    {
+        i++;
+        fishPos = blindFish->getPosition();
+        //CCLOG("blindFishPos=%f,%f",fishPos.x,fishPos.y);
+        //CCLOG("jellyPos=%f,%f", jellyPos.x,jellyPos.y);
+        //CCLOG("fishPos=%f,%f", fishPos.x,fishPos.y);
+        fishHitJelly = this->checkIfFishHitJelly(jellyPos, fishPos);
+        if (fishHitJelly == true)
+        {
+            //CCLOG("gameOver");
+            this->gameOver();
         }
     }
 }
@@ -202,7 +221,6 @@ void GameScene::setBlindFishMove(float dt)
     {
         index++;
         int blindFishRand = rand()%10;
-        CCLOG("i=%int", index);
         blindFishStartPos = this->getBlindFishStartPos(blindFishRand, index);
         blindFishTargetPos = this->getBlindFishTargetPos(blindFishRand, index);
         blindFish->setPosition(blindFishStartPos);
@@ -230,6 +248,13 @@ void GameScene::setGameActive(bool active)
     }
 }
 
+void GameScene::gameOver()
+{
+    this->gameIsOver = true;
+    this->setGameActive(false);
+    SceneManager::getInstance()->enterLobby();
+}
+
 Vector<Sprite*> GameScene::getBlindFishGroup()
 {
     return this->blindFishGroup;
@@ -238,7 +263,11 @@ Vector<Sprite*> GameScene::getBlindFishGroup()
 bool GameScene::checkIfFishHitJelly(Vec2 jellyPos, Vec2 fishPos)
 {
     Vec2 distanceBetweenFishAndJelly = jellyPos - fishPos;
-    if ( distanceBetweenFishAndJelly.getLength() < (jellyWidth + fishWidth) )
+    float jellyAndFishLengh = distanceBetweenFishAndJelly.getLength();
+    //CCLOG("jellyAndFishLengh=%f", jellyAndFishLengh);
+    float compareLength = (jellyWidth + fishWidth) * 0.5f;
+    //CCLOG("compareLengh=%f", compareLength);
+    if ( jellyAndFishLengh < compareLength )
     {
         return true;
     }

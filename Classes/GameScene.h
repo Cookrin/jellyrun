@@ -36,11 +36,13 @@ protected:
     cocos2d::Sprite* fish;
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
+    bool gameIsOver;
 
     bool init() override;
     void onEnter() override;
     void update(float dt);
     void setGameActive(bool active);
+    void gameOver();
 
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
