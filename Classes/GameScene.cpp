@@ -112,6 +112,8 @@ void GameScene::update(float dt)
             this->gameOver();
         }
     }
+    auto followAction = Follow::create(jellyfish);
+    this->runAction(followAction);
 }
 
 #pragma mark -
@@ -287,7 +289,7 @@ Vec2 GameScene::getBlindFishStartPos(int blindFishRand, int index)
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, fishHeight * (-1.0f));
+        fishPos = Vec2(visibleSize.width *(index) / 10.0f, fishHeight * (-1.0f));
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
     {
@@ -309,7 +311,7 @@ Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height);
+        fishPos = Vec2(visibleSize.width *(index) / 10.0f, visibleSize.height);
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
     {
@@ -324,7 +326,7 @@ Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
 
 void GameScene::rotateJelly()
 {
-auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180/3.1415926+90);
+    auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180.0f/3.1415926f+90.0f);
 jellyfish->runAction(rotateBy);
 }
 
