@@ -322,8 +322,6 @@
 				F83EC9251B54D25100C4699D /* Scenes */,
 				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
 				F83EC9271B54D26F00C4699D /* SceneManager.h */,
-				F80061101B59C39E00EE5B63 /* Fish.cpp */,
-				F80061111B59C39E00EE5B63 /* Fish.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -387,6 +385,8 @@
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
 				F83EC92A1B54D9D300C4699D /* Background.cpp */,
 				F83EC92B1B54D9D300C4699D /* Background.h */,
+				F80061101B59C39E00EE5B63 /* Fish.cpp */,
+				F80061111B59C39E00EE5B63 /* Fish.h */,
 				F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */,
 				F8F253B01B55744C00D1B95F /* Jellyfish.h */,
 			);

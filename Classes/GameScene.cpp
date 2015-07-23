@@ -27,11 +27,17 @@ bool GameScene::init()
     {
         return false;
     }
-
     currentTouchPos = Vec2::ZERO;
-    
-    isTouchDown = false;
 
+    // Create the blindFishGroup for blindFish movement from four directions
+    for (int index=0; index < 10; ++index)
+    {
+        blindFish = Fish::create();
+        blindFish->setAnchorPoint(Vec2(0.0f, 0.0f));
+        blindFish->setScale(FISH_SCALE);
+        blindFishGroup.pushBack(blindFish);
+    }
+    isTouchDown = false;
     return true;
 }
 
@@ -40,7 +46,7 @@ void GameScene::onEnter()
     Node::onEnter();
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    
+
     // setup background
     Sprite *gameBackground = Background::create();
     gameBackground->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -52,10 +58,20 @@ void GameScene::onEnter()
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
     jellyfish->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
     jellyfish->setScale(JELLY_SCALE);
+    Rect jellyRect = jellyfish->boundingBox();
+    jellyWidth = jellyRect.size.width;
+    jellyHeight = jellyRect.size.height;
     this->addChild(jellyfish);
 
+    // setup fish
+    fish = Fish::create();
+    fish->setAnchorPoint(Vec2(0.0f, 0.0f));
+    fish->setScale(FISH_SCALE);
+    Rect fishRect = fish->boundingBox();
+    fishWidth = fishRect.size.width;
+    fishHeight = fishRect.size.height;
+
     this->setupUI();
-    
     this->setupTouchHanding();
     this->setGameActive(true);
 }
@@ -64,7 +80,8 @@ void GameScene::update(float dt)
 {
     Vec2 jellyPos = jellyfish->getPosition();
 
-    if (currentTouchPos != Vec2::ZERO) {
+    if (currentTouchPos != Vec2::ZERO)
+    {
         //move jellyPos to currentTouchPos that you tap
         Vec2 targetDirection = currentTouchPos - jellyPos;
         setJellyIfCollides(currentTouchPos, targetDirection, dt);
@@ -114,21 +131,15 @@ void GameScene::setupTouchHanding()
     touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
         touchPos = this->convertTouchToNodeSpace(touch);
-        
         initialTouchPos = touchPos;
         currentTouchPos = touchPos;
-        
-        CCLOG("currentTouchPos=%f,%f", currentTouchPos.x, currentTouchPos.y);
-        
         isTouchDown = true;
-
         return true;
     };
 
     touchListener->onTouchMoved = [&](Touch* touch, Event* event)
     {
         Vec2 touchPos = this->convertTouchToNodeSpace(touch);
-
         currentTouchPos = touchPos;
     };
 
@@ -172,7 +183,6 @@ void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, f
         {
             targetJellyfishPos.y = visibleSize.height - jellyH * 0.5f;
         }
-        
         jellyfish->setPosition(targetJellyfishPos);
     }
 }
@@ -181,47 +191,102 @@ void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, f
 
 // background move ahead
 
-void GameScene::setFishMove(float dt)
+void GameScene::setBlindFishMove(float dt)
 {
-    //Case 1: fishes move Vertically
-    for (int index=0; index < 10; ++index)
+    Vec2 blindFishTargetPos;
+    Vec2 blindFishStartPos;
+    Vector<Sprite*> blindFishes = this->getBlindFishGroup();
+    int index = 0;
+    for (auto blindFish:blindFishes)
     {
-        // setup jellyfish
-        fish = Fish::create();
-        fish->setAnchorPoint(Vec2(0.0f, 0.0f));
-        fish->setScale(FISH_SCALE);
-
-        if (rand()%10>6)
-        {
-            fish->setPosition(Vec2(visibleSize.width *index / 10.0f, visibleSize.height * 1.0f));
-            this->addChild(fish);
-            auto moveFishAction = MoveTo::create(8.0f, Vec2(visibleSize.width * index / 10.0f, visibleSize.height * (-2.0f)));
-            this->fish->runAction(moveFishAction);
-        }
-        
-        else if (rand()%10<4)
-        {
-            fish->setPosition(Vec2(visibleSize.width *index / 10.0f, visibleSize.height * 0.0f));
-            this->addChild(fish);
-            auto moveFishAction = MoveTo::create(6.0f, Vec2(visibleSize.width * index / 10.0f, visibleSize.height * 1.2f));
-            this->fish->runAction(moveFishAction);
-        }
-        
-        else
-        {
-        }
+        index++;
+        int blindFishRand = rand()%10;
+        CCLOG("i=%int", index);
+        blindFishStartPos = this->getBlindFishStartPos(blindFishRand, index);
+        blindFishTargetPos = this->getBlindFishTargetPos(blindFishRand, index);
+        blindFish->setPosition(blindFishStartPos);
+        blindFish->retain();
+        blindFish->removeFromParent();
+        this->addChild(blindFish);
+        auto moveFishAction = MoveTo::create(2.0f, blindFishTargetPos);
+        auto fishSequence = Sequence::create(
+            DelayTime::create(rand()%2),
+            moveFishAction,
+            CallFunc::create(CC_CALLBACK_0(GameScene::removeFromParent, blindFish)),NULL);
+        blindFish->runAction(fishSequence);
     }
-    
-    //Case 2: fish tracks Jellyfish
 }
 
-void GameScene::setGameActive(bool active) {
+void GameScene::setGameActive(bool active)
+{
     this->active = active;
     if (active) {
-        this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setFishMove), 2.0f);
+        this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 3.0f);
         this->scheduleUpdate();
     } else {
-        this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::setFishMove));
+        this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove));
         this->unscheduleUpdate();
     }
+}
+
+Vector<Sprite*> GameScene::getBlindFishGroup()
+{
+    return this->blindFishGroup;
+}
+
+bool GameScene::checkIfFishHitJelly(Vec2 jellyPos, Vec2 fishPos)
+{
+    Vec2 distanceBetweenFishAndJelly = jellyPos - fishPos;
+    if ( distanceBetweenFishAndJelly.getLength() < (jellyWidth + fishWidth) )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+Vec2 GameScene::getBlindFishStartPos(int blindFishRand, int index)
+{
+    Vec2 fishPos;
+    if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
+    {
+        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height * 1.0f);
+    }
+    else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
+    {
+        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, fishHeight * (-1.0f));
+    }
+    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
+    {
+        fishPos = Vec2(fishWidth * (-1.0f), visibleSize.height * (index - 1) / 4.0f );
+    }
+    else //blindFishSide = "fromRight"
+    {
+        fishPos = Vec2(visibleSize.width * 1.0f, visibleSize.height * (index - 1) / 4.0f );
+    }
+        return fishPos;
+}
+
+Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
+{
+    Vec2 fishPos;
+    if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
+    {
+        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, fishHeight * (-1.0f));
+    }
+    else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
+    {
+        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height);
+    }
+    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
+    {
+        fishPos = Vec2(visibleSize.width * 1.0f, visibleSize.height * (index - 1) / 4.0f );
+    }
+    else //blindFishSide = "fromRight"
+    {
+        fishPos = Vec2(fishWidth * (-1.0f), visibleSize.height * (index - 1) / 4.0f );
+    }
+    return fishPos;
 }
