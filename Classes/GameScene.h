@@ -37,7 +37,13 @@ protected:
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
     bool gameIsOver;
-
+    Sprite *darkBG1;
+    Sprite *darkBG2;
+    Sprite *lightBG1;
+    Sprite *lightBG2;
+    Sprite *plantBG1;
+    Sprite *plantBG2;
+    
     bool init() override;
     void onEnter() override;
     void update(float dt);

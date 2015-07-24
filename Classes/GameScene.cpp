@@ -9,12 +9,12 @@
 #include "GameScene.h"
 #include "cocosGUI.h"
 #include "SceneManager.h"
-#include "Background.h"
 #include "Jellyfish.h"
 #include "Constants.h"
 #include "Constants.h"
 #include "Fish.h"
 #include <time.h>
+#include "InfiniteParallaxNode.h"
 
 using namespace cocos2d;
 
@@ -28,7 +28,6 @@ bool GameScene::init()
         return false;
     }
     currentTouchPos = Vec2::ZERO;
-
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < 10; ++index)
     {
@@ -44,15 +43,88 @@ bool GameScene::init()
 void GameScene::onEnter()
 {
     Node::onEnter();
-    
     visibleSize = Director::getInstance()->getVisibleSize();
 
-    // setup background
-    Sprite *gameBackground = Background::create();
-    gameBackground->setAnchorPoint(Vec2(0.5f, 0.5f));
-    gameBackground->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
-    this->addChild(gameBackground);
+    // setup fish
+    fish = Fish::create();
+    fish->setAnchorPoint(Vec2(0.0f, 0.0f));
+    fish->setScale(FISH_SCALE);
+    Rect fishRect = fish->boundingBox();
+    fishWidth = fishRect.size.width;
+    fishHeight = fishRect.size.height;
+    //CCLOG("fish width and Height=%f,%f",fishWidth,fishHeight);
 
+    // setup background
+    InfiniteParallaxNode* groundNode = InfiniteParallaxNode::create();
+    this->addChild(groundNode, 0, "groundNode");
+    
+    lightBG1 = Sprite::create("light.png");
+    lightBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+    lightBG1->setOpacity(255 * 0.5);
+
+    lightBG2 = Sprite::create("light.png");
+    lightBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+    lightBG2->setOpacity(255 * 0.5);
+
+    darkBG1 = Sprite::create("dark.png");
+    darkBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+    darkBG1->setOpacity(255 * 0.5);
+
+    darkBG2 = Sprite::create("dark.png");
+    darkBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+    darkBG2->setOpacity(255 * 0.5);
+
+    plantBG1 = Sprite::create("Plant.png");
+    plantBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+    plantBG1->setScale(0.3f, 0.3f);
+    plantBG2 = Sprite::create("Plant.png");
+    plantBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+    plantBG2->setScale(0.4f, 0.4f);
+    
+    Size darkBGSize = darkBG1->getContentSize();
+    Size lightBGSize = lightBG1->getContentSize();
+    
+    //auto *waterBG = Sprite::create("waterBackground.png");
+    //waterBG->setAnchorPoint(Vec2(0.0f,0.0f));
+    
+    // addChild(Node * child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
+    groundNode->addChild(
+                         lightBG1,
+                         // Set z-index
+                         3,
+                         // Set ration
+                         Vec2(2.0f, 0.0f),
+                         // Set position
+                         Vec2((2.0f), 0.0f));
+    groundNode->addChild(
+                         lightBG2,
+                         // Set z-index
+                         3,
+                         // Set ration
+                         Vec2(2.0f, 0.0f),
+                         // Set position
+                         Vec2(lightBGSize.width, 0.0f));
+    groundNode->addChild(
+                         darkBG1,
+                         1,
+                         Vec2(1.0f, 0.0f),
+                         Vec2((2.0f), 0.0f));
+    groundNode->addChild(
+                         darkBG2,
+                         1,
+                         Vec2(1.0f, 0.0f),
+                         Vec2(darkBGSize.width, 0.0f));
+    groundNode->addChild(
+                         plantBG1,
+                         2,
+                         Vec2(3.0f, 0.0f),
+                         Vec2(0.0f, 0.0f));
+    groundNode->addChild(
+                         plantBG2,
+                         2,
+                         Vec2(3.0f, 0.0f),
+                         Vec2(visibleSize.width, 0.0f));
+    
     // setup jellyfish
     jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -64,15 +136,7 @@ void GameScene::onEnter()
     //CCLOG("jelly width and Height=%f,%f",jellyWidth,jellyHeight);
     this->addChild(jellyfish);
 
-    // setup fish
-    fish = Fish::create();
-    fish->setAnchorPoint(Vec2(0.0f, 0.0f));
-    fish->setScale(FISH_SCALE);
-    Rect fishRect = fish->boundingBox();
-    fishWidth = fishRect.size.width;
-    fishHeight = fishRect.size.height;
-    //CCLOG("fish width and Height=%f,%f",fishWidth,fishHeight);
-
+    
     this->setupUI();
     this->setupTouchHanding();
     this->setGameActive(true);
@@ -108,12 +172,15 @@ void GameScene::update(float dt)
         fishHitJelly = this->checkIfFishHitJelly(jellyPos, fishPos);
         if (fishHitJelly == true)
         {
-            //CCLOG("gameOver");
             this->gameOver();
         }
     }
-    auto followAction = Follow::create(jellyfish);
-    this->runAction(followAction);
+    //auto followAction = Follow::create(jellyfish);
+    //this->runAction(followAction);
+    InfiniteParallaxNode* groundNode = (InfiniteParallaxNode*)this->getChildByName("groundNode");
+    Vec2 scrollDecrement = Vec2(-1.0f, 0.0f);
+    groundNode->setPosition(groundNode->getPosition() + scrollDecrement);
+    groundNode->updatePosition();
 }
 
 #pragma mark -
