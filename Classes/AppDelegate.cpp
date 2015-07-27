@@ -43,6 +43,35 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
+    
+    // add the iPhone solutions
+    cocos2d::Size targetSize = glview->getFrameSize();
+    
+        //read a resource load the res folder
+    FileUtils::getInstance()->addSearchPath("res");
+    
+    FileUtils::getInstance()->addSearchPath("fonts");
+    
+    std::vector<std::string> searchResolutionsOrder(1);
+    
+    if (targetSize.height < 481.0f)
+    {
+        searchResolutionsOrder[0] = "resources-1x";
+    }
+    else if (targetSize.height < 1335.0f)
+    {
+        searchResolutionsOrder[0] = "resources-2x";
+    }
+    else if (targetSize.height < 1921.0f)
+    {
+        searchResolutionsOrder[0] = "resources-3x";
+    }
+    else
+    {
+        searchResolutionsOrder[0] = "resources-4x";
+    }
+    
+    FileUtils::getInstance()->setSearchResolutionsOrder(searchResolutionsOrder);
 
     register_all_packages();
 
