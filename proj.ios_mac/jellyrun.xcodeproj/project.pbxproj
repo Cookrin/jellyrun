@@ -323,11 +323,8 @@
 				F8F253AE1B556F7C00D1B95F /* UIConstants.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				F8CBDE9E1B66D8CA00475627 /* Game Sprites */,
 				F83EC9251B54D25100C4699D /* Scenes */,
-				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
-				F83EC9271B54D26F00C4699D /* SceneManager.h */,
-				F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */,
-				F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -385,18 +382,29 @@
 			children = (
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
+				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
+				F83EC9271B54D26F00C4699D /* SceneManager.h */,
 				F83EC9191B548A6A00C4699D /* Lobby.cpp */,
 				F83EC91A1B548A6A00C4699D /* Lobby.h */,
 				F83EC91D1B548C4000C4699D /* GameScene.cpp */,
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
+				F8CBDE921B629C6100475627 /* GameOverScene.cpp */,
+				F8CBDE931B629C6100475627 /* GameOverScene.h */,
+				F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */,
+				F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		F8CBDE9E1B66D8CA00475627 /* Game Sprites */ = {
+			isa = PBXGroup;
+			children = (
 				F80061101B59C39E00EE5B63 /* Fish.cpp */,
 				F80061111B59C39E00EE5B63 /* Fish.h */,
 				F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */,
 				F8F253B01B55744C00D1B95F /* Jellyfish.h */,
-				F8CBDE921B629C6100475627 /* GameOverScene.cpp */,
-				F8CBDE931B629C6100475627 /* GameOverScene.h */,
 			);
-			name = Scenes;
+			name = "Game Sprites";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
