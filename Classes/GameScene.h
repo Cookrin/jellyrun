@@ -57,7 +57,7 @@ protected:
     void setupTouchHanding();
     void setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt);
     void setBlindFishMove(float dt);
-    bool checkIfFishHitJelly(Vec2 jellyPos, Vec2 fishPos);
+    bool checkIfFishHitJelly(Sprite *jellyfish, Sprite *fish);
     cocos2d::Vector<Sprite*> getBlindFishGroup();
     Vec2 getBlindFishStartPos(int blindFishRand, int index);
     Vec2 getBlindFishTargetPos(int blindFishRand, int index);

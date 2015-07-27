@@ -169,10 +169,7 @@ void GameScene::update(float dt)
     {
         i++;
         fishPos = blindFish->getPosition();
-        //CCLOG("blindFishPos=%f,%f",fishPos.x,fishPos.y);
-        //CCLOG("jellyPos=%f,%f", jellyPos.x,jellyPos.y);
-        //CCLOG("fishPos=%f,%f", fishPos.x,fishPos.y);
-        fishHitJelly = this->checkIfFishHitJelly(jellyPos, fishPos);
+        fishHitJelly = this->checkIfFishHitJelly(jellyfish, blindFish);
         if (fishHitJelly == true)
         {
             this->gameOver();
@@ -339,14 +336,14 @@ Vector<Sprite*> GameScene::getBlindFishGroup()
     return this->blindFishGroup;
 }
 
-bool GameScene::checkIfFishHitJelly(Vec2 jellyPos, Vec2 fishPos)
+/* Using Rect Collision
+*/
+bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
 {
-    Vec2 distanceBetweenFishAndJelly = jellyPos - fishPos;
-    float jellyAndFishLengh = distanceBetweenFishAndJelly.getLength();
-    //CCLOG("jellyAndFishLengh=%f", jellyAndFishLengh);
-    float compareLength = (jellyWidth + fishWidth) * 0.5f;
-    //CCLOG("compareLengh=%f", compareLength);
-    if ( jellyAndFishLengh < compareLength )
+    Rect jellyRect = jellyfish->getBoundingBox();
+    Rect fishRect = fish->getBoundingBox();
+
+    if (jellyRect.intersectsRect(fishRect))
     {
         return true;
     }
