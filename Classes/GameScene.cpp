@@ -36,6 +36,9 @@ bool GameScene::init()
         blindFish->setScale(FISH_SCALE);
         blindFishGroup.pushBack(blindFish);
     }
+    this->score = 0;
+    this->lastScore = 0;
+    this->deathTime = 0;
     isTouchDown = false;
     return true;
 }
@@ -173,6 +176,7 @@ void GameScene::update(float dt)
         if (fishHitJelly == true)
         {
             this->gameOver();
+            deathTime++;
         }
     }
     //auto followAction = Follow::create(jellyfish);
@@ -181,6 +185,7 @@ void GameScene::update(float dt)
     Vec2 scrollDecrement = Vec2(-1.0f, 0.0f);
     groundNode->setPosition(groundNode->getPosition() + scrollDecrement);
     groundNode->updatePosition();
+    score ++;
 }
 
 #pragma mark -
@@ -309,10 +314,12 @@ void GameScene::setBlindFishMove(float dt)
 void GameScene::setGameActive(bool active)
 {
     this->active = active;
-    if (active) {
+    if (active)
+    {
         this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 3.0f);
         this->scheduleUpdate();
-    } else {
+    } else
+    {
         this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove));
         this->unscheduleUpdate();
     }
@@ -322,7 +329,9 @@ void GameScene::gameOver()
 {
     this->gameIsOver = true;
     this->setGameActive(false);
-    SceneManager::getInstance()->enterLobby();
+    score = this->getScore();
+    bestScore = this->getBestScore();
+    SceneManager::getInstance()->enterGameOver(score, bestScore, deathTime);
 }
 
 Vector<Sprite*> GameScene::getBlindFishGroup()
@@ -417,4 +426,24 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
     {
         blindFish->runAction(RotateBy::create(0.05f, 90.0f));
     }
+}
+
+int GameScene::getScore()
+{
+    return this->score;
+}
+
+int GameScene::getBestScore()
+{
+    newScore = this->score;
+    if (newScore > this->lastScore)
+    {
+        this->lastScore = newScore;
+    }
+    return newScore;
+}
+
+int GameScene::getDeathTime()
+{
+    return this->deathTime;
 }

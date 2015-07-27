@@ -12,22 +12,24 @@
 #include "cocos2d.h"
 #include "cocosGUI.h"
 
+using namespace cocos2d;
 
 // create the class Lobby
-class Lobby : public cocos2d::Node
+class Lobby : public Node
 {
 public:
-    //
     CREATE_FUNC(Lobby);
-    
+
 private:
+    // Lifecycle
     bool init() override;
     void onEnter() override;
-    void setupUI();
 
-    void singlePlayerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void multiplayerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    cocos2d::ui::Text* titleLabel;
+    // UI
+    void setupUI();
+    void singlePlayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
+    void multiplayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
+    ui::Text* titleLabel;
 };
 
 #endif /* defined(__jellyrun__Lobby__) */

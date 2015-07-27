@@ -14,7 +14,8 @@
 
 using namespace cocos2d;
 
-class GameScene : public cocos2d::Node {
+class GameScene : public cocos2d::Node
+{
 public:
     CREATE_FUNC(GameScene);
 
@@ -43,7 +44,7 @@ protected:
     Sprite *lightBG2;
     Sprite *plantBG1;
     Sprite *plantBG2;
-    
+
     bool init() override;
     void onEnter() override;
     void update(float dt);
@@ -62,6 +63,15 @@ protected:
     Vec2 getBlindFishTargetPos(int blindFishRand, int index);
     void rotateJelly();
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
+    
+    int score;
+    int lastScore;
+    int newScore;
+    int bestScore;
+    int deathTime;
+    int getScore();
+    int getBestScore();
+    int getDeathTime();
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

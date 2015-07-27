@@ -11,17 +11,18 @@
 
 #include "cocos2d.h"
 
+class GameScene;
+
 class SceneManager {
 public:
     static SceneManager *getInstance();
-    
     void enterGameScene(bool networked);
-    
     void enterLobby();
-    
+    void enterGameOver(int score, int bestScore, int deathTime);
 private:
     SceneManager();
     ~SceneManager();
+    GameScene* gameScene;
 };
 
 #endif /* defined(__jellyrun__SceneManager__) */

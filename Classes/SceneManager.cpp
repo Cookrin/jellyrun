@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "GameScene.h"
 #include "Lobby.h"
+#include "GameOverScene.h"
 
 using namespace cocos2d;
 
@@ -25,29 +26,49 @@ SceneManager *SceneManager::getInstance() {
     return sharedSceneManager;
 }
 
-SceneManager::SceneManager() {
+SceneManager::SceneManager()
+{
+    gameScene = nullptr;
 }
 
-SceneManager::~SceneManager() {
+SceneManager::~SceneManager()
+{
 }
 
 #pragma mark -
 #pragma mark Public Methods
 
-void SceneManager::enterGameScene(bool networked) {
+void SceneManager::enterGameScene(bool networked)
+{
     Scene *scene = Scene::create();
-    GameScene *gameScene = GameScene::create();
+    this->gameScene = GameScene::create();
     
     scene->addChild(gameScene);
     
     Director::getInstance()->pushScene(scene);
 }
 
-void SceneManager::enterLobby() {
-    Scene *scene = Scene::create();
-    Lobby *lobby = Lobby::create();
-    
-    scene->addChild(lobby);
-    
-    Director::getInstance()->pushScene(scene);
+void SceneManager::enterLobby()
+{
+    if (gameScene)
+    {
+    Director::getInstance()->popScene();
+    gameScene = nullptr;
+    }
+}
+
+void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
+{
+    if (gameScene)
+    {
+        Scene* scene = Scene::create();
+        GameOverScene* gameOverScene = GameOverScene::create();
+        scene->addChild(gameOverScene);
+        Director::getInstance()->replaceScene(scene);
+        gameOverScene->updateScoreLabel(score);
+        gameOverScene->updateBestScoreLabel(bestScore);
+        gameOverScene->updateDeathTimeLabel(deathTime);
+
+        //this->gameScene = nullptr;
+    }
 }
