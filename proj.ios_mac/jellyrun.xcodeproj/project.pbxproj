@@ -79,6 +79,8 @@
 		F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
 		F8CBDE951B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
+		F8CBDEA31B66DC5100475627 /* UserDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */; };
+		F8CBDEA41B66DC5100475627 /* UserDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */; };
 		F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */; };
 		F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */; };
 /* End PBXBuildFile section */
@@ -186,6 +188,8 @@
 		F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteParallaxNode.h; sourceTree = "<group>"; };
 		F8CBDE921B629C6100475627 /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOverScene.cpp; sourceTree = "<group>"; };
 		F8CBDE931B629C6100475627 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
+		F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserDataManager.cpp; sourceTree = "<group>"; };
+		F8CBDEA21B66DC5100475627 /* UserDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataManager.h; sourceTree = "<group>"; };
 		F8F253AE1B556F7C00D1B95F /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
 		F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Jellyfish.cpp; sourceTree = "<group>"; };
 		F8F253B01B55744C00D1B95F /* Jellyfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jellyfish.h; sourceTree = "<group>"; };
@@ -324,6 +328,7 @@
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				F8CBDE9E1B66D8CA00475627 /* Game Sprites */,
+				F8CBDEA01B66DC3400475627 /* Utility */,
 				F83EC9251B54D25100C4699D /* Scenes */,
 			);
 			name = Classes;
@@ -382,16 +387,14 @@
 			children = (
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
-				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
-				F83EC9271B54D26F00C4699D /* SceneManager.h */,
-				F83EC9191B548A6A00C4699D /* Lobby.cpp */,
-				F83EC91A1B548A6A00C4699D /* Lobby.h */,
 				F83EC91D1B548C4000C4699D /* GameScene.cpp */,
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
 				F8CBDE921B629C6100475627 /* GameOverScene.cpp */,
 				F8CBDE931B629C6100475627 /* GameOverScene.h */,
-				F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */,
-				F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */,
+				F83EC9191B548A6A00C4699D /* Lobby.cpp */,
+				F83EC91A1B548A6A00C4699D /* Lobby.h */,
+				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
+				F83EC9271B54D26F00C4699D /* SceneManager.h */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -405,6 +408,17 @@
 				F8F253B01B55744C00D1B95F /* Jellyfish.h */,
 			);
 			name = "Game Sprites";
+			sourceTree = "<group>";
+		};
+		F8CBDEA01B66DC3400475627 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */,
+				F8CBDEA21B66DC5100475627 /* UserDataManager.h */,
+				F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */,
+				F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */,
+			);
+			name = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -556,6 +570,7 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				F83EC9281B54D26F00C4699D /* SceneManager.cpp in Sources */,
+				F8CBDEA31B66DC5100475627 /* UserDataManager.cpp in Sources */,
 				F83EC91B1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				F83EC91F1B548C4000C4699D /* GameScene.cpp in Sources */,
@@ -580,6 +595,7 @@
 				F83EC9291B54D26F00C4699D /* SceneManager.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,
+				F8CBDEA41B66DC5100475627 /* UserDataManager.cpp in Sources */,
 				F83EC91C1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 			);

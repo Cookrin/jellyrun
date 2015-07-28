@@ -12,9 +12,11 @@
 #include "Jellyfish.h"
 #include "Constants.h"
 #include "Constants.h"
+#include "UIConstants.h"
 #include "Fish.h"
 #include <time.h>
 #include "InfiniteParallaxNode.h"
+#include "UserDataManager.h"
 
 using namespace cocos2d;
 
@@ -37,9 +39,12 @@ bool GameScene::init()
         blindFishGroup.pushBack(blindFish);
     }
     this->score = 0;
-    this->lastScore = 0;
-    this->deathTime = 0;
     isTouchDown = false;
+
+    this->bestScore = UserDataManager::getInstance()->getBestScore();
+    this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();
+    CCLOG("TotalDeathTimebydefault=%int", totalDeathTime);
+    scoreDistance = 0.0f;
     return true;
 }
 
@@ -173,7 +178,6 @@ void GameScene::update(float dt)
         if (fishHitJelly == true)
         {
             this->gameOver();
-            deathTime++;
         }
     }
     //auto followAction = Follow::create(jellyfish);
@@ -182,7 +186,13 @@ void GameScene::update(float dt)
     Vec2 scrollDecrement = Vec2(-1.0f, 0.0f);
     groundNode->setPosition(groundNode->getPosition() + scrollDecrement);
     groundNode->updatePosition();
-    score ++;
+    scoreDistance += 1.0f;
+    if ( scoreDistance >= 60.0f )
+    {
+        score ++;
+        this->updateScoreLabel(score);
+        scoreDistance = 0.0f;
+    }
 }
 
 #pragma mark -
@@ -192,13 +202,20 @@ void GameScene::setupUI()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     
-    //create the pause button
+    //create the pause button on the right top
     ui::Button* pauseButton = ui::Button::create();
     pauseButton->setAnchorPoint(Vec2(1.0f, 1.0f));
     pauseButton->setPosition(Vec2(visibleSize.width* 0.99f, visibleSize.height * 0.99f));
     pauseButton->loadTextures("pauseButton.png", "pauseButtonPressed.png");
     pauseButton->addTouchEventListener(CC_CALLBACK_2(GameScene::pauseButtonPressed, this));
     this->addChild(pauseButton);
+
+    //create the score label on the left top
+    this->scoreLabel = ui::Text::create("0", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->scoreLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
+    this->scoreLabel->setPosition(Vec2(visibleSize.width*0.1f, visibleSize.height * 0.9f));
+    this->scoreLabel->setColor(TITLE_LABEL_COLOR);
+    this->addChild(scoreLabel);
 }
 
 void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType)
@@ -207,6 +224,12 @@ void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEvent
     {
         SceneManager::getInstance()->enterLobby();
     }
+}
+
+void GameScene::updateScoreLabel(int score)
+{
+    std::string scoreString = StringUtils::toString(score);
+    this->scoreLabel->setString(scoreString);
 }
 
 #pragma mark -
@@ -326,9 +349,20 @@ void GameScene::gameOver()
 {
     this->gameIsOver = true;
     this->setGameActive(false);
-    score = this->getScore();
-    bestScore = this->getBestScore();
-    SceneManager::getInstance()->enterGameOver(score, bestScore, deathTime);
+
+    //set the best score if score is over record
+    if (score > bestScore)
+    {
+        bestScore = score;
+        UserDataManager::getInstance()->setBestScore(bestScore);
+    }
+
+    //set the death time
+    totalDeathTime ++;
+    UserDataManager::getInstance()->setDeathTime(totalDeathTime);
+
+    //enter the GameOverScene
+    SceneManager::getInstance()->enterGameOver(score, bestScore, totalDeathTime);
 }
 
 Vector<Sprite*> GameScene::getBlindFishGroup()
@@ -336,8 +370,6 @@ Vector<Sprite*> GameScene::getBlindFishGroup()
     return this->blindFishGroup;
 }
 
-/* Using Rect Collision
-*/
 bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
 {
     Rect jellyRect = jellyfish->getBoundingBox();
@@ -423,24 +455,4 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
     {
         blindFish->runAction(RotateBy::create(0.05f, 90.0f));
     }
-}
-
-int GameScene::getScore()
-{
-    return this->score;
-}
-
-int GameScene::getBestScore()
-{
-    newScore = this->score;
-    if (newScore > this->lastScore)
-    {
-        this->lastScore = newScore;
-    }
-    return newScore;
-}
-
-int GameScene::getDeathTime()
-{
-    return this->deathTime;
 }
