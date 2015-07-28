@@ -189,21 +189,18 @@ void GameOverScene::multiplayerPressed(Ref *pSender, ui::Widget::TouchEventType 
 
 void GameOverScene::updateScoreLabel(int score)
 {
-    this->score = score;
     std::string scoreString = StringUtils::toString(score);
     this->scoreNumLabel->setString(scoreString);
 }
 
 void GameOverScene::updateBestScoreLabel(int bestScore)
 {
-    this->bestScore = bestScore;
-    std::string scoreString = StringUtils::toString(score);
+    std::string scoreString = StringUtils::toString(bestScore);
     this->bestScoreNumLabel->setString(scoreString);
 }
 
 void GameOverScene::updateDeathTimeLabel(int deathTime)
 {
-    this->deathTime = deathTime;
     std::string deathTimeString = StringUtils::toString(deathTime);
-    this->totalDeathLabel->setString(deathTimeString);
+    this->totalDeathNumLabel->setString(deathTimeString);
 }

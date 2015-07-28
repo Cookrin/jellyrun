@@ -51,8 +51,10 @@ protected:
     void setGameActive(bool active);
     void gameOver();
 
+    ui::Text* scoreLabel;
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
+    void updateScoreLabel(int score);
 
     void setupTouchHanding();
     void setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt);
@@ -63,15 +65,11 @@ protected:
     Vec2 getBlindFishTargetPos(int blindFishRand, int index);
     void rotateJelly();
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
-    
+
     int score;
-    int lastScore;
-    int newScore;
+    int scoreDistance;
     int bestScore;
-    int deathTime;
-    int getScore();
-    int getBestScore();
-    int getDeathTime();
+    int totalDeathTime;
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

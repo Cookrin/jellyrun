@@ -42,9 +42,7 @@ void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
     this->gameScene = GameScene::create();
-    
     scene->addChild(gameScene);
-    
     Director::getInstance()->pushScene(scene);
 }
 
@@ -69,6 +67,6 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
         gameOverScene->updateBestScoreLabel(bestScore);
         gameOverScene->updateDeathTimeLabel(deathTime);
 
-        //this->gameScene = nullptr;
+        this->gameScene = nullptr;
     }
 }
