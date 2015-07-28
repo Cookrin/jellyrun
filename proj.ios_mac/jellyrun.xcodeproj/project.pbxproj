@@ -336,14 +336,14 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				F848EF641B67FCE70017C430 /* Networking */,
 				F87E55BB1B595EC10022CAC8 /* Constants.h */,
 				F8F253AE1B556F7C00D1B95F /* UIConstants.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				F848EF641B67FCE70017C430 /* Networking */,
 				F8CBDE9E1B66D8CA00475627 /* Game Sprites */,
-				F8CBDEA01B66DC3400475627 /* Utility */,
 				F83EC9251B54D25100C4699D /* Scenes */,
+				F8CBDEA01B66DC3400475627 /* Utility */,
 			);
 			name = Classes;
 			path = ../Classes;

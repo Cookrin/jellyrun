@@ -70,7 +70,8 @@ void Lobby::singlePlayerPressed(Ref *pSender, ui::Widget::TouchEventType eEventT
 {
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        CCLOG("Single Player Mode");
+        CCLOG("Single Player Mode without networking");
+        //  the networked is false
         SceneManager::getInstance()->enterGameScene(false);
     }
 }
@@ -80,5 +81,6 @@ void Lobby::multiplayerPressed(Ref *pSender, ui::Widget::TouchEventType eEventTy
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
         CCLOG("Two Player Mode");
+        SceneManager::getInstance()->showPeerList();
     }
 }

@@ -45,6 +45,9 @@ bool GameScene::init()
     this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();
     CCLOG("TotalDeathTimebydefault=%int", totalDeathTime);
     scoreDistance = 0.0f;
+
+    this->setNetworkedSession(false);
+
     return true;
 }
 
@@ -231,6 +234,31 @@ void GameScene::updateScoreLabel(int score)
     std::string scoreString = StringUtils::toString(score);
     this->scoreLabel->setString(scoreString);
 }
+
+#pragma mark -
+#pragma mark GameScene Public Methods
+
+void GameScene::setNetworkedSession(bool networkedSession)
+{
+    this->networkedSession = networkedSession;
+}
+
+void GameScene::receiveData(const void *data, unsigned long length)
+{
+    const char* cstr = reinterpret_cast<const char*>(data);
+    std::string json = std::string(cstr, length);
+    /*
+    JSONPacker::GameState state = JSONPacker::unpackGameStateJSON(json);
+    
+     if (state.gameOver)
+    {
+        this->gameOver();
+    }
+    
+    this->previewGrid->setState(state);
+    */
+}
+
 
 #pragma mark -
 #pragma mark GameScene Protected Methods

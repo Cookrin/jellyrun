@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "CocosGUI.h"
+#include "NetworkingWrapper.h"
 
 using namespace cocos2d;
 
@@ -18,10 +19,13 @@ class GameScene : public cocos2d::Node
 {
 public:
     CREATE_FUNC(GameScene);
+    void setNetworkedSession(bool networkedSession);
+    void receiveData(const void *data, unsigned long length);
 
 private:
 
 protected:
+    bool networkedSession;
     Vec2 initialTouchPos;
     Vec2 currentTouchPos;
     bool isTouchDown;
