@@ -75,6 +75,10 @@
 		F83EC9201B548C4000C4699D /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC91D1B548C4000C4699D /* GameScene.cpp */; };
 		F83EC9281B54D26F00C4699D /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9261B54D26F00C4699D /* SceneManager.cpp */; };
 		F83EC9291B54D26F00C4699D /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F83EC9261B54D26F00C4699D /* SceneManager.cpp */; };
+		F848EF601B67FCE10017C430 /* NetworkingWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F848EF5C1B67FCE10017C430 /* NetworkingWrapper.mm */; };
+		F848EF611B67FCE10017C430 /* NetworkingWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F848EF5C1B67FCE10017C430 /* NetworkingWrapper.mm */; };
+		F848EF621B67FCE10017C430 /* NetworkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F848EF5E1B67FCE10017C430 /* NetworkManager.mm */; };
+		F848EF631B67FCE10017C430 /* NetworkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F848EF5E1B67FCE10017C430 /* NetworkManager.mm */; };
 		F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
@@ -183,6 +187,11 @@
 		F83EC91E1B548C4000C4699D /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		F83EC9261B54D26F00C4699D /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManager.cpp; sourceTree = "<group>"; };
 		F83EC9271B54D26F00C4699D /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
+		F848EF5B1B67FCE10017C430 /* NetworkingWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingWrapper.h; sourceTree = "<group>"; };
+		F848EF5C1B67FCE10017C430 /* NetworkingWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkingWrapper.mm; sourceTree = "<group>"; };
+		F848EF5D1B67FCE10017C430 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		F848EF5E1B67FCE10017C430 /* NetworkManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkManager.mm; sourceTree = "<group>"; };
+		F848EF5F1B67FCE10017C430 /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		F87E55BB1B595EC10022CAC8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfiniteParallaxNode.cpp; sourceTree = "<group>"; };
 		F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteParallaxNode.h; sourceTree = "<group>"; };
@@ -323,6 +332,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F848EF641B67FCE70017C430 /* Networking */,
 				F87E55BB1B595EC10022CAC8 /* Constants.h */,
 				F8F253AE1B556F7C00D1B95F /* UIConstants.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
@@ -397,6 +407,18 @@
 				F83EC9271B54D26F00C4699D /* SceneManager.h */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		F848EF641B67FCE70017C430 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				F848EF5B1B67FCE10017C430 /* NetworkingWrapper.h */,
+				F848EF5C1B67FCE10017C430 /* NetworkingWrapper.mm */,
+				F848EF5D1B67FCE10017C430 /* NetworkManager.h */,
+				F848EF5E1B67FCE10017C430 /* NetworkManager.mm */,
+				F848EF5F1B67FCE10017C430 /* NetworkManagerDelegate.h */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 		F8CBDE9E1B66D8CA00475627 /* Game Sprites */ = {
@@ -568,8 +590,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				F848EF601B67FCE10017C430 /* NetworkingWrapper.mm in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				F83EC9281B54D26F00C4699D /* SceneManager.cpp in Sources */,
+				F848EF621B67FCE10017C430 /* NetworkManager.mm in Sources */,
 				F8CBDEA31B66DC5100475627 /* UserDataManager.cpp in Sources */,
 				F83EC91B1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -588,6 +612,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F80061131B59C39E00EE5B63 /* Fish.cpp in Sources */,
+				F848EF611B67FCE10017C430 /* NetworkingWrapper.mm in Sources */,
 				F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */,
 				F8CBDE951B629C6100475627 /* GameOverScene.cpp in Sources */,
 				F83EC9201B548C4000C4699D /* GameScene.cpp in Sources */,
@@ -596,6 +621,7 @@
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,
 				F8CBDEA41B66DC5100475627 /* UserDataManager.cpp in Sources */,
+				F848EF631B67FCE10017C430 /* NetworkManager.mm in Sources */,
 				F83EC91C1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 			);
