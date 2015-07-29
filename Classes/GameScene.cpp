@@ -17,6 +17,7 @@
 #include <time.h>
 #include "InfiniteParallaxNode.h"
 #include "UserDataManager.h"
+#include "JSONPacker.h"
 
 using namespace cocos2d;
 
@@ -464,4 +465,24 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
 void GameScene::setNetworkedSession(bool networkedSession)
 {
     networkedSession = networkedSession;
+}
+
+void GameScene::receivedData(const void* data, unsigned long length)
+{
+    const char* cstr = static_cast<const char*>(data);
+    std::string json = std::string(cstr, length);
+    JSONPacker::GameState gameState = JSONPacker::unpackGameStateJSON(json);
+}
+
+void GameScene::sendGameStateOverNetwork()
+{
+    JSONPacker::GameState state;
+
+    state.name = NetworkingWrapper::getDeviceName();
+    state.score = this->score;
+    state.gameOver = this->gameIsOver;
+
+    std::string json = JSONPacker::packGameState(state);
+
+    SceneManager::getInstance()->sendData(json.c_str(), json.length());
 }
