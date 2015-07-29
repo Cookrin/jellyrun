@@ -8,7 +8,6 @@
 
 #include "SceneManager.h"
 #include "GameScene.h"
-#include "Lobby.h"
 #include "GameOverScene.h"
 
 using namespace cocos2d;
@@ -16,19 +15,22 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark LifeCycle
 
-static SceneManager *sharedSceneManager = nullptr;
+static SceneManager *_sharedSceneManager = nullptr;
 
-SceneManager *SceneManager::getInstance() {
-    if (!sharedSceneManager) {
-        sharedSceneManager = new (std::nothrow) SceneManager();
+SceneManager *SceneManager::getInstance()
+{
+    if (!_sharedSceneManager)
+    {
+        _sharedSceneManager = new (std::nothrow)SceneManager();
     }
-    
-    return sharedSceneManager;
+    return _sharedSceneManager;
 }
 
 SceneManager::SceneManager()
 {
-    gameScene = nullptr;
+    _gameScene = nullptr;
+    this->_networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
+    this->_networkingWrapper->setDelegate(this);
 }
 
 SceneManager::~SceneManager()
@@ -41,23 +43,25 @@ SceneManager::~SceneManager()
 void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
-    this->gameScene = GameScene::create();
-    scene->addChild(gameScene);
+    this->_gameScene = GameScene::create();
+    this->_gameScene->setNetworkedSession(networked);
+    scene->addChild(_gameScene);
     Director::getInstance()->pushScene(scene);
 }
 
 void SceneManager::enterLobby()
 {
-    if (gameScene)
+    if (_gameScene)
     {
-    Director::getInstance()->popScene();
-    gameScene = nullptr;
+        Director::getInstance()->popScene();
+        _gameScene = nullptr;
+        _networkingWrapper->disconnect();
     }
 }
 
 void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
 {
-    if (gameScene)
+    if (_gameScene)
     {
         Scene* scene = Scene::create();
         GameOverScene* gameOverScene = GameOverScene::create();
@@ -67,6 +71,52 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
         gameOverScene->updateBestScoreLabel(bestScore);
         gameOverScene->updateDeathTimeLabel(deathTime);
 
-        this->gameScene = nullptr;
+        this->_gameScene = nullptr;
+    }
+}
+
+void SceneManager::showPeerList()
+{
+    _networkingWrapper->showPeerList();
+}
+
+void SceneManager::receiveMultiplayerInvitations()
+{
+    _networkingWrapper->startAdvertisingAvailability();
+}
+
+void SceneManager::sendData(const void *data, unsigned long length)
+{
+    _networkingWrapper->sendData(data, length);
+}
+
+#pragma mark -
+#pragma mark NetworkingWrapperDelegate Methods
+
+void SceneManager::receivedData(const void *data, unsigned long length)
+{
+}
+
+void SceneManager::stateChanged(ConnectionState state)
+{
+    switch (state)
+    {
+        case ConnectionState::NOT_CONNECTED:
+            CCLOG("Not Connected");
+            break;
+
+        case ConnectionState::CONNECTING:
+            CCLOG("Connecting...");
+            break;
+
+        case ConnectionState::CONNECTED:
+            CCLOG("Connected!");
+
+            if (!_gameScene)
+            {
+                this->_networkingWrapper->stopAdvertisingAvailability();
+                this->enterGameScene(true);
+            }
+            break;
     }
 }

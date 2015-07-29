@@ -40,6 +40,7 @@ bool GameScene::init()
     }
     this->score = 0;
     isTouchDown = false;
+    this->networkedSession = false;
 
     this->bestScore = UserDataManager::getInstance()->getBestScore();
     this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();
@@ -455,4 +456,12 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
     {
         blindFish->runAction(RotateBy::create(0.05f, 90.0f));
     }
+}
+
+#pragma mark -
+#pragma mark Networking
+
+void GameScene::setNetworkedSession(bool networkedSession)
+{
+    networkedSession = networkedSession;
 }
