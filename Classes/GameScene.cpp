@@ -40,6 +40,7 @@ bool GameScene::init()
     }
     this->score = 0;
     isTouchDown = false;
+    this->networkedSession = false;
 
     this->bestScore = UserDataManager::getInstance()->getBestScore();
     this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();

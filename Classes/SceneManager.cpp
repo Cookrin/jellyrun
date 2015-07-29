@@ -15,22 +15,22 @@ using namespace cocos2d;
 #pragma mark -
 #pragma mark LifeCycle
 
-static SceneManager *sharedSceneManager = nullptr;
+static SceneManager *_sharedSceneManager = nullptr;
 
 SceneManager *SceneManager::getInstance()
 {
-    if (!sharedSceneManager)
+    if (!_sharedSceneManager)
     {
-        sharedSceneManager = new (std::nothrow) SceneManager();
+        _sharedSceneManager = new (std::nothrow)SceneManager();
     }
-    return sharedSceneManager;
+    return _sharedSceneManager;
 }
 
 SceneManager::SceneManager()
 {
-    gameScene = nullptr;
-    this->networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
-    this->networkingWrapper->setDelegate(this);
+    _gameScene = nullptr;
+    this->_networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
+    this->_networkingWrapper->setDelegate(this);
 }
 
 SceneManager::~SceneManager()
@@ -43,24 +43,25 @@ SceneManager::~SceneManager()
 void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
-    this->gameScene = GameScene::create();
-    this->gameScene->setNetworkedSession(networked);
-    scene->addChild(gameScene);
+    this->_gameScene = GameScene::create();
+    this->_gameScene->setNetworkedSession(networked);
+    scene->addChild(_gameScene);
     Director::getInstance()->pushScene(scene);
 }
 
 void SceneManager::enterLobby()
 {
-    if (gameScene)
+    if (_gameScene)
     {
         Director::getInstance()->popScene();
-        gameScene = nullptr;
+        _gameScene = nullptr;
+        _networkingWrapper->disconnect();
     }
 }
 
 void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
 {
-    if (gameScene)
+    if (_gameScene)
     {
         Scene* scene = Scene::create();
         GameOverScene* gameOverScene = GameOverScene::create();
@@ -70,34 +71,23 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
         gameOverScene->updateBestScoreLabel(bestScore);
         gameOverScene->updateDeathTimeLabel(deathTime);
 
-        this->gameScene = nullptr;
+        this->_gameScene = nullptr;
     }
 }
 
 void SceneManager::showPeerList()
 {
-    std::vector<std::string> peers = this->networkingWrapper->getPeerList();
-    // networkingWrapper->setServiceName("Jelly Run");
-    // networkingWrapper->setMaximumPeers(2);
-
-    if (peers.size() != 0)
-    {
-        networkingWrapper->showPeerList();
-    }
-    else
-    {
-        CCLOG("failed");
-    }
+    _networkingWrapper->showPeerList();
 }
 
 void SceneManager::receiveMultiplayerInvitations()
 {
-    networkingWrapper->startAdvertisingAvailability();
+    _networkingWrapper->startAdvertisingAvailability();
 }
 
 void SceneManager::sendData(const void *data, unsigned long length)
 {
-    networkingWrapper->sendData(data, length);
+    _networkingWrapper->sendData(data, length);
 }
 
 #pragma mark -
@@ -122,9 +112,9 @@ void SceneManager::stateChanged(ConnectionState state)
         case ConnectionState::CONNECTED:
             CCLOG("Connected!");
 
-            if (!gameScene)
+            if (!_gameScene)
             {
-                this->networkingWrapper->stopAdvertisingAvailability();
+                this->_networkingWrapper->stopAdvertisingAvailability();
                 this->enterGameScene(true);
             }
             break;

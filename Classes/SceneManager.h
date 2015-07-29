@@ -26,8 +26,8 @@ public:
     void sendData(const void *data, unsigned long length);
 
 private:
-    std::unique_ptr<NetworkingWrapper> networkingWrapper;
-    GameScene* gameScene;
+    std::unique_ptr<NetworkingWrapper> _networkingWrapper;
+    GameScene* _gameScene;
 
     SceneManager();
     ~SceneManager();

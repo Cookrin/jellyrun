@@ -31,7 +31,9 @@ void Lobby::onEnter()
 {
     
     Node::onEnter();
-    
+
+    SceneManager::getInstance()->receiveMultiplayerInvitations();
+
     setupUI();
 }
 
