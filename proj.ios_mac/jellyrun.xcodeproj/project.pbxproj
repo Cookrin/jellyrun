@@ -80,6 +80,7 @@
 		F848EF621B67FCE10017C430 /* NetworkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F848EF5E1B67FCE10017C430 /* NetworkManager.mm */; };
 		F848EF631B67FCE10017C430 /* NetworkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = F848EF5E1B67FCE10017C430 /* NetworkManager.mm */; };
 		F848EF661B67FD8F0017C430 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F848EF651B67FD8F0017C430 /* MultipeerConnectivity.framework */; };
+		F848EF701B689E9C0017C430 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F848EF6F1B689E9C0017C430 /* MultipeerConnectivity.framework */; };
 		F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
@@ -194,6 +195,7 @@
 		F848EF5E1B67FCE10017C430 /* NetworkManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkManager.mm; sourceTree = "<group>"; };
 		F848EF5F1B67FCE10017C430 /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		F848EF651B67FD8F0017C430 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = DEVELOPER_DIR; };
+		F848EF6F1B689E9C0017C430 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 		F87E55BB1B595EC10022CAC8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfiniteParallaxNode.cpp; sourceTree = "<group>"; };
 		F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteParallaxNode.h; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F848EF701B689E9C0017C430 /* MultipeerConnectivity.framework in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
 				8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */,
@@ -298,6 +301,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F848EF6F1B689E9C0017C430 /* MultipeerConnectivity.framework */,
 				F848EF651B67FD8F0017C430 /* MultipeerConnectivity.framework */,
 				8262943D1AAF051F00CB7CF7 /* Security.framework */,
 				52B47A461A53D09B004E4C60 /* Security.framework */,

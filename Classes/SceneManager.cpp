@@ -45,6 +45,13 @@ void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
     this->gameScene = GameScene::create();
+
+    if (networked)
+    {
+        std::vector<std::string> peers = networkingWrapper->getPeerList();
+        //auto deviceName = networkingWrapper->getDeviceName();
+    }
+
     this->gameScene->setNetworkedSession(networked);
     scene->addChild(gameScene);
     Director::getInstance()->pushScene(scene);
@@ -75,10 +82,45 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
     }
 }
 
+void SceneManager::receiveMultiplayerInvitations() {
+    networkingWrapper->startAdvertisingAvailability();
+}
+
+void SceneManager::sendData(const void *data, unsigned long length) {
+    networkingWrapper->sendData(data, length);
+}
+
+void SceneManager::showPeerList()
+{
+    networkingWrapper->showPeerList();
+}
+
+#pragma mark -
+#pragma mark NetworkingWrapperDelegate Methods
+
 void SceneManager::receivedData(const void *data, unsigned long length)
 {
 }
 
 void SceneManager::stateChanged(ConnectionState state)
 {
+    switch (state)
+    {
+        case ConnectionState::NOT_CONNECTED:
+            CCLOG("Not Connected");
+            break;
+
+        case ConnectionState::CONNECTING:
+            CCLOG("Connecting...");
+            break;
+
+        case ConnectionState::CONNECTED:
+            CCLOG("Connected!");
+            
+            if (!gameScene)
+            {
+                this->enterGameScene(true);
+            }
+            break;
+    }
 }

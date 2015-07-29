@@ -21,6 +21,10 @@ public:
     void enterGameScene(bool networked);
     void enterLobby();
     void enterGameOver(int score, int bestScore, int deathTime);
+
+    void showPeerList();
+    void receiveMultiplayerInvitations();
+    void sendData(const void *data, unsigned long length);
 private:
     std::unique_ptr<NetworkingWrapper> networkingWrapper;
     GameScene* gameScene;
