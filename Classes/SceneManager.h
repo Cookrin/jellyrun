@@ -9,7 +9,6 @@
 #ifndef __jellyrun__SceneManager__
 #define __jellyrun__SceneManager__
 
-#include "cocos2d.h"
 #include "NetworkingWrapper.h"
 
 class GameScene;
@@ -25,9 +24,11 @@ public:
     void showPeerList();
     void receiveMultiplayerInvitations();
     void sendData(const void *data, unsigned long length);
+
 private:
     std::unique_ptr<NetworkingWrapper> networkingWrapper;
     GameScene* gameScene;
+
     SceneManager();
     ~SceneManager();
 

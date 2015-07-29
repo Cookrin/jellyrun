@@ -79,7 +79,6 @@ void Lobby::multiplayerPressed(Ref *pSender, ui::Widget::TouchEventType eEventTy
 {
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        CCLOG("Two Player Mode");
         SceneManager::getInstance()->showPeerList();
     }
 }

@@ -8,7 +8,6 @@
 
 #include "SceneManager.h"
 #include "GameScene.h"
-#include "Lobby.h"
 #include "GameOverScene.h"
 
 using namespace cocos2d;
@@ -30,8 +29,8 @@ SceneManager *SceneManager::getInstance()
 SceneManager::SceneManager()
 {
     gameScene = nullptr;
-    networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
-    networkingWrapper->setDelegate(this);
+    this->networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
+    this->networkingWrapper->setDelegate(this);
 }
 
 SceneManager::~SceneManager()
@@ -45,13 +44,6 @@ void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
     this->gameScene = GameScene::create();
-
-    if (networked)
-    {
-        std::vector<std::string> peers = networkingWrapper->getPeerList();
-        //auto deviceName = networkingWrapper->getDeviceName();
-    }
-
     this->gameScene->setNetworkedSession(networked);
     scene->addChild(gameScene);
     Director::getInstance()->pushScene(scene);
@@ -82,17 +74,30 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
     }
 }
 
-void SceneManager::receiveMultiplayerInvitations() {
+void SceneManager::showPeerList()
+{
+    std::vector<std::string> peers = this->networkingWrapper->getPeerList();
+    // networkingWrapper->setServiceName("Jelly Run");
+    // networkingWrapper->setMaximumPeers(2);
+
+    if (peers.size() != 0)
+    {
+        networkingWrapper->showPeerList();
+    }
+    else
+    {
+        CCLOG("failed");
+    }
+}
+
+void SceneManager::receiveMultiplayerInvitations()
+{
     networkingWrapper->startAdvertisingAvailability();
 }
 
-void SceneManager::sendData(const void *data, unsigned long length) {
-    networkingWrapper->sendData(data, length);
-}
-
-void SceneManager::showPeerList()
+void SceneManager::sendData(const void *data, unsigned long length)
 {
-    networkingWrapper->showPeerList();
+    networkingWrapper->sendData(data, length);
 }
 
 #pragma mark -
@@ -116,9 +121,10 @@ void SceneManager::stateChanged(ConnectionState state)
 
         case ConnectionState::CONNECTED:
             CCLOG("Connected!");
-            
+
             if (!gameScene)
             {
+                this->networkingWrapper->stopAdvertisingAvailability();
                 this->enterGameScene(true);
             }
             break;
