@@ -456,3 +456,11 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
         blindFish->runAction(RotateBy::create(0.05f, 90.0f));
     }
 }
+
+#pragma mark -
+#pragma mark Networking
+
+void GameScene::setNetworkedSession(bool networkedSession)
+{
+    networkedSession = networkedSession;
+}

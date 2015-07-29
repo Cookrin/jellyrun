@@ -45,6 +45,7 @@ void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
     this->gameScene = GameScene::create();
+    this->gameScene->setNetworkedSession(networked);
     scene->addChild(gameScene);
     Director::getInstance()->pushScene(scene);
 }
@@ -53,8 +54,8 @@ void SceneManager::enterLobby()
 {
     if (gameScene)
     {
-    Director::getInstance()->popScene();
-    gameScene = nullptr;
+        Director::getInstance()->popScene();
+        gameScene = nullptr;
     }
 }
 

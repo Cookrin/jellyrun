@@ -18,10 +18,12 @@ class GameScene : public cocos2d::Node
 {
 public:
     CREATE_FUNC(GameScene);
+    void setNetworkedSession(bool networkedSession);
 
 private:
 
 protected:
+    bool networkedSession;
     Vec2 initialTouchPos;
     Vec2 currentTouchPos;
     bool isTouchDown;
