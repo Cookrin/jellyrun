@@ -10,19 +10,25 @@
 #define __jellyrun__SceneManager__
 
 #include "cocos2d.h"
+#include "NetworkingWrapper.h"
 
 class GameScene;
 
-class SceneManager {
+class SceneManager : public NetworkingDelegate
+{
 public:
     static SceneManager *getInstance();
     void enterGameScene(bool networked);
     void enterLobby();
     void enterGameOver(int score, int bestScore, int deathTime);
 private:
+    std::unique_ptr<NetworkingWrapper> networkingWrapper;
+    GameScene* gameScene;
     SceneManager();
     ~SceneManager();
-    GameScene* gameScene;
+
+    void receivedData(const void *data, unsigned long length);
+    void stateChanged(ConnectionState state);
 };
 
 #endif /* defined(__jellyrun__SceneManager__) */

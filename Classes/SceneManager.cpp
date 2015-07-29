@@ -18,17 +18,20 @@ using namespace cocos2d;
 
 static SceneManager *sharedSceneManager = nullptr;
 
-SceneManager *SceneManager::getInstance() {
-    if (!sharedSceneManager) {
+SceneManager *SceneManager::getInstance()
+{
+    if (!sharedSceneManager)
+    {
         sharedSceneManager = new (std::nothrow) SceneManager();
     }
-    
     return sharedSceneManager;
 }
 
 SceneManager::SceneManager()
 {
     gameScene = nullptr;
+    networkingWrapper = std::unique_ptr<NetworkingWrapper>(new NetworkingWrapper());
+    networkingWrapper->setDelegate(this);
 }
 
 SceneManager::~SceneManager()
@@ -69,4 +72,12 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
 
         this->gameScene = nullptr;
     }
+}
+
+void SceneManager::receivedData(const void *data, unsigned long length)
+{
+}
+
+void SceneManager::stateChanged(ConnectionState state)
+{
 }
