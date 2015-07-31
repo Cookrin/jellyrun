@@ -20,7 +20,7 @@ class GameScene : public cocos2d::Node
 {
 public:
     CREATE_FUNC(GameScene);
-    void setNetworkedSession(bool networkedSession);
+    void setNetworkedSession(bool networkedSession, bool isHost);
     void receivedData(const void* data, unsigned long length);
     void sendGameStateOverNetwork();
     PeerJelly* peerJelly;
@@ -29,6 +29,7 @@ private:
 
 protected:
     bool networkedSession;
+    bool _isHost;
     Vec2 initialTouchPos;
     Vec2 currentTouchPos;
     bool isTouchDown;

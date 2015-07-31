@@ -32,6 +32,7 @@ bool GameScene::init()
         return false;
     }
     currentTouchPos = Vec2::ZERO;
+
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < 10; ++index)
     {
@@ -40,9 +41,11 @@ bool GameScene::init()
         blindFish->setScale(FISH_SCALE);
         blindFishGroup.pushBack(blindFish);
     }
+
     this->score = 0;
     isTouchDown = false;
     this->networkedSession = false;
+    _isHost = true;
 
     this->bestScore = UserDataManager::getInstance()->getBestScore();
     this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();
@@ -363,42 +366,15 @@ void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, f
     }
 }
 
-// make the pauseButton disappear when the player touch the screen
-
-// background move ahead
-
-void GameScene::setBlindFishMove(float dt)
-{
-    Vec2 blindFishTargetPos;
-    Vec2 blindFishStartPos;
-    Vector<Sprite*> blindFishes = this->getBlindFishGroup();
-    int index = 0;
-    for (auto blindFish:blindFishes)
-    {
-        index++;
-        int blindFishRand = rand()%10;
-        blindFishStartPos = this->getBlindFishStartPos(blindFishRand, index);
-        blindFishTargetPos = this->getBlindFishTargetPos(blindFishRand, index);
-        blindFish->setPosition(blindFishStartPos);
-        this->blindFishRotation(blindFish, blindFishRand);
-        blindFish->retain();
-        blindFish->removeFromParent();
-        this->addChild(blindFish);
-        auto moveFishAction = MoveTo::create(3.0f, blindFishTargetPos);
-        auto fishSequence = Sequence::create(
-            DelayTime::create(rand()%2),
-            moveFishAction,
-            CallFunc::create(CC_CALLBACK_0(GameScene::removeFromParent, blindFish)),NULL);
-        blindFish->runAction(fishSequence);
-    }
-}
-
 void GameScene::setGameActive(bool active)
 {
     this->active = active;
     if (active)
     {
+        // if host
         this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 3.0f);
+        // else
+            //this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setPeerBlindFishMove), 3.0f);
         this->scheduleUpdate();
     } else
     {
@@ -498,6 +474,33 @@ Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
     return fishPos;
 }
 
+void GameScene::setBlindFishMove(float dt)
+{
+    Vec2 blindFishStartPos;
+    Vec2 blindFishTargetPos;
+
+    Vector<Sprite*> blindFishes = this->getBlindFishGroup();
+    int index = 0;
+    for (auto blindFish:blindFishes)
+    {
+        index++;
+        int blindFishRand = rand()%10;
+        blindFishStartPos = this->getBlindFishStartPos(blindFishRand, index);
+        blindFishTargetPos = this->getBlindFishTargetPos(blindFishRand, index);
+        blindFish->setPosition(blindFishStartPos);
+        this->blindFishRotation(blindFish, blindFishRand);
+        blindFish->retain();
+        blindFish->removeFromParent();
+        this->addChild(blindFish);
+        auto moveFishAction = MoveTo::create(3.0f, blindFishTargetPos);
+        auto fishSequence = Sequence::create(
+                                             DelayTime::create(rand()%2),
+                                             moveFishAction,
+                                             CallFunc::create(CC_CALLBACK_0(GameScene::removeFromParent, blindFish)),NULL);
+        blindFish->runAction(fishSequence);
+    }
+}
+
 void GameScene::rotateJelly()
 {
     auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180.0f/3.1415926f+90.0f);
@@ -529,9 +532,10 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
 #pragma mark -
 #pragma mark Networking
 
-void GameScene::setNetworkedSession(bool networkedSession)
+void GameScene::setNetworkedSession(bool networkedSession, bool isHost)
 {
     this->networkedSession = networkedSession;
+    this->_isHost = isHost;
 }
 
 void GameScene::receivedData(const void* data, unsigned long length)
@@ -539,13 +543,17 @@ void GameScene::receivedData(const void* data, unsigned long length)
     const char* cstr = static_cast<const char*>(data);
     std::string json = std::string(cstr, length);
     JSONPacker::GameState state = JSONPacker::unpackGameStateJSON(json);
-    
+
     if (state.gameOver)
     {
         this->gameOver();
     }
 
     this->peerJelly->setJellyPos(state);
+
+    /*
+    get the peerBindFish's startPos and TargetPos;
+    */
 }
 
 void GameScene::sendGameStateOverNetwork()
@@ -556,6 +564,9 @@ void GameScene::sendGameStateOverNetwork()
     gameState.score = this->score;
     gameState.gameOver = this->gameIsOver;
     gameState.jellyPos = this->jellyfish->getPosition();
+    //pass the blindFish's startPos and targetPos to the peerBlindFish like this
+      //gameState.peerBlindFishStartPos = this->blindFish->getBlindFishStartPos();
+      //gameState.peerBlindFishTargetPos = this->blindFish->getBlindFishTargetPos();
 
     std::string json = JSONPacker::packGameState(gameState);
 

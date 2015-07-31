@@ -20,7 +20,10 @@ namespace JSONPacker
         bool gameOver;
         int score;
         cocos2d::Vec2 jellyPos;
+        cocos2d::Vec2 blindFishStartPos;
+        cocos2d::Vec2 blindFishTargetPos;
     };
+
     GameState unpackGameStateJSON(std::string json);
     std::string packGameState(const GameState data);
 }
