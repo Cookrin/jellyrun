@@ -11,6 +11,7 @@
 #include "json/document.h"
 #include "json/writer.h"
 #include "json/stringbuffer.h"
+#include "Constants.h"
 
 using namespace cocos2d;
 
@@ -52,6 +53,39 @@ namespace JSONPacker
         rapidjson::Value& jellyPos = document["jellyPos"];
         gameState.jellyPos = Vec2(jellyPos["x"].GetDouble(), jellyPos["y"].GetDouble());
 
+        /*unpack peerBlindFishStartPos and peerBlindFishTargetPos
+        
+        */
         return gameState;
     }
+/*
+    std::string packFishState(const FishState fishState)
+    {
+        rapidjson::Document document;
+        document.SetObject();
+
+        //pack PeerBlindFishStartPos and peerBlindFishTargetPos
+
+        rapidjson::Value index(rapidjson::kArrayType);
+        for (int index = 0; index < gameState.blindFishStartPoses.size(); ++index)
+        {
+        rapidjson::Value blindFishStartPoses(rapidjson::kArrayType);
+        Vec2 startPos = gameState.blindFishStartPoses[index];
+
+         rapidjson::Value startPosJson(rapidjson::kObjectType);
+         startPosJson.AddMember("x", startPos.x, document.GetAllocator());
+         startPosJson.AddMember("y", startPos.y, document.GetAllocator());
+         
+         startPos.PushBack(startPosJson, document.GetAllocator());
+         }
+
+        rapidjson::StringBuffer buffer;
+        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+        document.Accept(writer);
+        
+        std::string returnString(buffer.GetString(), buffer.Size());
+        return returnString;
+    }
+
+    */
 }

@@ -15,6 +15,7 @@
 using namespace cocos2d;
 
 class PeerJelly;
+class BlindFish;
 
 class GameScene : public cocos2d::Node
 {
@@ -23,7 +24,10 @@ public:
     void setNetworkedSession(bool networkedSession, bool isHost);
     void receivedData(const void* data, unsigned long length);
     void sendGameStateOverNetwork();
+    void sendFishStateOverNetwork();
+
     PeerJelly* peerJelly;
+    BlindFish* blindFish;
 
 private:
 
@@ -41,7 +45,6 @@ protected:
     float fishWidth;
     float fishHeight;
     cocos2d::Sprite* jellyfish;
-    cocos2d::Sprite* blindFish;
     cocos2d::Sprite* fish;
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
@@ -73,8 +76,6 @@ protected:
     void setBlindFishMove(float dt);
     bool checkIfFishHitJelly(Sprite *jellyfish, Sprite *fish);
     cocos2d::Vector<Sprite*> getBlindFishGroup();
-    Vec2 getBlindFishStartPos(int blindFishRand, int index);
-    Vec2 getBlindFishTargetPos(int blindFishRand, int index);
     void rotateJelly();
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
 

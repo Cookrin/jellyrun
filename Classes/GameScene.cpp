@@ -19,6 +19,7 @@
 #include "UserDataManager.h"
 #include "JSONPacker.h"
 #include "PeerJelly.h"
+#include "BlindFish.h"
 
 using namespace cocos2d;
 
@@ -32,15 +33,6 @@ bool GameScene::init()
         return false;
     }
     currentTouchPos = Vec2::ZERO;
-
-    // Create the blindFishGroup for blindFish movement from four directions
-    for (int index=0; index < 10; ++index)
-    {
-        blindFish = Fish::create();
-        blindFish->setAnchorPoint(Vec2(0.0f, 0.0f));
-        blindFish->setScale(FISH_SCALE);
-        blindFishGroup.pushBack(blindFish);
-    }
 
     this->score = 0;
     isTouchDown = false;
@@ -58,15 +50,6 @@ void GameScene::onEnter()
 {
     Node::onEnter();
     visibleSize = Director::getInstance()->getVisibleSize();
-
-    // setup fish
-    fish = Fish::create();
-    fish->setAnchorPoint(Vec2(0.0f, 0.0f));
-    fish->setScale(FISH_SCALE);
-    Rect fishRect = fish->boundingBox();
-    fishWidth = fishRect.size.width;
-    fishHeight = fishRect.size.height;
-    //CCLOG("fish width and Height=%f,%f",fishWidth,fishHeight);
 
     // setup background
     InfiniteParallaxNode* groundNode = InfiniteParallaxNode::create();
@@ -228,24 +211,26 @@ void GameScene::update(float dt)
         }
     }
 
+    // If blindFish hits Jellyfish, game over
     Vector<Sprite*> blindFishes = this->getBlindFishGroup();
     int i = 0;
     for (auto blindFish:blindFishes)
     {
         i++;
-        fishPos = blindFish->getPosition();
         fishHitJelly = this->checkIfFishHitJelly(jellyfish, blindFish);
         if (fishHitJelly == true)
         {
             this->gameOver();
         }
     }
-    //auto followAction = Follow::create(jellyfish);
-    //this->runAction(followAction);
+
+    // Multi-background moves
     InfiniteParallaxNode* groundNode = (InfiniteParallaxNode*)this->getChildByName("groundNode");
     Vec2 scrollDecrement = Vec2(-1.0f, 0.0f);
     groundNode->setPosition(groundNode->getPosition() + scrollDecrement);
     groundNode->updatePosition();
+
+    // Update the score
     scoreDistance += 1.0f;
     if ( scoreDistance >= 60.0f )
     {
@@ -430,68 +415,24 @@ bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
     }
 }
 
-Vec2 GameScene::getBlindFishStartPos(int blindFishRand, int index)
-{
-    Vec2 fishPos;
-    if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
-    {
-        fishPos =  fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height * 1.0f);;
-    }
-    else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
-    {
-        fishPos = fishPos = Vec2(visibleSize.width * index / 10.0f, fishHeight * (-1.0f));
-    }
-    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
-    {
-        fishPos = Vec2(fishWidth * (-1.0f), visibleSize.height * (index - 1) / 4.0f );
-    }
-    else //blindFishSide = "fromRight"
-    {
-        fishPos = Vec2(visibleSize.width * 1.0f, visibleSize.height * (index - 1) / 4.0f );
-    }
-        return fishPos;
-}
-
-Vec2 GameScene::getBlindFishTargetPos(int blindFishRand, int index)
-{
-    Vec2 fishPos;
-    if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
-    {
-        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, fishHeight * (-1.0f));
-    }
-    else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
-    {
-        fishPos = Vec2(visibleSize.width *(index) / 10.0f, visibleSize.height);
-    }
-    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
-    {
-        fishPos = Vec2(visibleSize.width * 1.0f, visibleSize.height * (index - 1) / 4.0f );
-    }
-    else //blindFishSide = "fromRight"
-    {
-        fishPos = Vec2(fishWidth * (-1.0f), visibleSize.height * (index - 1) / 4.0f );
-    }
-    return fishPos;
-}
-
 void GameScene::setBlindFishMove(float dt)
 {
-    Vec2 blindFishStartPos;
     Vec2 blindFishTargetPos;
+    int fishGroupSize = rand()%10;
 
-    Vector<Sprite*> blindFishes = this->getBlindFishGroup();
-    int index = 0;
-    for (auto blindFish:blindFishes)
+    // Create the blindFishGroup for blindFish movement from four directions
+    for (int index=0; index < fishGroupSize; ++index)
     {
-        index++;
         int blindFishRand = rand()%10;
-        blindFishStartPos = this->getBlindFishStartPos(blindFishRand, index);
-        blindFishTargetPos = this->getBlindFishTargetPos(blindFishRand, index);
-        blindFish->setPosition(blindFishStartPos);
-        this->blindFishRotation(blindFish, blindFishRand);
-        blindFish->retain();
-        blindFish->removeFromParent();
+        this->blindFish = BlindFish::create();
+        this->blindFish->setAnchorPoint(Vec2(0.0f, 0.0f));
+        this->blindFish->setScale(FISH_SCALE);
+        this->blindFish->blindFishRotation(blindFishRand);
+        this->blindFish->setBlindFishStartPos(visibleSize, blindFishRand, index);
         this->addChild(blindFish);
+        blindFishGroup.pushBack(blindFish);
+
+        blindFishTargetPos = this->blindFish->getBlindFishTargetPos(visibleSize, blindFishRand, index);
         auto moveFishAction = MoveTo::create(3.0f, blindFishTargetPos);
         auto fishSequence = Sequence::create(
                                              DelayTime::create(rand()%2),
@@ -505,28 +446,6 @@ void GameScene::rotateJelly()
 {
     auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180.0f/3.1415926f+90.0f);
 jellyfish->runAction(rotateBy);
-}
-
-void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
-{
-    if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
-    {
-        blindFish->runAction(RotateTo::create(0.05f, 180.0f));
-    }
-    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
-    {
-        auto leftFishAct1 = RotateTo::create(0.05f, 270.0f);
-        auto leftFishAct2 = FlipX::create(true);
-        auto leftFishSpawn = Spawn::create(
-                                            leftFishAct1,
-                                            leftFishAct2,
-                                            NULL);
-        blindFish->runAction(leftFishSpawn);
-    }
-    else if ( blindFishRand == 6 || blindFishRand == 7)//blindFishSide = "fromRight"
-    {
-        blindFish->runAction(RotateBy::create(0.05f, 90.0f));
-    }
 }
 
 #pragma mark -
@@ -564,11 +483,15 @@ void GameScene::sendGameStateOverNetwork()
     gameState.score = this->score;
     gameState.gameOver = this->gameIsOver;
     gameState.jellyPos = this->jellyfish->getPosition();
-    //pass the blindFish's startPos and targetPos to the peerBlindFish like this
-      //gameState.peerBlindFishStartPos = this->blindFish->getBlindFishStartPos();
-      //gameState.peerBlindFishTargetPos = this->blindFish->getBlindFishTargetPos();
 
     std::string json = JSONPacker::packGameState(gameState);
 
     SceneManager::getInstance()->sendData(json.c_str(), json.length());
+}
+
+void GameScene::sendFishStateOverNetwork()
+{
+    //pass the blindFish's startPos and targetPos to the peerBlindFish like this
+    //fishState.blindFishStartPoses = this->blindFish->getBlindFishStartPoses();
+    //fishState.blindFishTargetPoses = this->blindFish->getBlindFishTargetPoses();
 }

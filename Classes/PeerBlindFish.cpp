@@ -27,10 +27,12 @@ bool PeerBlindFish::init()
 
 void PeerBlindFish::setPeerBlindFishStartPos(JSONPacker::GameState state)
 {
+    //Vector<Vec2> peerBlindFishStartPos = state.peerBlindFishStartPos;
 }
 
 void PeerBlindFish::setPeerBlindFishTargetPos(JSONPacker::GameState state)
 {
+    
 }
 
 void PeerBlindFish::setPeerBlindFishToMove(float dt)
