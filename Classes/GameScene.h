@@ -14,6 +14,8 @@
 
 using namespace cocos2d;
 
+class PeerJelly;
+
 class GameScene : public cocos2d::Node
 {
 public:
@@ -21,6 +23,7 @@ public:
     void setNetworkedSession(bool networkedSession);
     void receivedData(const void* data, unsigned long length);
     void sendGameStateOverNetwork();
+    PeerJelly* peerJelly;
 
 private:
 
@@ -42,12 +45,16 @@ protected:
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
     bool gameIsOver;
-    Sprite *darkBG1;
-    Sprite *darkBG2;
-    Sprite *lightBG1;
-    Sprite *lightBG2;
-    Sprite *plantBG1;
-    Sprite *plantBG2;
+    Sprite *shipwreckBG1;
+    Sprite *shipwreckBG2;
+    Sprite *underwaterBG1;
+    Sprite *underwaterBG2;
+    Sprite *rockBG1;
+    Sprite *rockBG2;
+    Sprite *aquaticBG1;
+    Sprite *aquaticBG2;
+    Sprite *coralBG1;
+    Sprite *coralBG2;
 
     bool init() override;
     void onEnter() override;

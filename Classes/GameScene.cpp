@@ -18,6 +18,7 @@
 #include "InfiniteParallaxNode.h"
 #include "UserDataManager.h"
 #include "JSONPacker.h"
+#include "PeerJelly.h"
 
 using namespace cocos2d;
 
@@ -68,73 +69,118 @@ void GameScene::onEnter()
     InfiniteParallaxNode* groundNode = InfiniteParallaxNode::create();
     this->addChild(groundNode, 0, "groundNode");
     
-    lightBG1 = Sprite::create("light.png");
-    lightBG1->setAnchorPoint(Vec2(0.0f,0.0f));
-    lightBG1->setOpacity(255 * 0.5);
+    underwaterBG1 = Sprite::create("Underwater.png");
+    underwaterBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+    underwaterBG1->setOpacity(255 * 1.0);
 
-    lightBG2 = Sprite::create("light.png");
-    lightBG2->setAnchorPoint(Vec2(0.0f,0.0f));
-    lightBG2->setOpacity(255 * 0.5);
+    underwaterBG2 = Sprite::create("Underwater.png");
+    underwaterBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+    underwaterBG2->setOpacity(255 * 1.0);
 
-    darkBG1 = Sprite::create("dark.png");
-    darkBG1->setAnchorPoint(Vec2(0.0f,0.0f));
-    darkBG1->setOpacity(255 * 0.5);
+    shipwreckBG1 = Sprite::create("Shipwreck.png");
+    shipwreckBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+    shipwreckBG1->setOpacity(255 * 1.0);
 
-    darkBG2 = Sprite::create("dark.png");
-    darkBG2->setAnchorPoint(Vec2(0.0f,0.0f));
-    darkBG2->setOpacity(255 * 0.5);
+    shipwreckBG2 = Sprite::create("Shipwreck.png");
+    shipwreckBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+    shipwreckBG2->setOpacity(255 * 1.0);
 
-    plantBG1 = Sprite::create("Plant.png");
-    plantBG1->setAnchorPoint(Vec2(0.0f,0.0f));
-    plantBG1->setScale(0.3f, 0.3f);
-    plantBG2 = Sprite::create("Plant.png");
-    plantBG2->setAnchorPoint(Vec2(0.0f,0.0f));
-    plantBG2->setScale(0.4f, 0.4f);
+    rockBG1 = Sprite::create("Rock.png");
+    rockBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+    rockBG1->setOpacity(255 * 1.0);
+
+    rockBG2 = Sprite::create("Rock.png");
+    rockBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+    rockBG2->setOpacity(255 * 1.0);
+
+    aquaticBG1 = Sprite::create("Aquatic.png");
+    aquaticBG1->setAnchorPoint(Vec2(0.0f,0.0f));
+
+    aquaticBG2 = Sprite::create("Aquatic.png");
+    aquaticBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+
+    coralBG1 = Sprite::create("Coral.png");
+    coralBG1->setAnchorPoint(Vec2(0.0f,0.0f));
     
-    Size darkBGSize = darkBG1->getContentSize();
-    Size lightBGSize = lightBG1->getContentSize();
-    
-    //auto *waterBG = Sprite::create("waterBackground.png");
-    //waterBG->setAnchorPoint(Vec2(0.0f,0.0f));
-    
+    coralBG2 = Sprite::create("Coral.png");
+    coralBG2->setAnchorPoint(Vec2(0.0f,0.0f));
+
+    Size shipwreckBGSize = shipwreckBG1->getContentSize();
+    Size lightBGSize = underwaterBG1->getContentSize();
+    Size rockSize = rockBG1 ->getContentSize();
+
     // addChild(Node * child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
     groundNode->addChild(
-                         lightBG1,
+                         underwaterBG1,
                          // Set z-index
-                         3,
+                         0,
                          // Set ration
-                         Vec2(2.0f, 0.0f),
+                         Vec2(0.5f, 0.0f),
                          // Set position
-                         Vec2((2.0f), 0.0f));
+                         Vec2((0.0f), 0.0f)
+                         );
     groundNode->addChild(
-                         lightBG2,
+                         underwaterBG2,
                          // Set z-index
-                         3,
+                         0,
                          // Set ration
-                         Vec2(2.0f, 0.0f),
+                         Vec2(0.5f, 0.0f),
                          // Set position
-                         Vec2(lightBGSize.width, 0.0f));
+                         Vec2(visibleSize.width, 0.0f)
+                         );
     groundNode->addChild(
-                         darkBG1,
+                         shipwreckBG1,
                          1,
                          Vec2(1.0f, 0.0f),
-                         Vec2((2.0f), 0.0f));
+                         Vec2(visibleSize.width * 0.3f, visibleSize.width * 0.03f)
+                         );
     groundNode->addChild(
-                         darkBG2,
+                         shipwreckBG2,
                          1,
                          Vec2(1.0f, 0.0f),
-                         Vec2(darkBGSize.width, 0.0f));
+                         Vec2(visibleSize.width * 1.3f, visibleSize.width * 0.03f)
+                         );
     groundNode->addChild(
-                         plantBG1,
+                         rockBG1,
+                         // Set z-index
                          2,
-                         Vec2(3.0f, 0.0f),
+                         // Set ration
+                         Vec2(2.0f, 0.0f),
+                         // Set position
+                         Vec2(0.0f, 0.0f)
+                         );
+    groundNode->addChild(
+                         rockBG2,
+                         // Set z-index
+                         2,
+                         // Set ration
+                         Vec2(2.0f, 0.0f),
+                         // Set position
+                         Vec2(rockSize.width, 0.0f)
+                         );
+    groundNode->addChild(
+                         aquaticBG1,
+                         3,
+                         Vec2(2.5f, 0.0f),
                          Vec2(0.0f, 0.0f));
     groundNode->addChild(
-                         plantBG2,
-                         2,
-                         Vec2(3.0f, 0.0f),
-                         Vec2(visibleSize.width, 0.0f));
-    
+                         aquaticBG2,
+                         3,
+                         Vec2(2.5f, 0.0f),
+                         Vec2(visibleSize.width, 0.0f)
+                         );
+    groundNode->addChild(
+                         coralBG1,
+                         3,
+                         Vec2(2.5f, 0.0f),
+                         Vec2(0.0f, 0.0f));
+    groundNode->addChild(
+                         coralBG2,
+                         3,
+                         Vec2(2.5f, 0.0f),
+                         Vec2(visibleSize.width, 0.0f)
+                         );
+
     // setup jellyfish
     jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -146,7 +192,16 @@ void GameScene::onEnter()
     //CCLOG("jelly width and Height=%f,%f",jellyWidth,jellyHeight);
     this->addChild(jellyfish);
 
-    
+    if (this->networkedSession)
+    {
+        // setup Peer's jellyfish
+        peerJelly = PeerJelly::create();
+        peerJelly->setAnchorPoint(Vec2(0.5f, 0.5f));
+        peerJelly->setScale(JELLY_SCALE);
+        peerJelly->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
+        this->addChild(peerJelly);
+    }
+
     this->setupUI();
     this->setupTouchHanding();
     this->setGameActive(true);
@@ -194,6 +249,11 @@ void GameScene::update(float dt)
         score ++;
         this->updateScoreLabel(score);
         scoreDistance = 0.0f;
+    }
+
+    if (this->networkedSession)
+    {
+        this->sendGameStateOverNetwork();
     }
 }
 
@@ -324,7 +384,7 @@ void GameScene::setBlindFishMove(float dt)
         blindFish->retain();
         blindFish->removeFromParent();
         this->addChild(blindFish);
-        auto moveFishAction = MoveTo::create(2.0f, blindFishTargetPos);
+        auto moveFishAction = MoveTo::create(3.0f, blindFishTargetPos);
         auto fishSequence = Sequence::create(
             DelayTime::create(rand()%2),
             moveFishAction,
@@ -352,19 +412,26 @@ void GameScene::gameOver()
     this->gameIsOver = true;
     this->setGameActive(false);
 
-    //set the best score if score is over record
-    if (score > bestScore)
+    if (this->networkedSession)
     {
-        bestScore = score;
-        UserDataManager::getInstance()->setBestScore(bestScore);
+        this->sendGameStateOverNetwork();
     }
+    else
+    {
+        //set the best score if score is over record
+        if (score > bestScore)
+        {
+            bestScore = score;
+            UserDataManager::getInstance()->setBestScore(bestScore);
+        }
 
-    //set the death time
-    totalDeathTime ++;
-    UserDataManager::getInstance()->setDeathTime(totalDeathTime);
+        //set the death time
+        totalDeathTime ++;
+        UserDataManager::getInstance()->setDeathTime(totalDeathTime);
 
-    //enter the GameOverScene
-    SceneManager::getInstance()->enterGameOver(score, bestScore, totalDeathTime);
+        //enter the GameOverScene
+        SceneManager::getInstance()->enterGameOver(score, bestScore, totalDeathTime);
+    }
 }
 
 Vector<Sprite*> GameScene::getBlindFishGroup()
@@ -392,11 +459,11 @@ Vec2 GameScene::getBlindFishStartPos(int blindFishRand, int index)
     Vec2 fishPos;
     if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
     {
-        fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height * 1.0f);
+        fishPos =  fishPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height * 1.0f);;
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        fishPos = Vec2(visibleSize.width *(index) / 10.0f, fishHeight * (-1.0f));
+        fishPos = fishPos = Vec2(visibleSize.width * index / 10.0f, fishHeight * (-1.0f));
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
     {
@@ -464,25 +531,33 @@ void GameScene::blindFishRotation(Sprite* blindFish, int blindFishRand)
 
 void GameScene::setNetworkedSession(bool networkedSession)
 {
-    networkedSession = networkedSession;
+    this->networkedSession = networkedSession;
 }
 
 void GameScene::receivedData(const void* data, unsigned long length)
 {
     const char* cstr = static_cast<const char*>(data);
     std::string json = std::string(cstr, length);
-    JSONPacker::GameState gameState = JSONPacker::unpackGameStateJSON(json);
+    JSONPacker::GameState state = JSONPacker::unpackGameStateJSON(json);
+    
+    if (state.gameOver)
+    {
+        this->gameOver();
+    }
+
+    this->peerJelly->setJellyPos(state);
 }
 
 void GameScene::sendGameStateOverNetwork()
 {
-    JSONPacker::GameState state;
+    JSONPacker::GameState gameState;
 
-    state.name = NetworkingWrapper::getDeviceName();
-    state.score = this->score;
-    state.gameOver = this->gameIsOver;
+    gameState.name = NetworkingWrapper::getDeviceName();
+    gameState.score = this->score;
+    gameState.gameOver = this->gameIsOver;
+    gameState.jellyPos = this->jellyfish->getPosition();
 
-    std::string json = JSONPacker::packGameState(state);
+    std::string json = JSONPacker::packGameState(gameState);
 
     SceneManager::getInstance()->sendData(json.c_str(), json.length());
 }

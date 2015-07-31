@@ -25,6 +25,11 @@ namespace JSONPacker
         document.AddMember("name", gameState.name.c_str(), document.GetAllocator());
         document.AddMember("gameOver", gameState.gameOver, document.GetAllocator());
 
+        rapidjson::Value jellyPos(rapidjson::kObjectType);
+        jellyPos.AddMember("x", gameState.jellyPos.x, document.GetAllocator());
+        jellyPos.AddMember("y", gameState.jellyPos.y, document.GetAllocator());
+        document.AddMember("jellyPos", jellyPos, document.GetAllocator());
+
         rapidjson::StringBuffer buffer;
         rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
         document.Accept(writer);
@@ -43,6 +48,9 @@ namespace JSONPacker
         gameState.score = document["score"].GetInt();
         gameState.name = document["name"].GetString();
         gameState.gameOver = document["gameOver"].GetBool();
+
+        rapidjson::Value& jellyPos = document["jellyPos"];
+        gameState.jellyPos = Vec2(jellyPos["x"].GetDouble(), jellyPos["y"].GetDouble());
 
         return gameState;
     }

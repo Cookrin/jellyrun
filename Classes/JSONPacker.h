@@ -19,25 +19,9 @@ namespace JSONPacker
         std::string name;
         bool gameOver;
         int score;
+        cocos2d::Vec2 jellyPos;
     };
-
-    struct JellyState
-    {
-        cocos2d::Vec2 jellyStartPos;
-        cocos2d::Vec2 jellyTargetPos;
-        //cocos2d::Vec2 jellyRotation;
-    };
-
-    struct FishState
-    {
-        std::vector<cocos2d::Vec2> fishStartPos;
-        std::vector<cocos2d::Vec2> fishTargetPos;
-    };
-
     GameState unpackGameStateJSON(std::string json);
-    JellyState unpackJellyStateJSON(std::string json);
-    FishState unpackFishState(std::string json);
-
     std::string packGameState(const GameState data);
 }
 

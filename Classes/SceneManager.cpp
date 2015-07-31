@@ -95,6 +95,10 @@ void SceneManager::sendData(const void *data, unsigned long length)
 
 void SceneManager::receivedData(const void *data, unsigned long length)
 {
+    if (_gameScene)
+    {
+        _gameScene->receivedData(data, length);
+    }
 }
 
 void SceneManager::stateChanged(ConnectionState state)

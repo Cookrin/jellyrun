@@ -82,6 +82,8 @@
 		F848EF7E1B68A27B0017C430 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F848EF7D1B68A27B0017C430 /* CoreMotion.framework */; };
 		F848EF8F1B6974F00017C430 /* JSONPacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF8D1B6974F00017C430 /* JSONPacker.cpp */; };
 		F848EF901B6974F00017C430 /* JSONPacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF8D1B6974F00017C430 /* JSONPacker.cpp */; };
+		F848EF941B6AACB00017C430 /* PeerJelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF921B6AACB00017C430 /* PeerJelly.cpp */; };
+		F848EF951B6AACB00017C430 /* PeerJelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF921B6AACB00017C430 /* PeerJelly.cpp */; };
 		F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
@@ -197,6 +199,8 @@
 		F848EF7D1B68A27B0017C430 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		F848EF8D1B6974F00017C430 /* JSONPacker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONPacker.cpp; sourceTree = "<group>"; };
 		F848EF8E1B6974F00017C430 /* JSONPacker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONPacker.h; sourceTree = "<group>"; };
+		F848EF921B6AACB00017C430 /* PeerJelly.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeerJelly.cpp; sourceTree = "<group>"; };
+		F848EF931B6AACB00017C430 /* PeerJelly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerJelly.h; sourceTree = "<group>"; };
 		F87E55BB1B595EC10022CAC8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfiniteParallaxNode.cpp; sourceTree = "<group>"; };
 		F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteParallaxNode.h; sourceTree = "<group>"; };
@@ -434,6 +438,8 @@
 				F80061111B59C39E00EE5B63 /* Fish.h */,
 				F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */,
 				F8F253B01B55744C00D1B95F /* Jellyfish.h */,
+				F848EF921B6AACB00017C430 /* PeerJelly.cpp */,
+				F848EF931B6AACB00017C430 /* PeerJelly.h */,
 			);
 			name = "Game Sprites";
 			sourceTree = "<group>";
@@ -609,6 +615,7 @@
 				F80061121B59C39E00EE5B63 /* Fish.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */,
+				F848EF941B6AACB00017C430 /* PeerJelly.cpp in Sources */,
 				F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,
 				F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -631,6 +638,7 @@
 				F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,
 				F848EF901B6974F00017C430 /* JSONPacker.cpp in Sources */,
 				F8CBDEA41B66DC5100475627 /* UserDataManager.cpp in Sources */,
+				F848EF951B6AACB00017C430 /* PeerJelly.cpp in Sources */,
 				F848EF631B67FCE10017C430 /* NetworkManager.mm in Sources */,
 				F83EC91C1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
