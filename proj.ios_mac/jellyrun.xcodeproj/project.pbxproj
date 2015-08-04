@@ -84,8 +84,6 @@
 		F848EF901B6974F00017C430 /* JSONPacker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF8D1B6974F00017C430 /* JSONPacker.cpp */; };
 		F848EF941B6AACB00017C430 /* PeerJelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF921B6AACB00017C430 /* PeerJelly.cpp */; };
 		F848EF951B6AACB00017C430 /* PeerJelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF921B6AACB00017C430 /* PeerJelly.cpp */; };
-		F848EF991B6BDD900017C430 /* PeerBlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF971B6BDD900017C430 /* PeerBlindFish.cpp */; };
-		F848EF9A1B6BDD900017C430 /* PeerBlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF971B6BDD900017C430 /* PeerBlindFish.cpp */; };
 		F848EF9D1B6C06C50017C430 /* BlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF9B1B6C06C50017C430 /* BlindFish.cpp */; };
 		F848EF9E1B6C06C50017C430 /* BlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF9B1B6C06C50017C430 /* BlindFish.cpp */; };
 		F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
@@ -205,8 +203,6 @@
 		F848EF8E1B6974F00017C430 /* JSONPacker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONPacker.h; sourceTree = "<group>"; };
 		F848EF921B6AACB00017C430 /* PeerJelly.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeerJelly.cpp; sourceTree = "<group>"; };
 		F848EF931B6AACB00017C430 /* PeerJelly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerJelly.h; sourceTree = "<group>"; };
-		F848EF971B6BDD900017C430 /* PeerBlindFish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeerBlindFish.cpp; sourceTree = "<group>"; };
-		F848EF981B6BDD900017C430 /* PeerBlindFish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerBlindFish.h; sourceTree = "<group>"; };
 		F848EF9B1B6C06C50017C430 /* BlindFish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlindFish.cpp; sourceTree = "<group>"; };
 		F848EF9C1B6C06C50017C430 /* BlindFish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlindFish.h; sourceTree = "<group>"; };
 		F87E55BB1B595EC10022CAC8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -418,11 +414,11 @@
 				F83EC91D1B548C4000C4699D /* GameScene.cpp */,
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
 				F8CBDE921B629C6100475627 /* GameOverScene.cpp */,
+				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
+				F83EC9271B54D26F00C4699D /* SceneManager.h */,
 				F8CBDE931B629C6100475627 /* GameOverScene.h */,
 				F83EC9191B548A6A00C4699D /* Lobby.cpp */,
 				F83EC91A1B548A6A00C4699D /* Lobby.h */,
-				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
-				F83EC9271B54D26F00C4699D /* SceneManager.h */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -448,8 +444,6 @@
 				F8F253B01B55744C00D1B95F /* Jellyfish.h */,
 				F848EF921B6AACB00017C430 /* PeerJelly.cpp */,
 				F848EF931B6AACB00017C430 /* PeerJelly.h */,
-				F848EF971B6BDD900017C430 /* PeerBlindFish.cpp */,
-				F848EF981B6BDD900017C430 /* PeerBlindFish.h */,
 				F848EF9B1B6C06C50017C430 /* BlindFish.cpp */,
 				F848EF9C1B6C06C50017C430 /* BlindFish.h */,
 			);
@@ -629,7 +623,6 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */,
 				F848EF941B6AACB00017C430 /* PeerJelly.cpp in Sources */,
-				F848EF991B6BDD900017C430 /* PeerBlindFish.cpp in Sources */,
 				F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,
 				F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -643,7 +636,6 @@
 			files = (
 				F848EF9E1B6C06C50017C430 /* BlindFish.cpp in Sources */,
 				F80061131B59C39E00EE5B63 /* Fish.cpp in Sources */,
-				F848EF9A1B6BDD900017C430 /* PeerBlindFish.cpp in Sources */,
 				F848EF611B67FCE10017C430 /* NetworkingWrapper.mm in Sources */,
 				F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */,
 				F8CBDE951B629C6100475627 /* GameOverScene.cpp in Sources */,

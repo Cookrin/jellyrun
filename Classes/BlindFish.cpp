@@ -26,7 +26,10 @@ bool BlindFish::init()
     blindFishWidth = blindFishRect.size.width;
 }
 
-void BlindFish::setBlindFishStartPos(const Size visibleSize, int blindFishRand, int index)
+#pragma mark -
+#pragma mark Public Methods
+
+Vec2 BlindFish::getBlindFishStartPos(const Size visibleSize, int blindFishRand, int index)
 {
     Vec2 startPos;
 
@@ -46,7 +49,7 @@ void BlindFish::setBlindFishStartPos(const Size visibleSize, int blindFishRand, 
     {
         startPos = Vec2(visibleSize.width, visibleSize.height * (index - 1) / 4.0f );
     }
-    this->setPosition(startPos);
+    return startPos;
 }
 
 Vec2 BlindFish::getBlindFishTargetPos(const Size visibleSize, int blindFishRand, int index)

@@ -11,28 +11,34 @@
 
 #include "cocos2d.h"
 #include "CocosGUI.h"
+#include "JSONPacker.h"
+#include "Jellyfish.h"
+#include "BlindFish.h"
 
 using namespace cocos2d;
 
 class PeerJelly;
 class BlindFish;
+class Jellyfish;
 
 class GameScene : public cocos2d::Node
 {
 public:
     CREATE_FUNC(GameScene);
     void setNetworkedSession(bool networkedSession, bool isHost);
-    void receivedData(const void* data, unsigned long length);
+    void receivedGameStateData(const void* data, unsigned long length);
+    void receivedFishStateData(const void* data, unsigned long length);
     void sendGameStateOverNetwork();
     void sendFishStateOverNetwork();
-
+    
+    Jellyfish* jellyfish;
     PeerJelly* peerJelly;
     BlindFish* blindFish;
 
 private:
 
 protected:
-    bool networkedSession;
+    bool networked;
     bool _isHost;
     Vec2 initialTouchPos;
     Vec2 currentTouchPos;
@@ -44,7 +50,6 @@ protected:
     float jellyHeight;
     float fishWidth;
     float fishHeight;
-    cocos2d::Sprite* jellyfish;
     cocos2d::Sprite* fish;
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
@@ -67,6 +72,7 @@ protected:
     void gameOver();
 
     ui::Text* scoreLabel;
+    ui::Text* peerScoreLabel;
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
     void updateScoreLabel(int score);
@@ -76,13 +82,28 @@ protected:
     void setBlindFishMove(float dt);
     bool checkIfFishHitJelly(Sprite *jellyfish, Sprite *fish);
     cocos2d::Vector<Sprite*> getBlindFishGroup();
-    void rotateJelly();
+    std::vector<Vec2> getBlindFishStartPoses();
+    std::vector<Vec2> blindFishStartPoses;
+    std::vector<Vec2> getBlindFishTargetPoses();
+    std::vector<Vec2> blindFishTargetPoses;
+    std::vector<Vec2> getPeerBlindFishStartPoses();
+    std::vector<Vec2> peerBlindFishStartPoses;
+    std::vector<Vec2> getPeerBlindFishTargetPoses();
+    std::vector<Vec2> peerBlindFishTargetPoses;
+
+    void rotateJelly(Vec2 touchPos);
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
 
     int score;
     int scoreDistance;
     int bestScore;
+    int multiBestScore;
     int totalDeathTime;
+
+    int myScore;
+    int getMyScore();
+    int peerScore;
+    void setPeerScore(JSONPacker::GameState gameState);
 };
 
 #endif /* defined(__jellyrun__GameScene__) */
