@@ -195,6 +195,7 @@ void GameScene::setupTouchHanding()
 
         // rotate jellyfish when it is touched to move
         this->jellyfish->rotateJelly(touchPos);
+
         isTouchDown = true;
 
         return true;
@@ -333,7 +334,7 @@ void GameScene::setBlindFishMove(float dt)
 {
     Vec2 blindFishStartPos;
     Vec2 blindFishTargetPos;
-    int fishGroupSize = rand()%10;
+    int fishGroupSize = rand()%12;
     
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < fishGroupSize; ++index)

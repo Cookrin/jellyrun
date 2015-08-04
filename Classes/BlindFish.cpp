@@ -35,11 +35,11 @@ Vec2 BlindFish::getBlindFishStartPos(const Size visibleSize, int blindFishRand, 
 
     if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
     {
-        startPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height * 0.88f);;
+        startPos = Vec2(visibleSize.width *(index-1) / 8.0f, visibleSize.height * 0.88f);;
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        startPos = Vec2(visibleSize.width * index / 10.0f, visibleSize.height * 0.12f);
+        startPos = Vec2(visibleSize.width * index / 8.0f, visibleSize.height * 0.12f);
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft" and can not be seen before moving
     {
@@ -57,11 +57,11 @@ Vec2 BlindFish::getBlindFishTargetPos(const Size visibleSize, int blindFishRand,
     Vec2 targetPos;
     if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
     {
-        targetPos = Vec2(visibleSize.width *(index-1) / 10.0f, blindFishHeight * (-1.0f));
+        targetPos = Vec2(visibleSize.width *(index-1) / 8.0f, blindFishHeight * (-1.0f));
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        targetPos = Vec2(visibleSize.width *(index) / 10.0f, visibleSize.height);
+        targetPos = Vec2(visibleSize.width *(index) / 8.0f, visibleSize.height);
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
     {
