@@ -139,7 +139,12 @@ void SceneManager::receivedData(const void *data, unsigned long length)
 {
     if (_gameScene)
     {
-        _gameScene->receivedData(data, length);
+        _gameScene->receivedGameStateData(data, length);
+
+        if (!this->isHost())
+        {
+            _gameScene->receivedFishStateData(data, length);
+        }
     }
 }
 
