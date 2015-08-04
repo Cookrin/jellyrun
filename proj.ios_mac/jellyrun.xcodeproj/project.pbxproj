@@ -86,6 +86,8 @@
 		F848EF951B6AACB00017C430 /* PeerJelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF921B6AACB00017C430 /* PeerJelly.cpp */; };
 		F848EF9D1B6C06C50017C430 /* BlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF9B1B6C06C50017C430 /* BlindFish.cpp */; };
 		F848EF9E1B6C06C50017C430 /* BlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF9B1B6C06C50017C430 /* BlindFish.cpp */; };
+		F88E78501B713DFC0009275C /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F88E784E1B713DFC0009275C /* Background.cpp */; };
+		F88E78511B713DFC0009275C /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F88E784E1B713DFC0009275C /* Background.cpp */; };
 		F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */; };
 		F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
@@ -206,6 +208,8 @@
 		F848EF9B1B6C06C50017C430 /* BlindFish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlindFish.cpp; sourceTree = "<group>"; };
 		F848EF9C1B6C06C50017C430 /* BlindFish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlindFish.h; sourceTree = "<group>"; };
 		F87E55BB1B595EC10022CAC8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		F88E784E1B713DFC0009275C /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
+		F88E784F1B713DFC0009275C /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 		F8CBDE891B614A7700475627 /* InfiniteParallaxNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfiniteParallaxNode.cpp; sourceTree = "<group>"; };
 		F8CBDE8A1B614A7700475627 /* InfiniteParallaxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfiniteParallaxNode.h; sourceTree = "<group>"; };
 		F8CBDE921B629C6100475627 /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameOverScene.cpp; sourceTree = "<group>"; };
@@ -414,9 +418,9 @@
 				F83EC91D1B548C4000C4699D /* GameScene.cpp */,
 				F83EC91E1B548C4000C4699D /* GameScene.h */,
 				F8CBDE921B629C6100475627 /* GameOverScene.cpp */,
+				F8CBDE931B629C6100475627 /* GameOverScene.h */,
 				F83EC9261B54D26F00C4699D /* SceneManager.cpp */,
 				F83EC9271B54D26F00C4699D /* SceneManager.h */,
-				F8CBDE931B629C6100475627 /* GameOverScene.h */,
 				F83EC9191B548A6A00C4699D /* Lobby.cpp */,
 				F83EC91A1B548A6A00C4699D /* Lobby.h */,
 			);
@@ -446,6 +450,8 @@
 				F848EF931B6AACB00017C430 /* PeerJelly.h */,
 				F848EF9B1B6C06C50017C430 /* BlindFish.cpp */,
 				F848EF9C1B6C06C50017C430 /* BlindFish.h */,
+				F88E784E1B713DFC0009275C /* Background.cpp */,
+				F88E784F1B713DFC0009275C /* Background.h */,
 			);
 			name = "Game Sprites";
 			sourceTree = "<group>";
@@ -614,6 +620,7 @@
 				F848EF601B67FCE10017C430 /* NetworkingWrapper.mm in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				F83EC9281B54D26F00C4699D /* SceneManager.cpp in Sources */,
+				F88E78501B713DFC0009275C /* Background.cpp in Sources */,
 				F848EF621B67FCE10017C430 /* NetworkManager.mm in Sources */,
 				F8CBDEA31B66DC5100475627 /* UserDataManager.cpp in Sources */,
 				F83EC91B1B548A6A00C4699D /* Lobby.cpp in Sources */,
@@ -641,6 +648,7 @@
 				F8CBDE951B629C6100475627 /* GameOverScene.cpp in Sources */,
 				F83EC9201B548C4000C4699D /* GameScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				F88E78511B713DFC0009275C /* Background.cpp in Sources */,
 				F83EC9291B54D26F00C4699D /* SceneManager.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				F8CBDE8C1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,

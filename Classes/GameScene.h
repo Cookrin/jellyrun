@@ -14,6 +14,7 @@
 #include "JSONPacker.h"
 #include "Jellyfish.h"
 #include "BlindFish.h"
+#include "Background.h"
 
 using namespace cocos2d;
 
@@ -34,6 +35,7 @@ public:
     Jellyfish* jellyfish;
     PeerJelly* peerJelly;
     BlindFish* blindFish;
+    Background* backgroundNode;
 
 private:
 
@@ -54,16 +56,6 @@ protected:
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
     bool gameIsOver;
-    Sprite *shipwreckBG1;
-    Sprite *shipwreckBG2;
-    Sprite *underwaterBG1;
-    Sprite *underwaterBG2;
-    Sprite *rockBG1;
-    Sprite *rockBG2;
-    Sprite *aquaticBG1;
-    Sprite *aquaticBG2;
-    Sprite *coralBG1;
-    Sprite *coralBG2;
 
     bool init() override;
     void onEnter() override;

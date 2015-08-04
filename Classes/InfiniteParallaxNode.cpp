@@ -26,10 +26,13 @@ InfiniteParallaxNode* InfiniteParallaxNode::create()
 {
     // Create an instance of InfiniteParallaxNode
     InfiniteParallaxNode* node = new InfiniteParallaxNode();
-    if(node) {
+    if(node)
+    {
         // Add it to autorelease pool
         node->autorelease();
-    } else {
+    }
+    else
+    {
         // Otherwise delete
         delete node;
         node = 0;
