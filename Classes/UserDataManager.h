@@ -19,6 +19,9 @@ public:
     int getBestScore();
     void setBestScore(int score);
 
+    int getMultiBestScore();
+    void setMultiBestScore(int score);
+    
     int getDeathTime();
     void setDeathTime(int deathTime);
 
@@ -28,6 +31,7 @@ private:
     static UserDataManager* _instance;
     static const char* BESTSCORE_KEY;
     static const char* DEATHTIME_KEY;
+    static const char* MULTI_BESTSCORE_KEY;
 
     UserDataManager();
     ~UserDataManager();

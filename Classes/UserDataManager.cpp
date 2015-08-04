@@ -15,6 +15,7 @@ using namespace cocos2d;
 UserDataManager* UserDataManager::_instance = nullptr;
 const char* UserDataManager::BESTSCORE_KEY = "bestScore";
 const char* UserDataManager::DEATHTIME_KEY = "totalDeathTime";
+const char* UserDataManager::MULTI_BESTSCORE_KEY = "multiBestScore";
 
 #pragma mark - Lifecycle
 
@@ -44,6 +45,17 @@ int UserDataManager::getBestScore()
 void UserDataManager::setBestScore(int score)
 {
     UserDefault::getInstance()->setIntegerForKey(BESTSCORE_KEY, score);
+    UserDefault::getInstance()->flush();
+}
+
+int UserDataManager::getMultiBestScore()
+{
+    return UserDefault::getInstance()->getIntegerForKey(MULTI_BESTSCORE_KEY, 0);
+}
+
+void UserDataManager::setMultiBestScore(int score)
+{
+    UserDefault::getInstance()->setIntegerForKey(MULTI_BESTSCORE_KEY, score);
     UserDefault::getInstance()->flush();
 }
 

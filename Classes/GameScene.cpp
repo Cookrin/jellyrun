@@ -35,12 +35,14 @@ bool GameScene::init()
     currentTouchPos = Vec2::ZERO;
 
     this->score = 0;
+    this->myScore = 0;
+    this->peerScore = 0;
     isTouchDown = false;
-    this->networkedSession = false;
-    _isHost = true;
+    gameIsOver = false;
 
     this->bestScore = UserDataManager::getInstance()->getBestScore();
     this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();
+    this->multiBestScore = UserDataManager::getInstance()->getMultiBestScore();
     CCLOG("TotalDeathTimebydefault=%int", totalDeathTime);
     scoreDistance = 0.0f;
     return true;
@@ -178,16 +180,15 @@ void GameScene::onEnter()
     //CCLOG("jelly width and Height=%f,%f",jellyWidth,jellyHeight);
     this->addChild(jellyfish);
 
-    if (this->networkedSession)
+    if (this->networked)
     {
         // setup Peer's jellyfish
         peerJelly = PeerJelly::create();
         peerJelly->setAnchorPoint(Vec2(0.5f, 0.5f));
+        peerJelly->setPosition(Vec2(visibleSize.width * 0.1f, visibleSize.height * 0.5f));
         peerJelly->setScale(JELLY_SCALE);
-        peerJelly->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
         this->addChild(peerJelly);
     }
-
     this->setupUI();
     this->setupTouchHanding();
     this->setGameActive(true);
@@ -238,8 +239,9 @@ void GameScene::update(float dt)
         this->updateScoreLabel(score);
         scoreDistance = 0.0f;
     }
+    this->myScore = score;
 
-    if (this->networkedSession)
+    if (this->networked)
     {
         this->sendGameStateOverNetwork();
     }
@@ -266,6 +268,15 @@ void GameScene::setupUI()
     this->scoreLabel->setPosition(Vec2(visibleSize.width*0.01f, visibleSize.height * 1.0f));
     this->scoreLabel->setColor(TITLE_LABEL_COLOR);
     this->addChild(scoreLabel);
+
+    if (networked)
+    {
+        this->peerScoreLabel = ui::Text::create("0", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+        this->peerScoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
+        this->peerScoreLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 1.0f));
+        this->peerScoreLabel->setColor(TITLE_LABEL_COLOR);
+        this->addChild(peerScoreLabel);
+    }
 }
 
 void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType)
@@ -356,10 +367,7 @@ void GameScene::setGameActive(bool active)
     this->active = active;
     if (active)
     {
-        // if host
         this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 3.0f);
-        // else
-            //this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setPeerBlindFishMove), 3.0f);
         this->scheduleUpdate();
     } else
     {
@@ -373,10 +381,22 @@ void GameScene::gameOver()
     this->gameIsOver = true;
     this->setGameActive(false);
 
-    if (this->networkedSession)
+    if (this->networked)
     {
         this->sendGameStateOverNetwork();
+        this->sendFishStateOverNetwork();
+
+        if (score > multiBestScore)
+        {
+            multiBestScore = score;
+            UserDataManager::getInstance()->setMultiBestScore(multiBestScore);
+        }
+        std::string scoreString = StringUtils::toString(score);
+        std::string messageContent = "Your score is " + scoreString + "!";
+        MessageBox(messageContent.c_str(), "Game Over");
+        SceneManager::getInstance()->enterLobby();
     }
+
     else
     {
         //set the best score if score is over record
@@ -385,7 +405,6 @@ void GameScene::gameOver()
             bestScore = score;
             UserDataManager::getInstance()->setBestScore(bestScore);
         }
-
         //set the death time
         totalDeathTime ++;
         UserDataManager::getInstance()->setDeathTime(totalDeathTime);
@@ -415,11 +434,18 @@ bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
     }
 }
 
+void GameScene::rotateJelly()
+{
+    auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180.0f/3.1415926f+90.0f);
+jellyfish->runAction(rotateBy);
+}
+
 void GameScene::setBlindFishMove(float dt)
 {
+    Vec2 blindFishStartPos;
     Vec2 blindFishTargetPos;
     int fishGroupSize = rand()%10;
-
+    
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < fishGroupSize; ++index)
     {
@@ -428,11 +454,32 @@ void GameScene::setBlindFishMove(float dt)
         this->blindFish->setAnchorPoint(Vec2(0.0f, 0.0f));
         this->blindFish->setScale(FISH_SCALE);
         this->blindFish->blindFishRotation(blindFishRand);
-        this->blindFish->setBlindFishStartPos(visibleSize, blindFishRand, index);
+
+        if (this->networked)
+        {
+            if (_isHost)
+            {
+                blindFishStartPos = this->blindFish->getBlindFishStartPos(visibleSize, blindFishRand, index);
+                blindFishTargetPos = this->blindFish->getBlindFishTargetPos(visibleSize, blindFishRand, index);
+                blindFishStartPoses.push_back(blindFishStartPos);
+                blindFishTargetPoses.push_back(blindFishTargetPos);
+            }
+            else
+            {
+                blindFishStartPos = this->getPeerBlindFishStartPoses()[index];
+                blindFishTargetPos = this->getPeerBlindFishTargetPoses()[index];
+            }
+        }
+        else
+        {
+            blindFishStartPos = this->blindFish->getBlindFishStartPos(visibleSize, blindFishRand, index);
+            blindFishTargetPos = this->blindFish->getBlindFishTargetPos(visibleSize, blindFishRand, index);
+        }
+
+        blindFish->setPosition(blindFishStartPos);
         this->addChild(blindFish);
         blindFishGroup.pushBack(blindFish);
 
-        blindFishTargetPos = this->blindFish->getBlindFishTargetPos(visibleSize, blindFishRand, index);
         auto moveFishAction = MoveTo::create(3.0f, blindFishTargetPos);
         auto fishSequence = Sequence::create(
                                              DelayTime::create(rand()%2),
@@ -440,20 +487,37 @@ void GameScene::setBlindFishMove(float dt)
                                              CallFunc::create(CC_CALLBACK_0(GameScene::removeFromParent, blindFish)),NULL);
         blindFish->runAction(fishSequence);
     }
+
+    if (networked)
+    {
+        if (this->_isHost)
+        {
+            this->sendFishStateOverNetwork();
+        }
+    }
 }
 
-void GameScene::rotateJelly()
+int GameScene::getMyScore()
 {
-    auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180.0f/3.1415926f+90.0f);
-jellyfish->runAction(rotateBy);
+    return this->myScore;
+}
+
+void GameScene::setPeerScore(JSONPacker::GameState gameState)
+{
+    if (this->peerScore != gameState.score)
+    {
+        this->peerScore = gameState.score;
+        std::string peerScoreString = StringUtils::toString(peerScore);
+        this->peerScoreLabel->setString(peerScoreString);
+    }
 }
 
 #pragma mark -
 #pragma mark Networking
 
-void GameScene::setNetworkedSession(bool networkedSession, bool isHost)
+void GameScene::setNetworkedSession(bool networked, bool isHost)
 {
-    this->networkedSession = networkedSession;
+    this->networked = networked;
     this->_isHost = isHost;
 }
 
@@ -461,26 +525,42 @@ void GameScene::receivedData(const void* data, unsigned long length)
 {
     const char* cstr = static_cast<const char*>(data);
     std::string json = std::string(cstr, length);
-    JSONPacker::GameState state = JSONPacker::unpackGameStateJSON(json);
 
-    if (state.gameOver)
+    JSONPacker::GameState gameState = JSONPacker::unpackGameStateJSON(json);
+
+    this->peerJelly->getPeerJellyPos(gameState);
+    this->peerJelly->setPosition(this->peerJelly->peerJellyMovingPos);
+    this->setPeerScore(gameState);
+
+    if (gameState.gameOver)
     {
         this->gameOver();
     }
 
-    this->peerJelly->setJellyPos(state);
+    if (!_isHost)
+    {
+        JSONPacker::FishState fishState = JSONPacker::unpackFishStateJSON(json);
+        this->peerBlindFishStartPoses = fishState.blindFishStartPos;
+        this->peerBlindFishTargetPoses = fishState.blindFishTargetPos;
+    }
+}
 
-    /*
-    get the peerBindFish's startPos and TargetPos;
-    */
+std::vector<Vec2> GameScene::getPeerBlindFishStartPoses()
+{
+    return this->peerBlindFishStartPoses;
+}
+
+std::vector<Vec2> GameScene::getPeerBlindFishTargetPoses()
+{
+    return this->peerBlindFishTargetPoses;
 }
 
 void GameScene::sendGameStateOverNetwork()
 {
     JSONPacker::GameState gameState;
 
+    gameState.score = this->getMyScore();
     gameState.name = NetworkingWrapper::getDeviceName();
-    gameState.score = this->score;
     gameState.gameOver = this->gameIsOver;
     gameState.jellyPos = this->jellyfish->getPosition();
 
@@ -491,7 +571,25 @@ void GameScene::sendGameStateOverNetwork()
 
 void GameScene::sendFishStateOverNetwork()
 {
-    //pass the blindFish's startPos and targetPos to the peerBlindFish like this
-    //fishState.blindFishStartPoses = this->blindFish->getBlindFishStartPoses();
-    //fishState.blindFishTargetPoses = this->blindFish->getBlindFishTargetPoses();
+    JSONPacker::FishState fishState;
+
+    if (blindFishStartPoses.size() > 0)
+    {
+        for (auto startPos : blindFishStartPoses)
+        {
+            fishState.blindFishStartPos.push_back(startPos);
+        }
+    }
+
+    if (blindFishTargetPoses.size() > 0)
+    {
+        for (auto targetPos : blindFishTargetPoses)
+        {
+            fishState.blindFishTargetPos.push_back(targetPos);
+        }
+    }
+
+    std::string json = JSONPacker::packFishState(fishState);
+
+    SceneManager::getInstance()->sendData(json.c_str(), json.length());
 }

@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "CocosGUI.h"
+#include "JSONPacker.h"
 
 using namespace cocos2d;
 
@@ -25,14 +26,13 @@ public:
     void receivedData(const void* data, unsigned long length);
     void sendGameStateOverNetwork();
     void sendFishStateOverNetwork();
-
     PeerJelly* peerJelly;
     BlindFish* blindFish;
 
 private:
 
 protected:
-    bool networkedSession;
+    bool networked;
     bool _isHost;
     Vec2 initialTouchPos;
     Vec2 currentTouchPos;
@@ -67,6 +67,7 @@ protected:
     void gameOver();
 
     ui::Text* scoreLabel;
+    ui::Text* peerScoreLabel;
     void setupUI();
     void pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEventType eEventType);
     void updateScoreLabel(int score);
@@ -76,13 +77,28 @@ protected:
     void setBlindFishMove(float dt);
     bool checkIfFishHitJelly(Sprite *jellyfish, Sprite *fish);
     cocos2d::Vector<Sprite*> getBlindFishGroup();
+    std::vector<Vec2> getBlindFishStartPoses();
+    std::vector<Vec2> blindFishStartPoses;
+    std::vector<Vec2> getBlindFishTargetPoses();
+    std::vector<Vec2> blindFishTargetPoses;
+    std::vector<Vec2> getPeerBlindFishStartPoses();
+    std::vector<Vec2> peerBlindFishStartPoses;
+    std::vector<Vec2> getPeerBlindFishTargetPoses();
+    std::vector<Vec2> peerBlindFishTargetPoses;
+
     void rotateJelly();
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
 
     int score;
     int scoreDistance;
     int bestScore;
+    int multiBestScore;
     int totalDeathTime;
+
+    int myScore;
+    int getMyScore();
+    int peerScore;
+    void setPeerScore(JSONPacker::GameState gameState);
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

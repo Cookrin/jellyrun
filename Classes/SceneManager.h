@@ -20,7 +20,10 @@ public:
     void enterGameScene(bool networked);
     void enterLobby();
     void enterGameOver(int score, int bestScore, int deathTime);
-
+    std::string getMyDeviceName();
+    std::string getPeerDeviceName();
+    bool isHost();
+    std::vector<std::string> getPeerList();
     void showPeerList();
     void receiveMultiplayerInvitations();
     void sendData(const void *data, unsigned long length);

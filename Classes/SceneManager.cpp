@@ -44,13 +44,11 @@ void SceneManager::enterGameScene(bool networked)
 {
     Scene *scene = Scene::create();
     this->_gameScene = GameScene::create();
-
     bool isHost = true;
 
-    if (networked) {
-        std::vector<std::string> peers = _networkingWrapper->getPeerList();
-        auto me = _networkingWrapper->getDeviceName();
-        isHost = peers[0].compare(me) > 0;
+    if (networked)
+    {
+        isHost = this->isHost();
     }
 
     this->_gameScene->setNetworkedSession(networked, isHost);
@@ -85,9 +83,43 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
     }
 }
 
+std::vector<std::string> SceneManager::getPeerList()
+{
+    return _networkingWrapper->getPeerList();
+}
+
 void SceneManager::showPeerList()
 {
+    /* If myDeviceName is in the peerlist, erase it as we only need the other players device names
+    for (auto peerDeviceName : peerList)
+    {
+        if (peerDeviceName == myDeviceName)
+        {
+            peerList.erase(peerDeviceName);
+        }
+    }
+    */
     _networkingWrapper->showPeerList();
+}
+
+std::string SceneManager::getMyDeviceName()
+{
+    return _networkingWrapper->getDeviceName();
+}
+
+std::string SceneManager::getPeerDeviceName()
+{
+    std::vector<std::string> peerList = this->getPeerList();
+    return peerList[0];
+}
+
+bool SceneManager::isHost()
+{
+    if (this->getMyDeviceName().compare(this->getPeerDeviceName()) != 0)
+    {
+        return true;
+    }
+    return false;
 }
 
 void SceneManager::receiveMultiplayerInvitations()

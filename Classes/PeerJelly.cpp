@@ -25,8 +25,8 @@ bool PeerJelly::init()
 #pragma mark -
 #pragma mark Public Methods
 
-void PeerJelly::setJellyPos(JSONPacker::GameState state)
+Vec2 PeerJelly::getPeerJellyPos(JSONPacker::GameState gameState)
 {
-    Vec2 jellyPos = state.jellyPos;
-    this->setPosition(jellyPos);
+    peerJellyMovingPos = gameState.jellyPos;
+    return peerJellyMovingPos;
 }

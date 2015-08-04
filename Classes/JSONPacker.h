@@ -16,16 +16,16 @@ namespace JSONPacker
 {
     struct GameState
     {
+        int score;
         std::string name;
         bool gameOver;
-        int score;
         cocos2d::Vec2 jellyPos;
     };
-    
+
     struct FishState
     {
-        cocos2d::Vector<cocos2d::Vec2> blindFishStartPos;
-        cocos2d::Vector<cocos2d::Vec2> blindFishTargetPos;
+        std::vector<cocos2d::Vec2> blindFishStartPos;
+        std::vector<cocos2d::Vec2> blindFishTargetPos;
     };
 
     GameState unpackGameStateJSON(std::string json);
