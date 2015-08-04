@@ -12,11 +12,14 @@
 #include "cocos2d.h"
 #include "CocosGUI.h"
 #include "JSONPacker.h"
+#include "Jellyfish.h"
+#include "BlindFish.h"
 
 using namespace cocos2d;
 
 class PeerJelly;
 class BlindFish;
+class Jellyfish;
 
 class GameScene : public cocos2d::Node
 {
@@ -27,6 +30,8 @@ public:
     void receivedFishStateData(const void* data, unsigned long length);
     void sendGameStateOverNetwork();
     void sendFishStateOverNetwork();
+    
+    Jellyfish* jellyfish;
     PeerJelly* peerJelly;
     BlindFish* blindFish;
 
@@ -45,7 +50,6 @@ protected:
     float jellyHeight;
     float fishWidth;
     float fishHeight;
-    cocos2d::Sprite* jellyfish;
     cocos2d::Sprite* fish;
     cocos2d::Vector<Sprite*> blindFishGroup;
     bool fishHitJelly;
@@ -87,7 +91,7 @@ protected:
     std::vector<Vec2> getPeerBlindFishTargetPoses();
     std::vector<Vec2> peerBlindFishTargetPoses;
 
-    void rotateJelly();
+    void rotateJelly(Vec2 touchPos);
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
 
     int score;

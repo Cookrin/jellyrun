@@ -307,8 +307,11 @@ void GameScene::setupTouchHanding()
         touchPos = this->convertTouchToNodeSpace(touch);
         initialTouchPos = touchPos;
         currentTouchPos = touchPos;
+
+        // rotate jellyfish when it is touched to move
+        this->jellyfish->rotateJelly(touchPos);
         isTouchDown = true;
-        this->rotateJelly();
+
         return true;
     };
 
@@ -316,6 +319,9 @@ void GameScene::setupTouchHanding()
     {
         Vec2 touchPos = this->convertTouchToNodeSpace(touch);
         currentTouchPos = touchPos;
+        // rotate jellyfish when it is touched to move
+        this->jellyfish->rotateJelly(touchPos);
+
     };
 
     touchListener->onTouchEnded = [&](Touch* touch, Event* event)
@@ -436,12 +442,6 @@ bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
     {
         return false;
     }
-}
-
-void GameScene::rotateJelly()
-{
-    auto rotateBy = RotateTo::create(2.0f, atan2((jellyfish->getPositionX()),(jellyfish->getPositionY()))*180.0f/3.1415926f+90.0f);
-jellyfish->runAction(rotateBy);
 }
 
 void GameScene::setBlindFishMove(float dt)
