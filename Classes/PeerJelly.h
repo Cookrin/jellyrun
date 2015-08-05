@@ -16,8 +16,6 @@ class PeerJelly : public cocos2d::Sprite
 {
 public:
     CREATE_FUNC(PeerJelly);
-    cocos2d::Vec2 getPeerJellyPos(JSONPacker::GameState gameState);
-    cocos2d::Vec2 peerJellyMovingPos;
 
 private:
     bool init() override;

@@ -27,8 +27,9 @@ class GameScene : public cocos2d::Node
 public:
     CREATE_FUNC(GameScene);
     void setNetworkedSession(bool networkedSession, bool isHost);
-    void receivedGameStateData(const void* data, unsigned long length);
-    void receivedFishStateData(const void* data, unsigned long length);
+    void receivedData(const void* data, unsigned long length);
+    void receivedGameStateData(std::string json);
+    void receivedFishStateData(std::string json);
     void sendGameStateOverNetwork();
     void sendFishStateOverNetwork();
     

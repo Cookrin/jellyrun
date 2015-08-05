@@ -31,6 +31,7 @@ namespace JSONPacker
         jellyPos.AddMember("y", gameState.jellyPos.y, document.GetAllocator());
         document.AddMember("jellyPos", jellyPos, document.GetAllocator());
 
+        document.AddMember("dataType", gameStateDataType, document.GetAllocator());
         rapidjson::StringBuffer buffer;
         rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
         document.Accept(writer);
@@ -86,6 +87,8 @@ namespace JSONPacker
 
         document.AddMember("blindFishTargetPos", indexes, document.GetAllocator());
 
+        document.AddMember("dataType", fishStateDataType, document.GetAllocator());
+
         rapidjson::StringBuffer buffer;
         rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
         document.Accept(writer);
@@ -122,5 +125,15 @@ namespace JSONPacker
         }
 
         return fishState;
+    }
+
+    int JSONPacker::getDataType(std::string json)
+    {
+        rapidjson::Document document;
+        document.Parse<0>(json.c_str());
+
+        int dataType = document["dataType"].GetInt();
+
+        return dataType;
     }
 }

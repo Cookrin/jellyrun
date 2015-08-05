@@ -411,14 +411,33 @@ void GameScene::setNetworkedSession(bool networked, bool isHost)
     this->_isHost = isHost;
 }
 
-void GameScene::receivedGameStateData(const void* data, unsigned long length)
+void GameScene::receivedData(const void* data, unsigned long length)
 {
     const char* cstr = static_cast<const char*>(data);
     std::string json = std::string(cstr, length);
 
+    // if data type is gameState
+    if (JSONPacker::getDataType(json) == 0)
+    {
+        this->receivedGameStateData(json);
+    }
+
+    // if data type is fishState
+    if (JSONPacker::getDataType(json) == 1)
+    {
+        if (!_isHost)
+        {
+            this->receivedFishStateData(json);
+        }
+    }
+}
+
+void GameScene::receivedGameStateData(std::string json)
+{
     JSONPacker::GameState gameState = JSONPacker::unpackGameStateJSON(json);
-    this->peerJelly->getPeerJellyPos(gameState);
-    this->peerJelly->setPosition(this->peerJelly->peerJellyMovingPos);
+
+    this->peerJelly->setPosition(gameState.jellyPos);
+
     this->setPeerScore(gameState);
 
     if (gameState.gameOver)
@@ -427,11 +446,8 @@ void GameScene::receivedGameStateData(const void* data, unsigned long length)
     }
 }
 
-void GameScene::receivedFishStateData(const void* data, unsigned long length)
+void GameScene::receivedFishStateData(std::string json)
 {
-    const char* cstr = static_cast<const char*>(data);
-    std::string json = std::string(cstr, length);
-
     JSONPacker::FishState fishState = JSONPacker::unpackFishStateJSON(json);
     this->peerBlindFishStartPoses = fishState.blindFishStartPos;
     this->peerBlindFishTargetPoses = fishState.blindFishTargetPos;

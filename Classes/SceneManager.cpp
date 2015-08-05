@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "GameScene.h"
 #include "GameOverScene.h"
+#include "JSONPacker.h"
 
 using namespace cocos2d;
 
@@ -139,12 +140,7 @@ void SceneManager::receivedData(const void *data, unsigned long length)
 {
     if (_gameScene)
     {
-        _gameScene->receivedGameStateData(data, length);
-
-        if (!this->isHost())
-        {
-            _gameScene->receivedFishStateData(data, length);
-        }
+        _gameScene->receivedData(data, length);
     }
 }
 

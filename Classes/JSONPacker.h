@@ -32,6 +32,10 @@ namespace JSONPacker
     FishState unpackFishStateJSON(std::string json);
     std::string packGameState(const GameState data);
     std::string packFishState(const FishState data);
+    static const int gameStateDataType = 0;
+    static const int fishStateDataType = 1;
+
+    int getDataType(std::string json);
 }
 
 #endif /* defined(__jellyrun__JSONPacker__) */
