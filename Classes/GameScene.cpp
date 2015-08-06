@@ -45,6 +45,10 @@ bool GameScene::init()
     this->multiBestScore = UserDataManager::getInstance()->getMultiBestScore();
     CCLOG("TotalDeathTimebydefault=%int", totalDeathTime);
     scoreDistance = 0.0f;
+
+    this->gameState = GameState::START;
+    this->jellyIsSafe = true;
+
     return true;
 }
 
@@ -106,11 +110,10 @@ void GameScene::update(float dt)
     for (auto blindFish:blindFishes)
     {
         i++;
+
         fishHitJelly = this->checkIfFishHitJelly(jellyfish, blindFish);
-        if (fishHitJelly == true)
-        {
-            this->gameOver();
-        }
+
+        this->updateJellyLife(fishHitJelly);
     }
 
     // set background to move
@@ -313,6 +316,45 @@ void GameScene::gameOver()
 Vector<Sprite*> GameScene::getBlindFishGroup()
 {
     return this->blindFishGroup;
+}
+
+void GameScene::updateJellyLife(bool fishHitJelly)
+{
+    switch (gameState)
+    {
+        case GameState::START:
+        {
+            if (fishHitJelly)
+            {
+                gameState = GameState::TWO_LIFE;
+                // resize jellyfish
+            }
+            break;
+        }
+        case GameState::TWO_LIFE:
+        {
+            if (fishHitJelly)
+            {
+                gameState = GameState::ONE_LIFE;
+                // resize jellyfish
+            }
+            break;
+        }
+        case GameState::ONE_LIFE:
+        {
+            if (fishHitJelly)
+            {
+                gameState = GameState::LOSE;
+            }
+            break;
+        }
+
+        case GameState::LOSE:
+        {
+            this->gameOver();
+            break;
+        }
+    }
 }
 
 bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)

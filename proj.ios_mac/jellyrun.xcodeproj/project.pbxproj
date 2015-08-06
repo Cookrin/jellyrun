@@ -355,9 +355,9 @@
 				F8F253AE1B556F7C00D1B95F /* UIConstants.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				F83EC9251B54D25100C4699D /* Scenes */,
 				F8CBDE9E1B66D8CA00475627 /* Game Sprites */,
 				F8CBDEA01B66DC3400475627 /* Utility */,
-				F83EC9251B54D25100C4699D /* Scenes */,
 			);
 			name = Classes;
 			path = ../Classes;

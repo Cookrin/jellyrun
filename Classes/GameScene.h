@@ -22,6 +22,14 @@ class PeerJelly;
 class BlindFish;
 class Jellyfish;
 
+enum class GameState
+{
+    START = 3,
+    TWO_LIFE = 2,
+    ONE_LIFE = 1,
+    LOSE = 0,
+};
+
 class GameScene : public cocos2d::Node
 {
 public:
@@ -97,6 +105,10 @@ protected:
     int getMyScore();
     int peerScore;
     void setPeerScore(JSONPacker::GameState gameState);
+
+    void updateJellyLife(bool fishHitJelly);
+    GameState gameState;
+    bool jellyIsSafe;
 };
 
 #endif /* defined(__jellyrun__GameScene__) */
