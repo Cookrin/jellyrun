@@ -395,8 +395,6 @@ void GameScene::setBlindFishMove(float dt)
     {
         int blindFishRand = rand()%10;
         this->blindFish = BlindFish::create();
-        this->blindFish->setAnchorPoint(Vec2(0.5f, 0.5f));
-        this->blindFish->setScale(FISH_SCALE);
         this->blindFish->blindFishRotation(blindFishRand);
 
         if (this->networked)
