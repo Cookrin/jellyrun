@@ -360,9 +360,21 @@ void GameScene::updateJellyLife(bool fishHitJelly)
 bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
 {
     Rect jellyRect = jellyfish->getBoundingBox();
+    Rect jellySmallRect;
+    jellySmallRect.size.width = jellyRect.size.width * 0.8f;
+    jellySmallRect.size.height = jellyRect.size.height * 0.8f;
+    jellySmallRect.origin.x = jellyRect.origin.x;
+    jellySmallRect.origin.y = jellyRect.origin.y;
+
     Rect fishRect = fish->getBoundingBox();
 
-    if (jellyRect.intersectsRect(fishRect))
+    Rect fishSmallRect;
+    fishSmallRect.size.width = fishRect.size.width * 0.8f;
+    fishSmallRect.size.height = fishRect.size.height * 0.8f;
+    fishSmallRect.origin.x = fishRect.origin.x;
+    fishSmallRect.origin.y = fishRect.origin.y;
+
+    if (jellySmallRect.intersectsRect(fishSmallRect))
     {
         return true;
     }
@@ -383,7 +395,7 @@ void GameScene::setBlindFishMove(float dt)
     {
         int blindFishRand = rand()%10;
         this->blindFish = BlindFish::create();
-        this->blindFish->setAnchorPoint(Vec2(0.0f, 0.0f));
+        this->blindFish->setAnchorPoint(Vec2(0.5f, 0.5f));
         this->blindFish->setScale(FISH_SCALE);
         this->blindFish->blindFishRotation(blindFishRand);
 
