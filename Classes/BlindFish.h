@@ -28,6 +28,8 @@ public:
     Rect blindFishRect;
     float blindFishHeight;
     float blindFishWidth;
+    int blindFishVerticalColumn;
+    int blindFishHorizontalColumn;
 
 private:
     bool init() override;

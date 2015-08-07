@@ -22,13 +22,22 @@ class PeerJelly;
 class BlindFish;
 class Jellyfish;
 
+enum class GameState
+{
+    START = 3,
+    TWO_LIFE = 2,
+    ONE_LIFE = 1,
+    LOSE = 0,
+};
+
 class GameScene : public cocos2d::Node
 {
 public:
     CREATE_FUNC(GameScene);
     void setNetworkedSession(bool networkedSession, bool isHost);
-    void receivedGameStateData(const void* data, unsigned long length);
-    void receivedFishStateData(const void* data, unsigned long length);
+    void receivedData(const void* data, unsigned long length);
+    void receivedGameStateData(std::string json);
+    void receivedFishStateData(std::string json);
     void sendGameStateOverNetwork();
     void sendFishStateOverNetwork();
     
@@ -96,6 +105,10 @@ protected:
     int getMyScore();
     int peerScore;
     void setPeerScore(JSONPacker::GameState gameState);
+
+    void updateJellyLife(bool fishHitJelly);
+    GameState gameState;
+    bool jellyIsSafe;
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

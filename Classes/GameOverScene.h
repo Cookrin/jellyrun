@@ -32,7 +32,6 @@ private:
     ui::Text* bestScoreNumLabel;
     ui::Text* totalDeathNumLabel;
     void setupUI();
-    void continuePlayPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void playAgainPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void multiplayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void leaderboardsPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
@@ -41,7 +40,6 @@ private:
     ui::Text* highScoreLabel;
     ui::Text* totalDeathLabel;
     ui::Text* playAgainLabel;
-    ui::Text* continuePLayLabel;
     ui::Text* enterMultiplayLabel;
     ui::Text* leaderboardsLabel;
     ui::Text* contactMeLabel;

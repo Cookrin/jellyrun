@@ -15,15 +15,21 @@ using namespace cocos2d;
 
 bool BlindFish::init()
 {
-    if (!Sprite::initWithFile("BlindFish.png"))
+    int index = (int)(rand() % 20 + 1);
+    CCLOG("index = %d", index);
+    const char* fish_name = String::createWithFormat("Fish_%d.png", index)->getCString();
+    if (!Sprite::initWithFile(fish_name))
     {
         return false;
     }
-    return true;
+    this->setAnchorPoint(Vec2(0.5f, 0.5f));
+    this->setScale(FISH_SCALE);
 
-    blindFishRect = this->boundingBox();
+    Rect blindFishRect = this->boundingBox();
     blindFishHeight = blindFishRect.size.height;
     blindFishWidth = blindFishRect.size.width;
+
+    return true;
 }
 
 #pragma mark -
@@ -35,19 +41,23 @@ Vec2 BlindFish::getBlindFishStartPos(const Size visibleSize, int blindFishRand, 
 
     if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
     {
-        startPos = Vec2(visibleSize.width *(index-1) / 10.0f, visibleSize.height * 0.88f);;
+        blindFishVerticalColumn = rand()%6;
+        startPos = Vec2(blindFishWidth * 0.5f + visibleSize.width * blindFishVerticalColumn / 7.0f, visibleSize.height);
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        startPos = Vec2(visibleSize.width * index / 10.0f, visibleSize.height * 0.12f);
+        blindFishVerticalColumn = rand()%6;
+        startPos = Vec2(blindFishWidth * 0.5f + visibleSize.width * blindFishVerticalColumn / 7.0f, 0.0f);
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft" and can not be seen before moving
     {
-        startPos = Vec2(visibleSize.width * 0.0f, visibleSize.height * (index - 1) / 4.0f );
+        blindFishHorizontalColumn = rand()%3;
+        startPos = Vec2(0.0f, visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f);
     }
     else //blindFishSide = "fromRight" and can not be seen before moving
     {
-        startPos = Vec2(visibleSize.width, visibleSize.height * (index - 1) / 4.0f );
+        blindFishHorizontalColumn = rand()%3;
+        startPos = Vec2(visibleSize.width, visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f);
     }
     return startPos;
 }
@@ -57,19 +67,21 @@ Vec2 BlindFish::getBlindFishTargetPos(const Size visibleSize, int blindFishRand,
     Vec2 targetPos;
     if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
     {
-        targetPos = Vec2(visibleSize.width *(index-1) / 10.0f, blindFishHeight * (-1.0f));
+        blindFishVerticalColumn = rand()%6;
+        targetPos = Vec2(blindFishWidth * 0.5f + blindFishWidth + visibleSize.width * blindFishVerticalColumn / 7.0f, blindFishHeight * (-1.0f));
     }
     else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
     {
-        targetPos = Vec2(visibleSize.width *(index) / 10.0f, visibleSize.height);
+        blindFishVerticalColumn = rand()%6;
+        targetPos = Vec2(blindFishWidth * 0.5f + visibleSize.width * blindFishVerticalColumn / 7.0f, visibleSize.height + blindFishHeight);
     }
     else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
     {
-        targetPos = Vec2(visibleSize.width * 1.0f, visibleSize.height * (index - 1) / 4.0f );
+        targetPos = Vec2(visibleSize.width, visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f );
     }
     else //blindFishSide = "fromRight"
     {
-        targetPos = Vec2(blindFishWidth * (-1.0f), visibleSize.height * (index - 1) / 4.0f );
+        targetPos = Vec2(blindFishWidth * (-1.0f), visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f);
     }
     return targetPos;
 }

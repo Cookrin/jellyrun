@@ -45,6 +45,10 @@ bool GameScene::init()
     this->multiBestScore = UserDataManager::getInstance()->getMultiBestScore();
     CCLOG("TotalDeathTimebydefault=%int", totalDeathTime);
     scoreDistance = 0.0f;
+
+    this->gameState = GameState::START;
+    this->jellyIsSafe = true;
+
     return true;
 }
 
@@ -106,11 +110,10 @@ void GameScene::update(float dt)
     for (auto blindFish:blindFishes)
     {
         i++;
+
         fishHitJelly = this->checkIfFishHitJelly(jellyfish, blindFish);
-        if (fishHitJelly == true)
-        {
-            this->gameOver();
-        }
+
+        this->updateJellyLife(fishHitJelly);
     }
 
     // set background to move
@@ -148,7 +151,7 @@ void GameScene::setupUI()
     this->addChild(pauseButton);
 
     //create the score label on the left top
-    this->scoreLabel = ui::Text::create("0", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->scoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
     this->scoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
     this->scoreLabel->setPosition(Vec2(visibleSize.width*0.01f, visibleSize.height * 1.0f));
     this->scoreLabel->setColor(TITLE_LABEL_COLOR);
@@ -156,7 +159,7 @@ void GameScene::setupUI()
 
     if (networked)
     {
-        this->peerScoreLabel = ui::Text::create("0", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+        this->peerScoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
         this->peerScoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
         this->peerScoreLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 1.0f));
         this->peerScoreLabel->setColor(TITLE_LABEL_COLOR);
@@ -195,6 +198,7 @@ void GameScene::setupTouchHanding()
 
         // rotate jellyfish when it is touched to move
         this->jellyfish->rotateJelly(touchPos);
+
         isTouchDown = true;
 
         return true;
@@ -314,12 +318,63 @@ Vector<Sprite*> GameScene::getBlindFishGroup()
     return this->blindFishGroup;
 }
 
+void GameScene::updateJellyLife(bool fishHitJelly)
+{
+    switch (gameState)
+    {
+        case GameState::START:
+        {
+            if (fishHitJelly)
+            {
+                gameState = GameState::TWO_LIFE;
+                // resize jellyfish
+            }
+            break;
+        }
+        case GameState::TWO_LIFE:
+        {
+            if (fishHitJelly)
+            {
+                gameState = GameState::ONE_LIFE;
+                // resize jellyfish
+            }
+            break;
+        }
+        case GameState::ONE_LIFE:
+        {
+            if (fishHitJelly)
+            {
+                gameState = GameState::LOSE;
+            }
+            break;
+        }
+
+        case GameState::LOSE:
+        {
+            this->gameOver();
+            break;
+        }
+    }
+}
+
 bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
 {
     Rect jellyRect = jellyfish->getBoundingBox();
+    Rect jellySmallRect;
+    jellySmallRect.size.width = jellyRect.size.width * 0.8f;
+    jellySmallRect.size.height = jellyRect.size.height * 0.8f;
+    jellySmallRect.origin.x = jellyRect.origin.x;
+    jellySmallRect.origin.y = jellyRect.origin.y;
+
     Rect fishRect = fish->getBoundingBox();
 
-    if (jellyRect.intersectsRect(fishRect))
+    Rect fishSmallRect;
+    fishSmallRect.size.width = fishRect.size.width * 0.8f;
+    fishSmallRect.size.height = fishRect.size.height * 0.8f;
+    fishSmallRect.origin.x = fishRect.origin.x;
+    fishSmallRect.origin.y = fishRect.origin.y;
+
+    if (jellySmallRect.intersectsRect(fishSmallRect))
     {
         return true;
     }
@@ -333,15 +388,13 @@ void GameScene::setBlindFishMove(float dt)
 {
     Vec2 blindFishStartPos;
     Vec2 blindFishTargetPos;
-    int fishGroupSize = rand()%10;
+    int fishGroupSize = rand()%12;
     
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < fishGroupSize; ++index)
     {
         int blindFishRand = rand()%10;
         this->blindFish = BlindFish::create();
-        this->blindFish->setAnchorPoint(Vec2(0.0f, 0.0f));
-        this->blindFish->setScale(FISH_SCALE);
         this->blindFish->blindFishRotation(blindFishRand);
 
         if (this->networked)
@@ -410,14 +463,33 @@ void GameScene::setNetworkedSession(bool networked, bool isHost)
     this->_isHost = isHost;
 }
 
-void GameScene::receivedGameStateData(const void* data, unsigned long length)
+void GameScene::receivedData(const void* data, unsigned long length)
 {
     const char* cstr = static_cast<const char*>(data);
     std::string json = std::string(cstr, length);
 
+    // if data type is gameState
+    if (JSONPacker::getDataType(json) == 0)
+    {
+        this->receivedGameStateData(json);
+    }
+
+    // if data type is fishState
+    if (JSONPacker::getDataType(json) == 1)
+    {
+        if (!_isHost)
+        {
+            this->receivedFishStateData(json);
+        }
+    }
+}
+
+void GameScene::receivedGameStateData(std::string json)
+{
     JSONPacker::GameState gameState = JSONPacker::unpackGameStateJSON(json);
-    this->peerJelly->getPeerJellyPos(gameState);
-    this->peerJelly->setPosition(this->peerJelly->peerJellyMovingPos);
+
+    this->peerJelly->setPosition(gameState.jellyPos);
+
     this->setPeerScore(gameState);
 
     if (gameState.gameOver)
@@ -426,11 +498,8 @@ void GameScene::receivedGameStateData(const void* data, unsigned long length)
     }
 }
 
-void GameScene::receivedFishStateData(const void* data, unsigned long length)
+void GameScene::receivedFishStateData(std::string json)
 {
-    const char* cstr = static_cast<const char*>(data);
-    std::string json = std::string(cstr, length);
-
     JSONPacker::FishState fishState = JSONPacker::unpackFishStateJSON(json);
     this->peerBlindFishStartPoses = fishState.blindFishStartPos;
     this->peerBlindFishTargetPoses = fishState.blindFishTargetPos;

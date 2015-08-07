@@ -33,7 +33,7 @@ float Jellyfish::getRotateDegrees(Vec2 touchPos)
 
 float Jellyfish::getRotateDuration()
 {
-    auto speed = 1.0f / M_PI;
+    auto speed = 0.5f / M_PI;
     auto rotateDuration = fabs(rotateRadians * speed);
 
     return rotateDuration;

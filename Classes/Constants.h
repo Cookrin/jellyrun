@@ -10,6 +10,6 @@
 #define jellyrun_Constants_h
 
 static const float JELLY_SCALE = 0.3f;
-static const float FISH_SCALE = 0.18f;
+static const float FISH_SCALE = 1.0f;
 
 #endif

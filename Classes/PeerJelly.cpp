@@ -24,9 +24,3 @@ bool PeerJelly::init()
 
 #pragma mark -
 #pragma mark Public Methods
-
-Vec2 PeerJelly::getPeerJellyPos(JSONPacker::GameState gameState)
-{
-    peerJellyMovingPos = gameState.jellyPos;
-    return peerJellyMovingPos;
-}
