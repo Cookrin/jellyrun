@@ -10,6 +10,7 @@
 #include "Lobby.h"
 #include "SceneManager.h"
 #include "UIConstants.h"
+#include "Background.h"
 
 using namespace cocos2d;
 
@@ -34,7 +35,12 @@ void Lobby::onEnter()
 
     SceneManager::getInstance()->receiveMultiplayerInvitations();
 
+    // setup background
+    lobbyBackground = Background::create();
+    this->addChild(lobbyBackground, 0, "lobbyBackground");
+
     setupUI();
+    this->scheduleUpdate();
 }
 
 void Lobby::setupUI()
@@ -47,22 +53,22 @@ void Lobby::setupUI()
     //this->addChild(logo);
     
     //create a title label
-    this->titleLabel = ui::Text::create("JellyRun", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->titleLabel = ui::Text::create("JELLY RUN", TITLE_FONT_NAME, BIG_TITLE_FONT_SIZE);
     this->titleLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
-    this->titleLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.9f));
+    this->titleLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.85f));
     this->titleLabel->setColor(TITLE_LABEL_COLOR);
     this->addChild(titleLabel);
     
     ui::Button *singlePlayerButton = ui::Button::create();
-    singlePlayerButton->setAnchorPoint(Vec2(0.5f, 0.6f));
-    singlePlayerButton->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.6f));
+    singlePlayerButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+    singlePlayerButton->setPosition(Vec2(visibleSize.width * 0.333f, visibleSize.height * 0.5f));
     singlePlayerButton->loadTextures("singlePlayerButton.png", "singlePlayerButtonPressed.png");
     singlePlayerButton->addTouchEventListener(CC_CALLBACK_2(Lobby::singlePlayerPressed, this));
     this->addChild(singlePlayerButton);
     
     ui::Button *multiplayerButton = ui::Button::create();
-    multiplayerButton->setAnchorPoint(Vec2(0.5f, 0.3f));
-    multiplayerButton->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.3f));
+    multiplayerButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+    multiplayerButton->setPosition(Vec2(visibleSize.width * 0.666f, visibleSize.height * 0.5f));
     multiplayerButton->loadTextures("multiplayerButton.png", "multiplayerButtonPressed.png");
     multiplayerButton->addTouchEventListener(CC_CALLBACK_2(Lobby::multiplayerPressed, this));
     this->addChild(multiplayerButton);
@@ -83,4 +89,10 @@ void Lobby::multiplayerPressed(Ref *pSender, ui::Widget::TouchEventType eEventTy
     {
         SceneManager::getInstance()->showPeerList();
     }
+}
+
+void Lobby::update(float dt)
+{
+    // set background to move
+    this->lobbyBackground->setBackgroundToMove();
 }

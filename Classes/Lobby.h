@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "cocosGUI.h"
+#include "Background.h"
 
 using namespace cocos2d;
 
@@ -24,12 +25,15 @@ private:
     // Lifecycle
     bool init() override;
     void onEnter() override;
+    Background* lobbyBackground;
 
     // UI
     void setupUI();
     void singlePlayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void multiplayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     ui::Text* titleLabel;
+
+    void update(float dt);
 };
 
 #endif /* defined(__jellyrun__Lobby__) */

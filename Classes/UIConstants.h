@@ -11,7 +11,9 @@
 
 #include "cocos2d.h"
 
-static const char* TITLE_FONT_NAME = "arial.ttf";
+static const char* TITLE_FONT_NAME = "krazynights.ttf";
+static const float BIG_TITLE_FONT_SIZE = 112.0f;
+
 static const float TITLE_FONT_SIZE = 56.0f;
 static const float BUTTON_FONT_SIZE = 34.5f;
 static const float BUTTON_FONT_SMALL_SIZE = 28.0f;

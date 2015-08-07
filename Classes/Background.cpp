@@ -19,27 +19,21 @@ bool Background::init()
 
     underwaterBG1 = Sprite::create("Underwater.png");
     underwaterBG1->setAnchorPoint(Vec2(0.0f,0.0f));
-    underwaterBG1->setOpacity(255 * 1.0);
 
     underwaterBG2 = Sprite::create("Underwater.png");
     underwaterBG2->setAnchorPoint(Vec2(0.0f,0.0f));
-    underwaterBG2->setOpacity(255 * 1.0);
 
     shipwreckBG1 = Sprite::create("Shipwreck.png");
     shipwreckBG1->setAnchorPoint(Vec2(0.0f,0.0f));
-    shipwreckBG1->setOpacity(255 * 1.0);
 
     shipwreckBG2 = Sprite::create("Shipwreck.png");
     shipwreckBG2->setAnchorPoint(Vec2(0.0f,0.0f));
-    shipwreckBG2->setOpacity(255 * 1.0);
 
     rockBG1 = Sprite::create("Rock.png");
     rockBG1->setAnchorPoint(Vec2(0.0f,0.0f));
-    rockBG1->setOpacity(255 * 1.0);
 
     rockBG2 = Sprite::create("Rock.png");
     rockBG2->setAnchorPoint(Vec2(0.0f,0.0f));
-    rockBG2->setOpacity(255 * 1.0);
 
     aquaticBG1 = Sprite::create("Aquatic.png");
     aquaticBG1->setAnchorPoint(Vec2(0.0f,0.0f));
