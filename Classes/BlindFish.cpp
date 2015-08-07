@@ -15,7 +15,10 @@ using namespace cocos2d;
 
 bool BlindFish::init()
 {
-    if (!Sprite::initWithFile("BlindFish.png"))
+    int index = (int)(rand() % 20 + 1);
+    CCLOG("index = %d", index);
+    const char* fish_name = String::createWithFormat("Fish_%d.png", index)->getCString();
+    if (!Sprite::initWithFile(fish_name))
     {
         return false;
     }
