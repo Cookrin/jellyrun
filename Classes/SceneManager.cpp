@@ -72,6 +72,7 @@ void SceneManager::enterGameOver(int score, int bestScore, int deathTime)
 {
     if (_gameScene)
     {
+        _networkingWrapper->disconnect();
         Scene* scene = Scene::create();
         GameOverScene* gameOverScene = GameOverScene::create();
         scene->addChild(gameOverScene);

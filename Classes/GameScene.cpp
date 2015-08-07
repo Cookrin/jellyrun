@@ -151,7 +151,7 @@ void GameScene::setupUI()
     this->addChild(pauseButton);
 
     //create the score label on the left top
-    this->scoreLabel = ui::Text::create("0", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->scoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
     this->scoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
     this->scoreLabel->setPosition(Vec2(visibleSize.width*0.01f, visibleSize.height * 1.0f));
     this->scoreLabel->setColor(TITLE_LABEL_COLOR);
@@ -159,7 +159,7 @@ void GameScene::setupUI()
 
     if (networked)
     {
-        this->peerScoreLabel = ui::Text::create("0", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+        this->peerScoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
         this->peerScoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
         this->peerScoreLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 1.0f));
         this->peerScoreLabel->setColor(TITLE_LABEL_COLOR);
