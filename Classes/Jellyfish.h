@@ -25,6 +25,7 @@ public:
 
 protected:
     bool init() override;
+    cocos2d::RepeatForever *moving();
 
 };
 #endif /* defined(__jellyrun__Jellyfish__) */
