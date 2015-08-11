@@ -111,6 +111,9 @@ protected:
     void updateJellyLife(bool fishHitJelly);
     GameState gameState;
     bool jellyIsSafe;
+    int timeCount;
+    int setFishGroupSize(int timeCount);
+    int setBlindFishDirectionRand();
 };
 
 #endif /* defined(__jellyrun__GameScene__) */

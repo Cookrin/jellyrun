@@ -25,6 +25,9 @@ public:
 
     void blindFishRotation(int blindFishRand);
 
+    int setBlindFishVerticalColumnNum();
+    int setBlindFishHorizontalColumnNum();
+
     Rect blindFishRect;
     float blindFishHeight;
     float blindFishWidth;

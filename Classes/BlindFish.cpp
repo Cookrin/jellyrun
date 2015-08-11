@@ -7,6 +7,7 @@
 //
 
 #include "BlindFish.h"
+#include <random>
 
 using namespace cocos2d;
 
@@ -15,9 +16,13 @@ using namespace cocos2d;
 
 bool BlindFish::init()
 {
-    int index = (int)(rand() % 20 + 1);
-    CCLOG("index = %d", index);
-    const char* fish_name = String::createWithFormat("Fish_%d.png", index)->getCString();
+    std::random_device rnd;
+    std::mt19937 mt(rnd());
+    std::uniform_int_distribution<> rand20(0, 19);
+
+    int index = (int)(rand20(mt));
+
+    const char* fish_name = String::createWithFormat("Fish_%d.png", index+1)->getCString();
     if (!Sprite::initWithFile(fish_name))
     {
         return false;
@@ -35,28 +40,53 @@ bool BlindFish::init()
 #pragma mark -
 #pragma mark Public Methods
 
+int BlindFish::setBlindFishVerticalColumnNum()
+{
+    int blindFishVerticalColumnNum;
+    std::random_device rnd;
+    std::mt19937 mt(rnd());
+    std::uniform_int_distribution<> rand6(0, 5);
+    blindFishVerticalColumnNum = (int)(rand6(mt));
+    return blindFishVerticalColumnNum;
+}
+
+int BlindFish::setBlindFishHorizontalColumnNum()
+{
+    int blindFishHorizontalColumnNum;
+    std::random_device rnd;
+    std::mt19937 mt(rnd());
+    std::uniform_int_distribution<> rand4(0, 3);
+    blindFishHorizontalColumnNum = (int)(rand4(mt));
+    return blindFishHorizontalColumnNum;
+}
+
 Vec2 BlindFish::getBlindFishStartPos(const Size visibleSize, int blindFishRand, int index)
 {
     Vec2 startPos;
 
-    if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
+    if ( blindFishRand >= 60 ) //blindFishSide = "fromTop"
     {
-        blindFishVerticalColumn = rand()%6;
+        blindFishVerticalColumn = this->setBlindFishVerticalColumnNum();
+
         startPos = Vec2(blindFishWidth * 0.5f + visibleSize.width * blindFishVerticalColumn / 7.0f, visibleSize.height);
     }
-    else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
+    else if ( blindFishRand < 40 ) //blindFishSide = "fromBottom"
     {
-        blindFishVerticalColumn = rand()%6;
+        blindFishVerticalColumn = this->setBlindFishVerticalColumnNum();
+
         startPos = Vec2(blindFishWidth * 0.5f + visibleSize.width * blindFishVerticalColumn / 7.0f, 0.0f);
     }
-    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft" and can not be seen before moving
+    else if ( blindFishRand >= 40 && blindFishRand < 50 ) //blindFishSide = "fromLeft" and can not be seen before moving
     {
-        blindFishHorizontalColumn = rand()%3;
+        blindFishHorizontalColumn = this->setBlindFishHorizontalColumnNum();
+
         startPos = Vec2(0.0f, visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f);
     }
-    else //blindFishSide = "fromRight" and can not be seen before moving
+    //blindFishSide = "fromRight" and can not be seen before moving
+    else if ( blindFishRand >= 50 && blindFishRand < 60 )
     {
-        blindFishHorizontalColumn = rand()%3;
+        blindFishHorizontalColumn = this->setBlindFishHorizontalColumnNum();
+
         startPos = Vec2(visibleSize.width, visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f);
     }
     return startPos;
@@ -65,22 +95,30 @@ Vec2 BlindFish::getBlindFishStartPos(const Size visibleSize, int blindFishRand, 
 Vec2 BlindFish::getBlindFishTargetPos(const Size visibleSize, int blindFishRand, int index)
 {
     Vec2 targetPos;
-    if ( blindFishRand > 7 ) //blindFishSide = "fromTop"
+    if ( blindFishRand >= 60 ) //blindFishSide = "fromTop"
     {
-        blindFishVerticalColumn = rand()%6;
+        blindFishVerticalColumn = this->setBlindFishVerticalColumnNum();
+
         targetPos = Vec2(blindFishWidth * 0.5f + blindFishWidth + visibleSize.width * blindFishVerticalColumn / 7.0f, blindFishHeight * (-1.0f));
     }
-    else if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
+    else if ( blindFishRand < 40 ) //blindFishSide = "fromBottom"
     {
-        blindFishVerticalColumn = rand()%6;
+        blindFishVerticalColumn = this->setBlindFishVerticalColumnNum();
+
         targetPos = Vec2(blindFishWidth * 0.5f + visibleSize.width * blindFishVerticalColumn / 7.0f, visibleSize.height + blindFishHeight);
     }
-    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
+    else if ( blindFishRand >= 40 && blindFishRand < 50 ) //blindFishSide = "fromLeft"
     {
+        blindFishHorizontalColumn = this->setBlindFishHorizontalColumnNum();
+
         targetPos = Vec2(visibleSize.width, visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f );
     }
-    else //blindFishSide = "fromRight"
+
+    //blindFishSide = "fromRight"
+    else if ( blindFishRand >= 50 && blindFishRand < 60 )
     {
+        blindFishHorizontalColumn = this->setBlindFishHorizontalColumnNum();
+
         targetPos = Vec2(blindFishWidth * (-1.0f), visibleSize.height * blindFishHorizontalColumn / 4.0f + blindFishHeight * 0.5f);
     }
     return targetPos;
@@ -88,11 +126,11 @@ Vec2 BlindFish::getBlindFishTargetPos(const Size visibleSize, int blindFishRand,
 
 void BlindFish::blindFishRotation(int blindFishRand)
 {
-    if ( blindFishRand < 4 ) //blindFishSide = "fromBottom"
+    if ( blindFishRand < 40 ) //blindFishSide = "fromBottom"
     {
         this->runAction(RotateTo::create(0.01f, 180.0f));
     }
-    else if ( blindFishRand == 4 || blindFishRand == 5 ) //blindFishSide = "fromLeft"
+    else if ( blindFishRand >= 40 && blindFishRand < 50 ) //blindFishSide = "fromLeft"
     {
         auto leftFishAct1 = RotateTo::create(0.05f, 270.0f);
         auto leftFishAct2 = FlipX::create(true);
@@ -102,7 +140,7 @@ void BlindFish::blindFishRotation(int blindFishRand)
                                            NULL);
         this->runAction(leftFishSpawn);
     }
-    else if ( blindFishRand == 6 || blindFishRand == 7)//blindFishSide = "fromRight"
+    else if ( blindFishRand >= 50 && blindFishRand < 60 )//blindFishSide = "fromRight"
     {
         this->runAction(RotateBy::create(0.05f, 90.0f));
     }

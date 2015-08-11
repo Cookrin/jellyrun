@@ -34,6 +34,7 @@ bool GameScene::init()
     }
     currentTouchPos = Vec2::ZERO;
 
+    this->timeCount = 0;
     this->score = 0;
     this->myScore = 0;
     this->peerScore = 0;
@@ -43,7 +44,7 @@ bool GameScene::init()
     this->bestScore = UserDataManager::getInstance()->getBestScore();
     this->totalDeathTime = UserDataManager::getInstance()->getDeathTime();
     this->multiBestScore = UserDataManager::getInstance()->getMultiBestScore();
-    CCLOG("TotalDeathTimebydefault=%int", totalDeathTime);
+
     scoreDistance = 0.0f;
 
     this->gameState = GameState::START;
@@ -69,7 +70,7 @@ void GameScene::onEnter()
     Rect jellyRect = jellyfish->boundingBox();
     jellyWidth = jellyRect.size.width;
     jellyHeight = jellyRect.size.height;
-    //CCLOG("jelly width and Height=%f,%f",jellyWidth,jellyHeight);
+
     this->addChild(jellyfish);
 
     if (this->networked)
@@ -254,7 +255,8 @@ void GameScene::setGameActive(bool active)
     {
         this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 4.0f);
         this->scheduleUpdate();
-    } else
+    }
+    else
     {
         this->unschedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove));
         this->unscheduleUpdate();
@@ -396,7 +398,7 @@ bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
     jellySmallRect.origin.y = jellyRect.origin.y + jellyRect.size.height * 0.1f;
     jellySmallRect.size.width = jellyRect.size.width * 0.8f;
     jellySmallRect.size.height = jellyRect.size.height * 0.8f;
-    
+
     Rect fishRect = fish->getBoundingBox();
 
     Rect fishSmallRect;
@@ -416,16 +418,86 @@ bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
     }
 }
 
+int GameScene::setFishGroupSize(int timeCount)
+{
+    std::random_device rnd;
+    std::mt19937 mt(rnd());
+
+    int fishGroupSize;
+
+    if (timeCount < 3)
+    {
+        std::uniform_int_distribution<> rand3(1, 3);
+        fishGroupSize = (int)(rand3(mt));
+    }
+    else if ( timeCount >= 3 && timeCount < 6)
+    {
+        std::uniform_int_distribution<> rand4(1, 4);
+        fishGroupSize = (int)(rand4(mt));
+    }
+    else if ( timeCount >= 6 && timeCount < 9)
+    {
+        std::uniform_int_distribution<> rand5(1, 5);
+        fishGroupSize = (int)(rand5(mt));
+    }
+    else if ( timeCount >= 9 && timeCount < 12)
+    {
+        std::uniform_int_distribution<> rand6(1, 6);
+        fishGroupSize = (int)(rand6(mt));
+    }
+    else if ( timeCount >= 12 && timeCount < 15)
+    {
+        std::uniform_int_distribution<> rand6(2, 7);
+        fishGroupSize = (int)(rand6(mt));
+    }
+    else if ( timeCount >= 15 && timeCount < 18)
+    {
+        std::uniform_int_distribution<> rand7(2, 8);
+        fishGroupSize = (int)(rand7(mt));
+    }
+    else if ( timeCount >= 18 && timeCount < 21)
+    {
+        std::uniform_int_distribution<> rand8(2, 9);
+        fishGroupSize = (int)(rand8(mt));
+    }
+    else if ( timeCount >= 21 && timeCount < 24)
+    {
+        std::uniform_int_distribution<> rand9(2, 10);
+        fishGroupSize = (int)(rand9(mt));
+    }
+    else
+    {
+        std::uniform_int_distribution<> rand10(2, 11);
+        fishGroupSize = (int)(rand10(mt));
+    }
+    return fishGroupSize;
+}
+
+int GameScene::setBlindFishDirectionRand()
+{
+    int blindFishDirectionRand;
+
+    std::random_device rnd;
+    std::mt19937 mt(rnd());
+    std::uniform_int_distribution<> rand100(0, 99);
+    blindFishDirectionRand = (int)(rand100(mt));
+    return blindFishDirectionRand;
+}
+
 void GameScene::setBlindFishMove(float dt)
 {
     Vec2 blindFishStartPos;
     Vec2 blindFishTargetPos;
-    int fishGroupSize = rand()%3;
-    
+    timeCount += 1;
+    CCLOG("timeCount = %d", timeCount);
+    int fishGroupSize = this->setFishGroupSize(timeCount);
+    CCLOG("fishGroupSize = %d", fishGroupSize);
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < fishGroupSize; ++index)
     {
-        int blindFishRand = rand()%10;
+        int blindFishRand;
+        blindFishRand = this->setBlindFishDirectionRand();
+
         this->blindFish = BlindFish::create();
         this->blindFish->blindFishRotation(blindFishRand);
 
