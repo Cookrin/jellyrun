@@ -88,22 +88,11 @@ void GameScene::onEnter()
 
 void GameScene::update(float dt)
 {
-    Vec2 jellyPos = jellyfish->getPosition();
-
     if (currentTouchPos != Vec2::ZERO)
     {
-        //move jellyPos to currentTouchPos that you tap
-        Vec2 targetDirection = currentTouchPos - jellyPos;
-        setJellyIfCollides(currentTouchPos, targetDirection, dt);
-
-        // move Jellyfish as you swiped
-        if (isTouchDown)
-        {
-            Vec2 touchDirection = currentTouchPos - initialTouchPos;
-            setJellyIfCollides(currentTouchPos, touchDirection, dt);
-        }
+        // move and rotate Jellyfish by touching
+        this->activateJellyBytouch(currentTouchPos, dt);
     }
-
     // If blindFish hits Jellyfish, game over
     Vector<Sprite*> blindFishes = this->getBlindFishGroup();
     int i = 0;
@@ -141,7 +130,7 @@ void GameScene::update(float dt)
 void GameScene::setupUI()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    
+
     //create the pause button on the right top
     ui::Button* pauseButton = ui::Button::create();
     pauseButton->setAnchorPoint(Vec2(1.0f, 1.0f));
@@ -192,24 +181,19 @@ void GameScene::setupTouchHanding()
 
     touchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
+        isTouchDown = true;
         touchPos = this->convertTouchToNodeSpace(touch);
         initialTouchPos = touchPos;
-        currentTouchPos = touchPos;
-
-        // rotate jellyfish when it is touched to move
-        this->jellyfish->rotateJelly(touchPos);
-
-        isTouchDown = true;
+        currentTouchPos = initialTouchPos;
 
         return true;
     };
 
     touchListener->onTouchMoved = [&](Touch* touch, Event* event)
     {
+        isTouchDown = true;
         Vec2 touchPos = this->convertTouchToNodeSpace(touch);
         currentTouchPos = touchPos;
-        // rotate jellyfish when it is touched to move
-        this->jellyfish->rotateJelly(touchPos);
 
     };
 
@@ -221,48 +205,12 @@ void GameScene::setupTouchHanding()
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
-void GameScene::setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt)
-{
-    Size jellySize = jellyfish->getContentSize();
-    float jellyW = jellySize.width * JELLY_SCALE;
-    float jellyH = jellySize.height * JELLY_SCALE;
-    Vec2 jellyPos = jellyfish->getPosition();
-
-    if (targetDirection.getLength() > 5.0f)
-    {
-        targetDirection =  targetDirection.getNormalized();
-        targetDirection *= 300 * dt;
-        Vec2 targetJellyfishPos = jellyPos + targetDirection;
-        
-        if (targetJellyfishPos.x < jellyW * 0.5f)
-        {
-            targetJellyfishPos.x = jellyW * 0.5f;
-        }
-        
-        else if (targetJellyfishPos.x > (visibleSize.width - jellyW * 0.5f))
-        {
-            targetJellyfishPos.x = visibleSize.width - jellyW * 0.5f;
-        }
-        
-        if (targetJellyfishPos.y < jellyH * 0.5f)
-        {
-            targetJellyfishPos.y = jellyH * 0.5f;
-        }
-        
-        else if (targetJellyfishPos.y > (visibleSize.height - jellyH * 0.5f))
-        {
-            targetJellyfishPos.y = visibleSize.height - jellyH * 0.5f;
-        }
-        jellyfish->setPosition(targetJellyfishPos);
-    }
-}
-
 void GameScene::setGameActive(bool active)
 {
     this->active = active;
     if (active)
     {
-        this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 3.0f);
+        this->schedule(CC_SCHEDULE_SELECTOR(GameScene::setBlindFishMove), 4.0f);
         this->scheduleUpdate();
     } else
     {
@@ -357,22 +305,104 @@ void GameScene::updateJellyLife(bool fishHitJelly)
     }
 }
 
+void GameScene::activateJellyBytouch(Vec2 touchPos, float dt)
+{
+    Vec2 jellyPos = this->jellyfish->getPosition();
+    Vec2 targetDirection = touchPos - jellyPos;
+
+    const float unitDistance = JELLY_SPEED * dt;
+    auto unitTargetDirection = targetDirection.getNormalized();
+    unitTargetDirection *= unitDistance;
+    auto lengthOfTargetDirection = targetDirection.getLength();
+    Vec2 targetJellyPos = jellyPos + unitTargetDirection;
+
+    targetScaleX = 0.05f * dt;
+    targetScaleY = 0.05f * dt;
+
+    jellyScaleX = this->jellyfish->getScaleX();
+    jellyScaleY = this->jellyfish->getScaleY();
+
+    if (lengthOfTargetDirection > 0)
+    {
+        // scale down the jellyfish if it is moving
+        if (jellyScaleX > 0.3f)
+        {
+            this->jellyfish->setScale(jellyScaleX - targetScaleX, jellyScaleY - targetScaleY);
+        }
+
+        //auto jellyState = JELLY_IS_ACTIVE;
+        if (lengthOfTargetDirection > unitDistance)
+        {
+            targetJellyPos = this->setJellyVisible(targetJellyPos);
+            // set the jelly's position
+            this->jellyfish->setPosition(targetJellyPos);
+
+            auto jellyRotation = this->jellyfish->getRotation();
+            auto unitRotateDegrees = JELLY_ROATEDEGREES * dt;
+            if (targetDirection.x < 0)
+            {
+                unitRotateDegrees = (-1.0f) * unitRotateDegrees;
+            }
+            this->jellyfish->setRotation(jellyRotation + unitRotateDegrees);
+        }
+        else
+            // When the distance between jellyPos and touchPos is less than its unit moving distance, set jellyfish to the touchPos.
+        {
+            this->jellyfish->setPosition(touchPos);
+        }
+    }
+    else
+    {
+        // scale up the jellyfish when it is static
+        this->jellyfish->setScale(jellyScaleX + targetScaleX, jellyScaleY + targetScaleY);
+    }
+}
+
+Vec2 GameScene::setJellyVisible(Vec2 targetJellyPos)
+{
+    Rect jellyRect = this->jellyfish->getBoundingBox();
+    auto jellyWidth = jellyRect.size.width;
+    auto jellyHeight = jellyRect.size.height;
+
+    if (targetJellyPos.x < jellyWidth * 0.5f)
+    {
+        targetJellyPos.x = jellyWidth * 0.5f;
+    }
+
+    else if (targetJellyPos.x > (visibleSize.width - jellyWidth * 0.5f))
+    {
+        targetJellyPos.x = visibleSize.width - jellyWidth * 0.5f;
+    }
+
+    if (targetJellyPos.y < jellyHeight * 0.5f)
+    {
+        targetJellyPos.y = jellyHeight * 0.5f;
+    }
+
+    else if (targetJellyPos.y > (visibleSize.height - jellyHeight * 0.5f))
+    {
+        targetJellyPos.y = visibleSize.height - jellyHeight * 0.5f;
+    }
+    return targetJellyPos;
+}
+
 bool GameScene::checkIfFishHitJelly(Sprite* jellyfish, Sprite *fish)
 {
     Rect jellyRect = jellyfish->getBoundingBox();
     Rect jellySmallRect;
+    jellySmallRect.origin.x = jellyRect.origin.x + jellyRect.size.width * 0.1f;
+    jellySmallRect.origin.y = jellyRect.origin.y + jellyRect.size.height * 0.1f;
     jellySmallRect.size.width = jellyRect.size.width * 0.8f;
     jellySmallRect.size.height = jellyRect.size.height * 0.8f;
-    jellySmallRect.origin.x = jellyRect.origin.x;
-    jellySmallRect.origin.y = jellyRect.origin.y;
-
+    
     Rect fishRect = fish->getBoundingBox();
 
     Rect fishSmallRect;
+    fishSmallRect.origin.x = fishRect.origin.x ;
+    fishSmallRect.origin.y = fishRect.origin.y;
     fishSmallRect.size.width = fishRect.size.width * 0.8f;
     fishSmallRect.size.height = fishRect.size.height * 0.8f;
-    fishSmallRect.origin.x = fishRect.origin.x;
-    fishSmallRect.origin.y = fishRect.origin.y;
+
 
     if (jellySmallRect.intersectsRect(fishSmallRect))
     {
@@ -388,7 +418,7 @@ void GameScene::setBlindFishMove(float dt)
 {
     Vec2 blindFishStartPos;
     Vec2 blindFishTargetPos;
-    int fishGroupSize = rand()%12;
+    int fishGroupSize = rand()%3;
     
     // Create the blindFishGroup for blindFish movement from four directions
     for (int index=0; index < fishGroupSize; ++index)
@@ -422,7 +452,7 @@ void GameScene::setBlindFishMove(float dt)
         this->addChild(blindFish);
         blindFishGroup.pushBack(blindFish);
 
-        auto moveFishAction = MoveTo::create(3.0f, blindFishTargetPos);
+        auto moveFishAction = MoveTo::create(4.0f, blindFishTargetPos);
         auto fishSequence = Sequence::create(
                                              DelayTime::create(rand()%2),
                                              moveFishAction,

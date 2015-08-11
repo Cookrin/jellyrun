@@ -79,7 +79,6 @@ protected:
     void updateScoreLabel(int score);
 
     void setupTouchHanding();
-    void setJellyIfCollides(Vec2 currentTouchPos, Vec2 targetDirection, float dt);
     void setBlindFishMove(float dt);
     bool checkIfFishHitJelly(Sprite *jellyfish, Sprite *fish);
     cocos2d::Vector<Sprite*> getBlindFishGroup();
@@ -92,6 +91,12 @@ protected:
     std::vector<Vec2> getPeerBlindFishTargetPoses();
     std::vector<Vec2> peerBlindFishTargetPoses;
 
+    Vec2 setJellyVisible(Vec2 targetJellyPos);
+    void activateJellyBytouch(Vec2 touchPos, float dt);
+    float jellyScaleX;
+    float jellyScaleY;
+    float targetScaleX;
+    float targetScaleY;
     void rotateJelly(Vec2 touchPos);
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
 

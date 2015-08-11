@@ -8,6 +8,8 @@
 
 #include "Jellyfish.h"
 #include "cocos2d.h"
+#include "Constants.h"
+#include "GameScene.h"
 
 using namespace cocos2d;
 
@@ -17,38 +19,23 @@ bool Jellyfish::init()
     {
         return false;
     }
-
+    jellySize = this->getContentSize();
+    jellyWidth = jellySize.width;
+    jellyHeight = jellySize.height;
     this->runAction(moving());
 
     return true;
 }
 
-float Jellyfish::getRotateDegrees(Vec2 touchPos)
+void Jellyfish::rotateJelly(Vec2 touchPos, float dt)
 {
     auto jellyPos = this->getPosition();
-    Vec2 vector = touchPos - jellyPos;
-
-    rotateRadians = vector.getAngle();
+    Vec2 jellyRotateTargetPos = touchPos - jellyPos;
+    rotateRadians = jellyRotateTargetPos.getAngle();
     float rotateDegrees = CC_RADIANS_TO_DEGREES( -1 * rotateRadians);
-
-    return rotateDegrees;
+    // set the rotateDegrees in one dt
+    this->setRotation(rotateDegrees);
 }
-
-float Jellyfish::getRotateDuration()
-{
-    auto speed = 0.5f / M_PI;
-    auto rotateDuration = fabs(rotateRadians * speed);
-
-    return rotateDuration;
-}
-
-void Jellyfish::rotateJelly(Vec2 touchPos)
-{
-    auto rotateDuration = this->getRotateDuration();
-    auto rotateDegrees = this->getRotateDegrees(touchPos);
-    this->runAction(RotateTo::create(rotateDuration, rotateDegrees));
-}
-
 
 RepeatForever* Jellyfish::moving()
 {

@@ -19,9 +19,13 @@ public:
     CREATE_FUNC(Jellyfish);
     float rotateRadians;
 
-    float getRotateDegrees(Vec2 touchPos);
-    float getRotateDuration();
-    void rotateJelly(Vec2 touchPos);
+    float getRotateDegrees(Vec2 touchPos, float dt);
+    //float getRotateDuration();
+    void rotateJelly(Vec2 touchPos, float dt);
+    void setJellyVisible(Vec2 touchPos, float dt);
+    Size jellySize;
+    float jellyWidth;
+    float jellyHeight;
 
 protected:
     bool init() override;
