@@ -95,6 +95,7 @@
 		F8CBDE951B629C6100475627 /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDE921B629C6100475627 /* GameOverScene.cpp */; };
 		F8CBDEA31B66DC5100475627 /* UserDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */; };
 		F8CBDEA41B66DC5100475627 /* UserDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */; };
+		F8DFD8201B79C4E8000DCA32 /* Images-5.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8DFD81F1B79C4E8000DCA32 /* Images-5.xcassets */; };
 		F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */; };
 		F8F253B21B55744C00D1B95F /* Jellyfish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */; };
 /* End PBXBuildFile section */
@@ -218,6 +219,7 @@
 		F8CBDE931B629C6100475627 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		F8CBDEA11B66DC5100475627 /* UserDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserDataManager.cpp; sourceTree = "<group>"; };
 		F8CBDEA21B66DC5100475627 /* UserDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataManager.h; sourceTree = "<group>"; };
+		F8DFD81F1B79C4E8000DCA32 /* Images-5.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-5.xcassets"; path = "jellyrun iOS/Images-5.xcassets"; sourceTree = SOURCE_ROOT; };
 		F8F253AE1B556F7C00D1B95F /* UIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIConstants.h; sourceTree = "<group>"; };
 		F8F253AF1B55744C00D1B95F /* Jellyfish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Jellyfish.cpp; sourceTree = "<group>"; };
 		F8F253B01B55744C00D1B95F /* Jellyfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jellyfish.h; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F8DFD81F1B79C4E8000DCA32 /* Images-5.xcassets */,
 				F89C45081B74229300EEB35A /* Images-4.xcassets */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				3EACC98E19EE6D4300EB3C5E /* res */,
@@ -592,6 +595,7 @@
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
+				F8DFD8201B79C4E8000DCA32 /* Images-5.xcassets in Resources */,
 				F89C45091B74229300EEB35A /* Images-4.xcassets in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
