@@ -90,9 +90,51 @@ void GameScene::update(float dt)
 {
     if (currentTouchPos != Vec2::ZERO)
     {
-        // move and rotate Jellyfish by touching
-        this->activateJellyBytouch(currentTouchPos, dt);
+        Vec2 jellyPos = this->getJellyPos();
+        Vec2 touchPos = this->getTouchPos();
+        Vec2 targetDirection = touchPos - jellyPos;
+        auto lengthOfTargetDirection = targetDirection.getLength();
+
+        if (lengthOfTargetDirection > 0)
+        {
+            // reduce the jellyfish's scale when it is moving
+            this->jellyfish->setJellyScaleDown(dt);
+
+            // make the jellyfish move to the touch point
+            const float unitDistance = JELLY_SPEED * dt;
+
+            // when the distance is over unitDistance
+            if (lengthOfTargetDirection > unitDistance)
+            {
+                auto unitTargetDirection = targetDirection.getNormalized();
+                unitTargetDirection *= unitDistance;
+
+                Vec2 targetJellyPos = jellyPos + unitTargetDirection;
+                targetJellyPos = this->setJellyVisible(targetJellyPos);
+
+                // set the jellyfish's position adding unitTargetDirection
+                this->jellyfish->setPosition(targetJellyPos);
+
+                // rotate the jellyfish when it is moving
+                this->jellyfish->rotateJelly(targetDirection, dt);
+            }
+                // when the distance is less than unitDistance
+            else
+            {
+                // set the jellyfish's position to the touchPos
+                Vec2 targetJellyPos = touchPos;
+                targetJellyPos = this->setJellyVisible(targetJellyPos);
+                this->jellyfish->setPosition(targetJellyPos);
+                //this->jellyfish->rotateJellyToOriginal(targetJellyPos);
+            }
+        }
+        else // when the jellyfish reached the touch point and do not move
+        {
+            // scale up the jellyfish
+            this->jellyfish->setJellyScaleUp(dt);
+        }
     }
+
     // If blindFish hits Jellyfish, game over
     Vector<Sprite*> blindFishes = this->getBlindFishGroup();
     int i = 0;
@@ -305,61 +347,21 @@ void GameScene::updateJellyLife(bool fishHitJelly)
     }
 }
 
-void GameScene::activateJellyBytouch(Vec2 touchPos, float dt)
+Vec2 GameScene::getTouchPos()
 {
-    Vec2 jellyPos = this->jellyfish->getPosition();
-    Vec2 targetDirection = touchPos - jellyPos;
+    return currentTouchPos;
+}
 
-    const float unitDistance = JELLY_SPEED * dt;
-    auto unitTargetDirection = targetDirection.getNormalized();
-    unitTargetDirection *= unitDistance;
-    auto lengthOfTargetDirection = targetDirection.getLength();
-    Vec2 targetJellyPos = jellyPos + unitTargetDirection;
-
-    targetScaleX = 0.05f * dt;
-    targetScaleY = 0.05f * dt;
-
-    jellyScaleX = this->jellyfish->getScaleX();
-    jellyScaleY = this->jellyfish->getScaleY();
-
-    if (lengthOfTargetDirection > 0)
-    {
-        // scale down the jellyfish if it is moving
-        if (jellyScaleX > 0.3f)
-        {
-            this->jellyfish->setScale(jellyScaleX - targetScaleX, jellyScaleY - targetScaleY);
-        }
-
-        //auto jellyState = JELLY_IS_ACTIVE;
-        if (lengthOfTargetDirection > unitDistance)
-        {
-            targetJellyPos = this->setJellyVisible(targetJellyPos);
-            // set the jelly's position
-            this->jellyfish->setPosition(targetJellyPos);
-
-            auto jellyRotation = this->jellyfish->getRotation();
-            auto unitRotateDegrees = JELLY_ROATEDEGREES * dt;
-            if (targetDirection.x < 0)
-            {
-                unitRotateDegrees = (-1.0f) * unitRotateDegrees;
-            }
-            this->jellyfish->setRotation(jellyRotation + unitRotateDegrees);
-        }
-        else
-            // When the distance between jellyPos and touchPos is less than its unit moving distance, set jellyfish to the touchPos.
-        {
-            this->jellyfish->setPosition(touchPos);
-        }
-    }
-    else
-    {
-        // scale up the jellyfish when it is static
-        this->jellyfish->setScale(jellyScaleX + targetScaleX, jellyScaleY + targetScaleY);
-    }
+Vec2 GameScene::getJellyPos()
+{
+    Vec2 jellyPos;
+    jellyPos = this->jellyfish->getPosition();
+    return jellyPos;
 }
 
 Vec2 GameScene::setJellyVisible(Vec2 targetJellyPos)
 {
+    // make the jellyfish object inside the visible scene
     Rect jellyRect = this->jellyfish->getBoundingBox();
     auto jellyWidth = jellyRect.size.width;
     auto jellyHeight = jellyRect.size.height;
@@ -583,3 +585,4 @@ void GameScene::sendFishStateOverNetwork()
 
     SceneManager::getInstance()->sendData(json.c_str(), json.length());
 }
+

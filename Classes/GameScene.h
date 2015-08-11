@@ -92,14 +92,11 @@ protected:
     std::vector<Vec2> peerBlindFishTargetPoses;
 
     Vec2 setJellyVisible(Vec2 targetJellyPos);
-    void activateJellyBytouch(Vec2 touchPos, float dt);
-    float jellyScaleX;
-    float jellyScaleY;
-    float targetScaleX;
-    float targetScaleY;
+    void moveJellyByTouch(float dt);
     void rotateJelly(Vec2 touchPos);
     void blindFishRotation(Sprite* blindFish, int blindFishRand);
-
+    Vec2 getTouchPos();
+    Vec2 getJellyPos();
     int score;
     int scoreDistance;
     int bestScore;

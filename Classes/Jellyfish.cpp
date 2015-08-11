@@ -27,14 +27,52 @@ bool Jellyfish::init()
     return true;
 }
 
-void Jellyfish::rotateJelly(Vec2 touchPos, float dt)
+void Jellyfish::rotateJelly(Vec2 targetDirection, float dt)
+{
+    auto jellyRotation = this->getRotation();
+    auto unitRotateDegrees = JELLY_ROATEDEGREES * dt;
+    if (targetDirection.x < 0)
+    {
+        unitRotateDegrees = (-1.0f) * unitRotateDegrees;
+    }
+    this->setRotation(jellyRotation + unitRotateDegrees);
+}
+
+/*
+void Jellyfish::rotateJellyToOriginal(Vec2 touchPos)
 {
     auto jellyPos = this->getPosition();
     Vec2 jellyRotateTargetPos = touchPos - jellyPos;
     rotateRadians = jellyRotateTargetPos.getAngle();
     float rotateDegrees = CC_RADIANS_TO_DEGREES( -1 * rotateRadians);
-    // set the rotateDegrees in one dt
     this->setRotation(rotateDegrees);
+}
+*/
+
+void Jellyfish::setJellyScaleDown(float dt)
+{
+    auto targetScaleX = 0.05f * dt;
+    auto targetScaleY = 0.05f * dt;
+    auto jellyScaleX = this->getScaleX();
+    auto jellyScaleY = this->getScaleY();
+
+    if (jellyScaleX > 0.3f)
+    {
+        this->setScale(jellyScaleX - targetScaleX, jellyScaleY - targetScaleY);
+    }
+}
+
+void Jellyfish::setJellyScaleUp(float dt)
+{
+    auto targetScaleX = 0.05f * dt;
+    auto targetScaleY = 0.05f * dt;
+    auto jellyScaleX = this->getScaleX();
+    auto jellyScaleY = this->getScaleY();
+
+    if (jellyScaleX < 1.0f)
+    {
+        this->setScale(jellyScaleX + targetScaleX, jellyScaleY + targetScaleY);
+    }
 }
 
 RepeatForever* Jellyfish::moving()

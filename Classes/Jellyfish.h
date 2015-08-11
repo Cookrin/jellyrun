@@ -18,14 +18,16 @@ class Jellyfish : public cocos2d::Sprite
 public:
     CREATE_FUNC(Jellyfish);
     float rotateRadians;
-
-    float getRotateDegrees(Vec2 touchPos, float dt);
-    //float getRotateDuration();
-    void rotateJelly(Vec2 touchPos, float dt);
-    void setJellyVisible(Vec2 touchPos, float dt);
     Size jellySize;
     float jellyWidth;
     float jellyHeight;
+
+    void setJellyScaleDown(float dt);
+    void setJellyScaleUp(float dt);
+    void rotateJelly(Vec2 touchPos, float dt);
+    void rotateJellyToOriginal(Vec2 touchPos);
+    void setJellyVisible(Vec2 touchPos, float dt);
+
 
 protected:
     bool init() override;
