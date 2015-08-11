@@ -62,6 +62,11 @@ void GameScene::onEnter()
     backgroundNode = Background::create();
     this->addChild(backgroundNode, 0, "backgroundNode");
 
+    // setup bubble particle
+    auto bubbleParticle = ParticleSystemQuad::create("Bubble.plist");
+    bubbleParticle->setPosition(visibleSize.width * 0.5f, visibleSize.height * (-0.1f));
+    this->addChild(bubbleParticle, 0);
+
     // setup jellyfish
     jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
