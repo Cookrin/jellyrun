@@ -54,15 +54,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     std::vector<std::string> searchResolutionsOrder(1);
     
-    if (targetSize.height < 481.0f)
+    if (targetSize.width < 481.0f)
     {
         searchResolutionsOrder[0] = "resources-1x";
     }
-    else if (targetSize.height < 1335.0f)
+    else if (targetSize.width < 1335.0f)
     {
         searchResolutionsOrder[0] = "resources-2x";
     }
-    else if (targetSize.height < 1921.0f)
+    else if (targetSize.width < 1921.0f)
     {
         searchResolutionsOrder[0] = "resources-3x";
     }
