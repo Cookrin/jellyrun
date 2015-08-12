@@ -73,6 +73,7 @@ protected:
     void update(float dt);
     void setGameActive(bool active);
     void gameOver();
+    bool peerGameOver;
 
     ui::Text* scoreLabel;
     ui::Text* peerScoreLabel;
@@ -104,6 +105,7 @@ protected:
     int bestScore;
     int multiBestScore;
     int totalDeathTime;
+    Vec2 peerPos;
 
     int myScore;
     int getMyScore();

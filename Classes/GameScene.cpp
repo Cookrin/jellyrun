@@ -176,6 +176,7 @@ void GameScene::update(float dt)
     if (this->networked)
     {
         this->sendGameStateOverNetwork();
+        this->peerJelly->setPosition(peerPos);
     }
 }
 
@@ -604,11 +605,13 @@ void GameScene::receivedGameStateData(std::string json)
 {
     JSONPacker::GameState gameState = JSONPacker::unpackGameStateJSON(json);
 
-    this->peerJelly->setPosition(gameState.jellyPos);
+    this->peerPos = gameState.jellyPos;
 
     this->setPeerScore(gameState);
 
-    if (gameState.gameOver)
+    this->peerGameOver = gameState.gameOver;
+
+    if (peerGameOver)
     {
         this->gameOver();
     }
