@@ -78,6 +78,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // add sprite frame
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("lightJelly.plist", "lightJelly.png");
 
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("redJelly.plist", "redJelly.png");
+
     // create a scene. it's an autorelease object
     auto scene = HelloWorld::createScene();
 

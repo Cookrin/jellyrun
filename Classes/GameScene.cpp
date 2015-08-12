@@ -154,7 +154,10 @@ void GameScene::update(float dt)
 
         fishHitJelly = this->checkIfFishHitJelly(jellyfish, blindFish);
 
-        this->updateJellyLife(fishHitJelly);
+        if (fishHitJelly)
+        {
+            this->gameOver();
+        }
     }
 
     // set background to move
@@ -284,7 +287,7 @@ void GameScene::gameOver()
     if (this->networked)
     {
         this->sendGameStateOverNetwork();
-        
+
         if (_isHost)
         {
             this->sendFishStateOverNetwork();
@@ -295,10 +298,14 @@ void GameScene::gameOver()
             multiBestScore = score;
             UserDataManager::getInstance()->setMultiBestScore(multiBestScore);
         }
-        std::string scoreString = StringUtils::toString(score);
-        std::string messageContent = "Your score is " + scoreString + "!";
-        MessageBox(messageContent.c_str(), "Game Over");
-        SceneManager::getInstance()->enterLobby();
+
+        if (gameIsOver && peerGameOver)
+        {
+            std::string scoreString = StringUtils::toString(score);
+            std::string messageContent = "Your score is " + scoreString + "!";
+            MessageBox(messageContent.c_str(), "Game Over");
+            SceneManager::getInstance()->enterLobby();
+        }
     }
 
     else
