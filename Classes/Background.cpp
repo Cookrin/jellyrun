@@ -103,23 +103,23 @@ bool Background::init()
     this->addChild(
                      aquaticBG1,
                      3,
-                     Vec2(2.5f, 0.0f),
+                     Vec2(4.0f, 0.0f),
                      Vec2(0.0f, 0.0f));
     this->addChild(
                      aquaticBG2,
                      3,
-                     Vec2(2.5f, 0.0f),
+                     Vec2(4.0f, 0.0f),
                      Vec2(visibleSize.width, 0.0f)
                      );
     this->addChild(
                      coralBG1,
                      3,
-                     Vec2(2.5f, 0.0f),
+                     Vec2(4.0f, 0.0f),
                      Vec2(0.0f, 0.0f));
     this->addChild(
                      coralBG2,
                      3,
-                     Vec2(2.5f, 0.0f),
+                     Vec2(4.0f, 0.0f),
                      Vec2(visibleSize.width, 0.0f)
                      );
     return true;

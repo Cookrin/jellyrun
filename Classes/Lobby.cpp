@@ -20,24 +20,26 @@ bool Lobby::init()
     {
         return false;
     }
-    
-    LayerColor* background = LayerColor::create(Color4B(255, 255, 255, 255));
-    
-    this->addChild(background);
-    
+
     return true;
 }
 
 void Lobby::onEnter()
 {
-    
     Node::onEnter();
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
     SceneManager::getInstance()->receiveMultiplayerInvitations();
 
     // setup background
     lobbyBackground = Background::create();
     this->addChild(lobbyBackground, 0, "lobbyBackground");
+
+    // setup bubble particle
+    auto bubbleParticle = ParticleSystemQuad::create("Bubble.plist");
+    bubbleParticle->setPosition(visibleSize.width * 0.5f, visibleSize.height * (-0.1f));
+    this->addChild(bubbleParticle, 1);
 
     setupUI();
     this->scheduleUpdate();
