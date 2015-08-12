@@ -39,7 +39,11 @@ void Lobby::onEnter()
     // setup bubble particle
     auto bubbleParticle = ParticleSystemQuad::create("Bubble.plist");
     bubbleParticle->setPosition(visibleSize.width * 0.5f, visibleSize.height * (-0.1f));
-    this->addChild(bubbleParticle, 1);
+    this->addChild(bubbleParticle, 0);
+
+    // setup sea objects
+    lobbySeaObjects = SeaObjects::create();
+    this->addChild(lobbySeaObjects, 0, "lobbySeaObjects");
 
     setupUI();
     this->scheduleUpdate();
@@ -97,4 +101,7 @@ void Lobby::update(float dt)
 {
     // set background to move
     this->lobbyBackground->setBackgroundToMove();
+
+    // set seaObjects to move
+    this->lobbySeaObjects->setSeaObjectsToMove();
 }

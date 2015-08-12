@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "cocosGUI.h"
 #include "Background.h"
+#include "SeaObjects.h"
 
 using namespace cocos2d;
 
@@ -26,6 +27,7 @@ private:
     bool init() override;
     void onEnter() override;
     Background* lobbyBackground;
+    SeaObjects* lobbySeaObjects;
 
     // UI
     void setupUI();

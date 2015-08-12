@@ -81,6 +81,8 @@
 		F848EF951B6AACB00017C430 /* PeerJelly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF921B6AACB00017C430 /* PeerJelly.cpp */; };
 		F848EF9D1B6C06C50017C430 /* BlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF9B1B6C06C50017C430 /* BlindFish.cpp */; };
 		F848EF9E1B6C06C50017C430 /* BlindFish.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F848EF9B1B6C06C50017C430 /* BlindFish.cpp */; };
+		F886FD1B1B7B119700E878C7 /* SeaObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F886FD191B7B119700E878C7 /* SeaObjects.cpp */; };
+		F886FD1C1B7B119700E878C7 /* SeaObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F886FD191B7B119700E878C7 /* SeaObjects.cpp */; };
 		F88E78501B713DFC0009275C /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F88E784E1B713DFC0009275C /* Background.cpp */; };
 		F88E78511B713DFC0009275C /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F88E784E1B713DFC0009275C /* Background.cpp */; };
 		F89C45091B74229300EEB35A /* Images-4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F89C45081B74229300EEB35A /* Images-4.xcassets */; };
@@ -200,6 +202,8 @@
 		F848EF9B1B6C06C50017C430 /* BlindFish.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlindFish.cpp; sourceTree = "<group>"; };
 		F848EF9C1B6C06C50017C430 /* BlindFish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlindFish.h; sourceTree = "<group>"; };
 		F87E55BB1B595EC10022CAC8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		F886FD191B7B119700E878C7 /* SeaObjects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SeaObjects.cpp; sourceTree = "<group>"; };
+		F886FD1A1B7B119700E878C7 /* SeaObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeaObjects.h; sourceTree = "<group>"; };
 		F88E784E1B713DFC0009275C /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
 		F88E784F1B713DFC0009275C /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 		F89C45081B74229300EEB35A /* Images-4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-4.xcassets"; path = "jellyrun iOS/Images-4.xcassets"; sourceTree = SOURCE_ROOT; };
@@ -443,6 +447,8 @@
 				F848EF9C1B6C06C50017C430 /* BlindFish.h */,
 				F88E784E1B713DFC0009275C /* Background.cpp */,
 				F88E784F1B713DFC0009275C /* Background.h */,
+				F886FD191B7B119700E878C7 /* SeaObjects.cpp */,
+				F886FD1A1B7B119700E878C7 /* SeaObjects.h */,
 			);
 			name = "Game Sprites";
 			sourceTree = "<group>";
@@ -617,6 +623,7 @@
 				F80061121B59C39E00EE5B63 /* Fish.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				F8F253B11B55744C00D1B95F /* Jellyfish.cpp in Sources */,
+				F886FD1B1B7B119700E878C7 /* SeaObjects.cpp in Sources */,
 				F848EF941B6AACB00017C430 /* PeerJelly.cpp in Sources */,
 				F8CBDE8B1B614A7700475627 /* InfiniteParallaxNode.cpp in Sources */,
 				F8CBDE941B629C6100475627 /* GameOverScene.cpp in Sources */,
@@ -643,6 +650,7 @@
 				F848EF901B6974F00017C430 /* JSONPacker.cpp in Sources */,
 				F8CBDEA41B66DC5100475627 /* UserDataManager.cpp in Sources */,
 				F848EF951B6AACB00017C430 /* PeerJelly.cpp in Sources */,
+				F886FD1C1B7B119700E878C7 /* SeaObjects.cpp in Sources */,
 				F848EF631B67FCE10017C430 /* NetworkManager.mm in Sources */,
 				F83EC91C1B548A6A00C4699D /* Lobby.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,

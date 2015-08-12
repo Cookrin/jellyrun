@@ -15,6 +15,7 @@
 #include "Jellyfish.h"
 #include "BlindFish.h"
 #include "Background.h"
+#include "SeaObjects.h"
 
 using namespace cocos2d;
 
@@ -45,6 +46,7 @@ public:
     PeerJelly* peerJelly;
     BlindFish* blindFish;
     Background* backgroundNode;
+    SeaObjects* seaObjectsNode;
 
 private:
 

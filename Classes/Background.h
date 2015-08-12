@@ -22,12 +22,6 @@ public:
     Sprite *shipwreckBG2;
     Sprite *underwaterBG1;
     Sprite *underwaterBG2;
-    Sprite *rockBG1;
-    Sprite *rockBG2;
-    Sprite *aquaticBG1;
-    Sprite *aquaticBG2;
-    Sprite *coralBG1;
-    Sprite *coralBG2;
 
     void setBackgroundToMove();
 

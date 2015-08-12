@@ -67,6 +67,10 @@ void GameScene::onEnter()
     bubbleParticle->setPosition(visibleSize.width * 0.5f, visibleSize.height * (-0.1f));
     this->addChild(bubbleParticle, 0);
 
+    // setup sea objects
+    seaObjectsNode = SeaObjects::create();
+    this->addChild(seaObjectsNode, 0, "seaObjectsNode");
+
     // setup jellyfish
     jellyfish = Jellyfish::create();
     jellyfish->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -155,6 +159,9 @@ void GameScene::update(float dt)
 
     // set background to move
     this->backgroundNode->setBackgroundToMove();
+
+    // set seaObjects to move
+    this->seaObjectsNode->setSeaObjectsToMove();
 
     // Update the score
     scoreDistance += 1.0f;
