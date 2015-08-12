@@ -197,8 +197,8 @@ void GameScene::setupUI()
     //create the score label on the left top
     this->scoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
     this->scoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
-    this->scoreLabel->setPosition(Vec2(visibleSize.width*0.01f, visibleSize.height * 1.0f));
-    this->scoreLabel->setColor(TITLE_LABEL_COLOR);
+    this->scoreLabel->setPosition(Vec2(visibleSize.width*0.01f, visibleSize.height * 0.99f));
+    this->scoreLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(scoreLabel);
 
     if (networked)

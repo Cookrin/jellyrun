@@ -27,13 +27,15 @@ bool GameOverScene::init()
     underwaterBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
     this->addChild(underwaterBackground);
 
+    /*
     auto separateLine = DrawNode::create();
 
     separateLine->drawLine(
                            Vec2(visibleSize.width*0.1f, visibleSize.height*0.82f),
                            Vec2(visibleSize.width*0.9f, visibleSize.height*0.82f),
-                           Color4F(0, 0, 0, 10));
+                           Color4F(255, 255, 0, 255));
     this->addChild(separateLine,10);
+    */
 
     setupUI();
 
@@ -52,42 +54,42 @@ void GameOverScene::setupUI()
     this->highScoreLabel = ui::Text::create("BEST", TITLE_FONT_NAME, TITLE_FONT_SIZE);
     this->highScoreLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->highScoreLabel->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height * 0.9f));
-    this->highScoreLabel->setColor(TITLE_LABEL_COLOR);
+    this->highScoreLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(highScoreLabel);
 
     //create score label
     this->scoreLabel = ui::Text::create("SCORE", TITLE_FONT_NAME, TITLE_FONT_SIZE);
     this->scoreLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->scoreLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.9f));
-    this->scoreLabel->setColor(TITLE_LABEL_COLOR);
+    this->scoreLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(scoreLabel);
 
     //create a death time label
     this->totalDeathLabel = ui::Text::create("DEATH", TITLE_FONT_NAME, TITLE_FONT_SIZE);
     this->totalDeathLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->totalDeathLabel->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height * 0.9f));
-    this->totalDeathLabel->setColor(TITLE_LABEL_COLOR);
+    this->totalDeathLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(totalDeathLabel);
 
     //show best score number label
     this->bestScoreNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
     this->bestScoreNumLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
-    this->bestScoreNumLabel->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height * 0.75f));
-    this->bestScoreNumLabel->setColor(TITLE_LABEL_COLOR);
+    this->bestScoreNumLabel->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height * 0.8f));
+    this->bestScoreNumLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(bestScoreNumLabel);
 
     //create score number label
     this->scoreNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
     this->scoreNumLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
-    this->scoreNumLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.75f));
-    this->scoreNumLabel->setColor(TITLE_LABEL_COLOR);
+    this->scoreNumLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.8f));
+    this->scoreNumLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(scoreNumLabel);
 
     //create a death time label
     this->totalDeathNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
     this->totalDeathNumLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
-    this->totalDeathNumLabel->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height * 0.75f));
-    this->totalDeathNumLabel->setColor(TITLE_LABEL_COLOR);
+    this->totalDeathNumLabel->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height * 0.8f));
+    this->totalDeathNumLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(totalDeathNumLabel);
 
     /*
@@ -115,11 +117,12 @@ void GameOverScene::setupUI()
 
     ui::Button *multiplayerButton = ui::Button::create();
     multiplayerButton->setAnchorPoint(Vec2(0.5f, 0.5f));
-    multiplayerButton->setPosition(Vec2(visibleSize.width * 0.333f, visibleSize.height * 0.5f));
+    multiplayerButton->setPosition(Vec2(visibleSize.width * 0.333f, visibleSize.height * 0.4f));
     multiplayerButton->loadTextures("multiplayerButton.png", "multiplayerButtonPressed.png");
     multiplayerButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::multiplayerPressed, this));
     this->addChild(multiplayerButton);
 
+    /*
     //create a leaderboards label
     this->leaderboardsLabel = ui::Text::create("LEADERBOARDS",TITLE_FONT_NAME,BUTTON_FONT_SMALL_SIZE);
     this->leaderboardsLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -149,6 +152,7 @@ void GameOverScene::setupUI()
     contactMeButton->loadTextures("contactMeButton.png", "contactMeButtonPressed.png");
     contactMeButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::multiplayerPressed, this));
     this->addChild(contactMeButton);
+    */
 }
 
 void GameOverScene::playAgainPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)

@@ -34,6 +34,8 @@ private:
     void singlePlayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void multiplayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     ui::Text* titleLabel;
+    ui::Text* singlePlayerLabel;
+    ui::Text* multiplayerLabel;
 
     void update(float dt);
 };
