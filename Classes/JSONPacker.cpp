@@ -25,6 +25,8 @@ namespace JSONPacker
         document.AddMember("score", gameState.score, document.GetAllocator());
         document.AddMember("name", gameState.name.c_str(), document.GetAllocator());
         document.AddMember("gameOver", gameState.gameOver, document.GetAllocator());
+        document.AddMember(("jellyRotate"), gameState.jellyRotate, document.GetAllocator());
+        document.AddMember(("jellyScale"), gameState.jellyScale, document.GetAllocator());
 
         rapidjson::Value jellyPos(rapidjson::kObjectType);
         jellyPos.AddMember("x", gameState.jellyPos.x, document.GetAllocator());
@@ -50,6 +52,8 @@ namespace JSONPacker
         gameState.score = document["score"].GetInt();
         gameState.name = document["name"].GetString();
         gameState.gameOver = document["gameOver"].GetBool();
+        gameState.jellyRotate = document["jellyRotate"].GetDouble();
+        gameState.jellyScale = document["jellyScale"].GetDouble();
         rapidjson::Value& jellyPos = document["jellyPos"];
         gameState.jellyPos = Vec2(jellyPos["x"].GetDouble(), jellyPos["y"].GetDouble());
 

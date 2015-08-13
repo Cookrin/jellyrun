@@ -107,11 +107,13 @@ void GameScene::update(float dt)
 
         if (lengthOfTargetDirection > 0)
         {
+            float sizeBasedSpeedMultiplier = visibleSize.width  / 1136.0f;
+
             // reduce the jellyfish's scale when it is moving
             this->jellyfish->setJellyScaleDown(dt);
 
             // make the jellyfish move to the touch point
-            const float unitDistance = JELLY_SPEED * dt;
+            const float unitDistance = JELLY_SPEED * dt * sizeBasedSpeedMultiplier ;
 
             // when the distance is over unitDistance
             if (lengthOfTargetDirection > unitDistance)
@@ -178,9 +180,24 @@ void GameScene::update(float dt)
 
     if (this->networked)
     {
+        myJellyRotate = this->jellyfish->getRotation();
+        myJellyScale = this->jellyfish->getScale();
+
         this->sendGameStateOverNetwork();
-        this->peerJelly->setPosition(peerPos);
+
+        // set the peer jellyfish move, rotate and scale
+        this->peerJelly->setPosition(this->setPeerJellyPos(peerPos));
+        this->peerJelly->setRotation(peerJellyRotate);
+        this->peerJelly->setScale(peerJellyScale, peerJellyScale);
     }
+}
+
+Vec2 GameScene::setPeerJellyPos(Vec2 peerPos)
+{
+    Vec2 peerJellyPos;
+    peerJellyPos.x = peerPos.x * visibleSize.width;
+    peerJellyPos.y = peerPos.y * visibleSize.height;
+    return peerJellyPos;
 }
 
 #pragma mark -
@@ -616,6 +633,10 @@ void GameScene::receivedGameStateData(std::string json)
 
     this->setPeerScore(gameState);
 
+    this->peerJellyRotate = gameState.jellyRotate;
+
+    this->peerJellyScale = gameState.jellyScale;
+
     this->peerGameOver = gameState.gameOver;
 
     if (peerGameOver)
@@ -641,6 +662,17 @@ std::vector<Vec2> GameScene::getPeerBlindFishTargetPoses()
     return this->peerBlindFishTargetPoses;
 }
 
+Vec2 GameScene::getJellyPosPercentage()
+{
+    Vec2 jellyPosPercentage;
+    float jellyPosX = this->jellyfish->getPositionX();
+    float jellyPosY = this->jellyfish->getPositionY();
+    jellyPosPercentage.x = jellyPosX / visibleSize.width;
+    jellyPosPercentage.y = jellyPosY / visibleSize.height;
+    return jellyPosPercentage;
+}
+
+
 void GameScene::sendGameStateOverNetwork()
 {
     JSONPacker::GameState gameState;
@@ -648,7 +680,9 @@ void GameScene::sendGameStateOverNetwork()
     gameState.score = this->getMyScore();
     gameState.name = NetworkingWrapper::getDeviceName();
     gameState.gameOver = this->gameIsOver;
-    gameState.jellyPos = this->jellyfish->getPosition();
+    gameState.jellyRotate = this->myJellyRotate;
+    gameState.jellyScale = this->myJellyScale;
+    gameState.jellyPos = this->getJellyPosPercentage();
 
     std::string json = JSONPacker::packGameState(gameState);
 

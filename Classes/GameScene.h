@@ -106,11 +106,17 @@ protected:
     int multiBestScore;
     int totalDeathTime;
     Vec2 peerPos;
+    float peerJellyRotate;
+    float peerJellyScale;
+    float myJellyRotate;
+    float myJellyScale;
 
     int myScore;
     int getMyScore();
     int peerScore;
     void setPeerScore(JSONPacker::GameState gameState);
+    Vec2 getJellyPosPercentage();
+    Vec2 setPeerJellyPos(Vec2 peerPos);
 
     void updateJellyLife(bool fishHitJelly);
     GameState gameState;

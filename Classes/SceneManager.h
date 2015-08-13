@@ -22,11 +22,12 @@ public:
     void enterLobby();
     void enterGameOver(int score, int bestScore, int deathTime);
     std::string getMyDeviceName();
-    std::string getPeerDeviceName();
+    std::string getHostDeviceName();
     std::vector<std::string> getPeerList();
     void showPeerList();
     void receiveMultiplayerInvitations();
     void sendData(const void *data, unsigned long length);
+    void stopAdvertisingAvailability();
 
 private:
     std::unique_ptr<NetworkingWrapper> _networkingWrapper;

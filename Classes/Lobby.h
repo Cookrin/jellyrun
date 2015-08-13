@@ -26,6 +26,7 @@ private:
     // Lifecycle
     bool init() override;
     void onEnter() override;
+    void onExit() override;
     Background* lobbyBackground;
     SeaObjects* lobbySeaObjects;
 

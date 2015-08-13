@@ -50,6 +50,7 @@ void SceneManager::enterGameScene(bool networked)
     if (networked)
     {
         isHost = this->isHost();
+        CCLOG("isHost = %d", isHost);
     }
 
     this->_gameScene->setNetworkedSession(networked, isHost);
@@ -110,15 +111,17 @@ std::string SceneManager::getMyDeviceName()
     return _networkingWrapper->getDeviceName();
 }
 
-std::string SceneManager::getPeerDeviceName()
+std::string SceneManager::getHostDeviceName()
 {
     std::vector<std::string> peerList = this->getPeerList();
+    peerList.push_back(this->getMyDeviceName());
+    std::sort(peerList.begin(), peerList.end());
     return peerList[0];
 }
 
 bool SceneManager::isHost()
 {
-    if (this->getMyDeviceName().compare(this->getPeerDeviceName()) != 0)
+    if (this->getMyDeviceName().compare(this->getHostDeviceName()) == 0)
     {
         return true;
     }
@@ -133,6 +136,11 @@ void SceneManager::receiveMultiplayerInvitations()
 void SceneManager::sendData(const void *data, unsigned long length)
 {
     _networkingWrapper->sendData(data, length);
+}
+
+void SceneManager::stopAdvertisingAvailability()
+{
+    this->_networkingWrapper->stopAdvertisingAvailability();
 }
 
 #pragma mark -

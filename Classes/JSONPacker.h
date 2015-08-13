@@ -19,6 +19,8 @@ namespace JSONPacker
         int score;
         std::string name;
         bool gameOver;
+        float jellyRotate;
+        float jellyScale;
         cocos2d::Vec2 jellyPos;
     };
 

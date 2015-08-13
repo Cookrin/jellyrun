@@ -20,7 +20,6 @@ bool Lobby::init()
     {
         return false;
     }
-
     return true;
 }
 
@@ -47,6 +46,12 @@ void Lobby::onEnter()
 
     setupUI();
     this->scheduleUpdate();
+}
+
+void Lobby::onExit()
+{
+    Node::onExit();
+    SceneManager::getInstance()->stopAdvertisingAvailability();
 }
 
 void Lobby::setupUI()
