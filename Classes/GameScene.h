@@ -34,6 +34,7 @@ enum class GameState
 class GameScene : public cocos2d::Node
 {
 public:
+    float visibleSizeMultiplier;
     CREATE_FUNC(GameScene);
     void setNetworkedSession(bool networkedSession, bool isHost);
     void receivedData(const void* data, unsigned long length);

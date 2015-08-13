@@ -31,6 +31,8 @@ private:
     SeaObjects* lobbySeaObjects;
 
     // UI
+    Size visibleSize;
+    float visibleSizeMultiplier;
     void setupUI();
     void singlePlayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void multiplayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);

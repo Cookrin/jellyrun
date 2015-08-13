@@ -31,6 +31,7 @@ bool GamePause::init()
     }
 
     visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSizeMultiplier = visibleSize.width / 1134.0f;
 
     // add the barrier layer
     addChild(BarrierLayer::create(),0);
@@ -57,15 +58,16 @@ void GamePause::setupUI()
     endGameButton->addTouchEventListener(CC_CALLBACK_2(GamePause::endGameButtonPressed, this));
     this->addChild(endGameButton);
 
+    float fontSize = visibleSizeMultiplier * TITLE_FONT_SIZE;
     //create a continue label
-    this->continueLabel = ui::Text::create("CONTINUE", TITLE_FONT_NAME, BUTTON_FONT_SIZE);
+    this->continueLabel = ui::Text::create("CONTINUE", TITLE_FONT_NAME, fontSize);
     this->continueLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->continueLabel->setPosition(Vec2(visibleSize.width*0.666f, visibleSize.height * 0.3f));
     this->continueLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(continueLabel);
 
     //create a end game label
-    this->endGameLabel = ui::Text::create("STOP", TITLE_FONT_NAME, BUTTON_FONT_SIZE);
+    this->endGameLabel = ui::Text::create("STOP", TITLE_FONT_NAME, fontSize);
     this->endGameLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->endGameLabel->setPosition(Vec2(visibleSize.width*0.333f, visibleSize.height * 0.3f));
     this->endGameLabel->setColor(WHITE_LABEL_COLOR);

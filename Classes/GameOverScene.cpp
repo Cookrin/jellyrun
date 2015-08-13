@@ -22,6 +22,7 @@ bool GameOverScene::init()
         return false;
     }
     visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSizeMultiplier = visibleSize.width / 1134.0f;
 
     Sprite* underwaterBackground = Sprite::create("Underwater.png");
     underwaterBackground->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -50,43 +51,44 @@ void GameOverScene::onEnter()
 
 void GameOverScene::setupUI()
 {
+    float titleFontSize = TITLE_FONT_SIZE * visibleSizeMultiplier;
     //create a high score label
-    this->highScoreLabel = ui::Text::create("BEST", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->highScoreLabel = ui::Text::create("BEST", TITLE_FONT_NAME, titleFontSize);
     this->highScoreLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->highScoreLabel->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height * 0.9f));
     this->highScoreLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(highScoreLabel);
 
     //create score label
-    this->scoreLabel = ui::Text::create("SCORE", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->scoreLabel = ui::Text::create("SCORE", TITLE_FONT_NAME, titleFontSize);
     this->scoreLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->scoreLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.9f));
     this->scoreLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(scoreLabel);
 
     //create a death time label
-    this->totalDeathLabel = ui::Text::create("DEATH", TITLE_FONT_NAME, TITLE_FONT_SIZE);
+    this->totalDeathLabel = ui::Text::create("DEATH", TITLE_FONT_NAME, titleFontSize);
     this->totalDeathLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->totalDeathLabel->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height * 0.9f));
     this->totalDeathLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(totalDeathLabel);
 
     //show best score number label
-    this->bestScoreNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
+    this->bestScoreNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, titleFontSize);
     this->bestScoreNumLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->bestScoreNumLabel->setPosition(Vec2(visibleSize.width*0.2f, visibleSize.height * 0.8f));
     this->bestScoreNumLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(bestScoreNumLabel);
 
     //create score number label
-    this->scoreNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
+    this->scoreNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, titleFontSize);
     this->scoreNumLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->scoreNumLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.8f));
     this->scoreNumLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(scoreNumLabel);
 
     //create a death time label
-    this->totalDeathNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
+    this->totalDeathNumLabel = ui::Text::create("0", NUMBER_FONT_NAME, titleFontSize);
     this->totalDeathNumLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->totalDeathNumLabel->setPosition(Vec2(visibleSize.width*0.8f, visibleSize.height * 0.8f));
     this->totalDeathNumLabel->setColor(WHITE_LABEL_COLOR);

@@ -58,6 +58,7 @@ void GameScene::onEnter()
 {
     Node::onEnter();
     visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSizeMultiplier = visibleSize.width  / 1136.0f;
 
     // setup background
     backgroundNode = Background::create();
@@ -115,13 +116,11 @@ void GameScene::update(float dt)
 
         if (lengthOfTargetDirection > 0)
         {
-            float sizeBasedSpeedMultiplier = visibleSize.width  / 1136.0f;
-
             // reduce the jellyfish's scale when it is moving
             this->jellyfish->setJellyScaleDown(dt);
 
             // make the jellyfish move to the touch point
-            const float unitDistance = JELLY_SPEED * dt * sizeBasedSpeedMultiplier ;
+            const float unitDistance = JELLY_SPEED * dt * visibleSizeMultiplier ;
 
             // when the distance is over unitDistance
             if (lengthOfTargetDirection > unitDistance)
@@ -223,8 +222,9 @@ void GameScene::setupUI()
     pauseButton->addTouchEventListener(CC_CALLBACK_2(GameScene::pauseButtonPressed, this));
     this->addChild(pauseButton);
 
+    float fontSize = TITLE_FONT_SIZE * visibleSizeMultiplier;
     //create the score label on the left top
-    this->scoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
+    this->scoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, fontSize);
     this->scoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
     this->scoreLabel->setPosition(Vec2(visibleSize.width*0.01f, visibleSize.height * 0.99f));
     this->scoreLabel->setColor(WHITE_LABEL_COLOR);
@@ -232,7 +232,7 @@ void GameScene::setupUI()
 
     if (networked)
     {
-        this->peerScoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, TITLE_FONT_SIZE);
+        this->peerScoreLabel = ui::Text::create("0", NUMBER_FONT_NAME, fontSize);
         this->peerScoreLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
         this->peerScoreLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 1.0f));
         this->peerScoreLabel->setColor(TITLE_LABEL_COLOR);

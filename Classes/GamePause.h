@@ -25,6 +25,7 @@ public:
 
 protected:
     Size visibleSize;
+    float visibleSizeMultiplier;
     void setupUI();
     void continueButtonPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void endGameButtonPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);

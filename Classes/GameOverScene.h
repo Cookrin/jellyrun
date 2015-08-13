@@ -44,6 +44,7 @@ private:
     ui::Text* leaderboardsLabel;
     ui::Text* contactMeLabel;
     Size visibleSize;
+    float visibleSizeMultiplier;
 
     int score;
     int bestScore;
