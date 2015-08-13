@@ -20,6 +20,7 @@
 #include "JSONPacker.h"
 #include "PeerJelly.h"
 #include "BlindFish.h"
+#include "GamePause.h"
 
 using namespace cocos2d;
 
@@ -236,7 +237,8 @@ void GameScene::pauseButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEvent
 {
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        SceneManager::getInstance()->enterLobby();
+        addChild(GamePause::create());
+        Director::getInstance()->pause();
     }
 }
 
