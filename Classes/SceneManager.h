@@ -12,6 +12,7 @@
 #include "NetworkingWrapper.h"
 
 class GameScene;
+class Lobby;
 
 class SceneManager : public NetworkingDelegate
 {
@@ -32,6 +33,7 @@ public:
 private:
     std::unique_ptr<NetworkingWrapper> _networkingWrapper;
     GameScene* _gameScene;
+    Lobby* _lobby;
 
     SceneManager();
     ~SceneManager();

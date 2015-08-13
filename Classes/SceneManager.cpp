@@ -10,6 +10,7 @@
 #include "GameScene.h"
 #include "GameOverScene.h"
 #include "JSONPacker.h"
+#include "Lobby.h"
 
 using namespace cocos2d;
 
@@ -56,15 +57,18 @@ void SceneManager::enterGameScene(bool networked)
     this->_gameScene->setNetworkedSession(networked, isHost);
     scene->addChild(_gameScene);
 
-    Director::getInstance()->pushScene(scene);
+    Director::getInstance()->replaceScene(scene);
 }
 
 void SceneManager::enterLobby()
 {
     if (_gameScene)
     {
-        Director::getInstance()->popScene();
-        _gameScene = nullptr;
+        Scene *scene = Scene::create();
+        this->_lobby = Lobby::create();
+        scene->addChild(_lobby);
+
+        Director::getInstance()->replaceScene(scene);
         _networkingWrapper->disconnect();
     }
 }

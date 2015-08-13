@@ -70,6 +70,7 @@ protected:
 
     bool init() override;
     void onEnter() override;
+    void onExit() override;
     void update(float dt);
     void setGameActive(bool active);
     void gameOver();

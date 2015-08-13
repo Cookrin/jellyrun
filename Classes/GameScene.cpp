@@ -97,6 +97,13 @@ void GameScene::onEnter()
     this->setGameActive(true);
 }
 
+void GameScene::onExit()
+{
+    this->getEventDispatcher()->removeEventListenersForTarget(this);
+    this->setGameActive(false);
+    Node::onExit();
+}
+
 void GameScene::update(float dt)
 {
     if (currentTouchPos != Vec2::ZERO)

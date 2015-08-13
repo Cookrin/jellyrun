@@ -92,6 +92,7 @@ void GamePause::endGameButtonPressed(cocos2d::Ref *pSender, ui::Widget::TouchEve
 {
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
+        Director::getInstance()->resume();
         SceneManager::getInstance()->enterLobby();
     }
 }
