@@ -56,7 +56,6 @@ protected:
     ui::Text* specialThanksListThreeLabel;
 
     void goBackButtonPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
-    
 };
 
 #endif /* defined(__jellyrun__InfoLayer__) */

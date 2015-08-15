@@ -119,6 +119,8 @@ void InfoLayer::goBackButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEv
 {
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        SceneManager::getInstance()->enterLobby();
+        Director::getInstance()->resume();
+        CC_SAFE_RETAIN(this);
+        this->removeFromParent();
     }
 }
