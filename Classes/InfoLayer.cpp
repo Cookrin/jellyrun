@@ -71,14 +71,14 @@ void InfoLayer::setupUI()
     this->designerListOneLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(designerListOneLabel);
 
-    //create font designer label
-    this->fontDesignerLabel = ui::Text::create("- FONT DESIGNER -", INFO_HEAD_FONT_NAME, titleFontSize);
+    //create icon designer label
+    this->fontDesignerLabel = ui::Text::create("- ICON DESIGNER -", INFO_HEAD_FONT_NAME, titleFontSize);
     this->fontDesignerLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->fontDesignerLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.5f));
     this->fontDesignerLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(fontDesignerLabel);
 
-    //create font designer list label
+    //create icon designer list label
     this->designerListOneLabel = ui::Text::create("http://www.flaticon.com/authors/egor-rumyantsev", INFO_BODY_FONT_NAME, titleFontSize);
     this->designerListOneLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
     this->designerListOneLabel->setPosition(Vec2(visibleSize.width*0.5f, visibleSize.height * 0.4f));
