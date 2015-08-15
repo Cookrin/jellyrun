@@ -18,6 +18,10 @@ static const float TITLE_FONT_SIZE = 56.0f;
 static const char* NUMBER_FONT_NAME = "kirbyss.ttf";
 static const float BUTTON_FONT_SIZE = 38.0f;
 static const float BUTTON_FONT_SMALL_SIZE = 34.0f;
+static const char* INFO_BODY_FONT_NAME = "OptimusPrinceps.ttf";
+static const char* INFO_HEAD_FONT_NAME = "OptimusPrincepsSemiBold.ttf";
+
+static const float INFO_FONT_SIZE = 28.0f;
 
 static const cocos2d::Color3B TITLE_LABEL_COLOR = cocos2d::Color3B(0,0,0);
 static const cocos2d::Color3B WHITE_LABEL_COLOR = cocos2d::Color3B(255,255,255);

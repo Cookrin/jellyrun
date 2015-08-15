@@ -36,6 +36,8 @@ private:
     void setupUI();
     void singlePlayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void multiplayerPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
+    void infoButtonPressed(Ref* pSender, ui::Widget::TouchEventType eEventType);
+
     ui::Text* titleLabel;
     ui::Text* singlePlayerLabel;
     ui::Text* multiplayerLabel;

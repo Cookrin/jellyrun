@@ -68,36 +68,6 @@
       "extent" : "to-status-bar",
       "filename" : "iPad Landscape iOS 5,6 （1024×748） @1x@2x.png",
       "scale" : "2x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "iphone",
-      "subtype" : "736h",
-      "filename" : "iPhone-Portrait-iOS8-RetainaHD5.5.png",
-      "minimum-system-version" : "8.0",
-      "orientation" : "portrait",
-      "unassigned" : true,
-      "scale" : "3x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "iphone",
-      "subtype" : "736h",
-      "filename" : "iPhone-Portrait-iOS8-RetainaHD5.5-1.png",
-      "minimum-system-version" : "8.0",
-      "orientation" : "landscape",
-      "unassigned" : true,
-      "scale" : "3x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "iphone",
-      "subtype" : "667h",
-      "filename" : "iPhone-Portrait-iOS8-RetinaHD4.7.png",
-      "minimum-system-version" : "8.0",
-      "orientation" : "portrait",
-      "unassigned" : true,
-      "scale" : "2x"
     }
   ],
   "info" : {

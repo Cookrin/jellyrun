@@ -11,6 +11,7 @@
 #include "SceneManager.h"
 #include "UIConstants.h"
 #include "Background.h"
+#include "InfoLayer.h"
 
 using namespace cocos2d;
 
@@ -95,6 +96,15 @@ void Lobby::setupUI()
     this->multiplayerLabel->setPosition(Vec2(visibleSize.width*0.666f, visibleSize.height * 0.3f));
     this->multiplayerLabel->setColor(WHITE_LABEL_COLOR);
     this->addChild(multiplayerLabel);
+
+    // info button
+    ui::Button* infoButton = ui::Button::create();
+    infoButton->setAnchorPoint(Vec2(0.5f, 0.5f));
+    infoButton->setPosition(Vec2(visibleSize.width* 0.9f, visibleSize.height * 0.1f));
+    infoButton->loadTextures("infoButton.png", "infoButtonPressed.png");
+    infoButton->addTouchEventListener(CC_CALLBACK_2(Lobby::infoButtonPressed, this));
+    this->addChild(infoButton);
+
 }
 
 void Lobby::singlePlayerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
@@ -111,6 +121,15 @@ void Lobby::multiplayerPressed(Ref *pSender, ui::Widget::TouchEventType eEventTy
     if (eEventType == ui::Widget::TouchEventType::ENDED)
     {
         SceneManager::getInstance()->showPeerList();
+    }
+}
+
+void Lobby::infoButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+{
+    if (eEventType == ui::Widget::TouchEventType::ENDED)
+    {
+        //SceneManager::getInstance()->showPeerList();
+        addChild(InfoLayer::create());
     }
 }
 
